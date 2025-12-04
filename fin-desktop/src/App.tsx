@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useDesktopApi } from './shared/hooks/useDesktopApi';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export type LauncherApp = { id: string; title: string };
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+export type LauncherConfig = {
+  title: string;
+  apps: LauncherApp[];
+};
+
+export const defaultLauncherConfig: LauncherConfig = {
+  title: "Fin Desktop Shell",
+  apps: [
+    { id: "live-market", title: "Live Market" },
+    { id: "news", title: "News Feed" },
+    { id: "order-ticket", title: "Order Ticket" },
+  ],
+};
+
+interface AppProps {
+  launcherConfig?: LauncherConfig;
 }
 
-export default App
+function App({ launcherConfig }: AppProps) {
+  const config = launcherConfig ?? defaultLauncherConfig;
+  const { openApp } = useDesktopApi();
+
+  return (
+    <div>
+      <h1>{config.title}</h1>
+      <div>
+        {config.apps.map((app) => (
+          <button key={app.id} onClick={() => openApp(app.id)}>
+            {app.title}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default App;
