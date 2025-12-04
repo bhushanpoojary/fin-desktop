@@ -2,6 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import WorkspaceApp from './main-workspace/App'
+import UltraMinimalTest from './workspace/UltraMinimalTest'
+import MinimalTest from './workspace/MinimalTest'
+import WorkspaceDockTestApp from './workspace/WorkspaceDockTestApp'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
@@ -10,25 +13,53 @@ import { Fdc3Provider } from './fdc3/Fdc3Context'
 const params = new URLSearchParams(window.location.search)
 const entry = params.get('entry')
 const appId = params.get('appId')
+const test = params.get('test') // Add test parameter
 
 // Determine which component to render
 let AppComponent
 
-if (entry === 'workspace') {
-  AppComponent = <WorkspaceApp />
+console.log('🚀 main.tsx loading...', { entry, appId, test });
+
+if (test === 'ultra') {
+  console.log('Loading UltraMinimalTest');
+  AppComponent = <UltraMinimalTest />  // Ultra minimal - just React rendering
+} else if (test === 'minimal') {
+  console.log('Loading MinimalTest');
+  AppComponent = <MinimalTest />  // Minimal with Launcher
+} else if (test === 'full') {
+  console.log('Loading WorkspaceDockTestApp');
+  AppComponent = <WorkspaceDockTestApp />  // Full workspace with FlexLayout
+} else if (entry === 'workspace') {
+  console.log('Loading WorkspaceDockTestApp - Full FlexLayout docking');
+  AppComponent = <WorkspaceDockTestApp />  // Full workspace with docking!
 } else if (entry === 'app' && appId) {
+  console.log('Loading AppHost for app:', appId);
   AppComponent = <AppHost appId={appId} />
 } else {
-  // Default to workspace if no entry is provided
-  AppComponent = <WorkspaceApp />
+  console.log('Loading default UltraMinimalTest');
+  AppComponent = <UltraMinimalTest />
 }
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Fdc3Provider>
-      <LogStoreProvider>
-        {AppComponent}
-      </LogStoreProvider>
-    </Fdc3Provider>
-  </StrictMode>,
-)
+console.log('Rendering React app...');
+
+try {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <Fdc3Provider>
+        <LogStoreProvider>
+          {AppComponent}
+        </LogStoreProvider>
+      </Fdc3Provider>
+    </StrictMode>,
+  );
+  console.log('✅ React app rendered successfully');
+} catch (error) {
+  console.error('❌ Error rendering React app:', error);
+  // Fallback: show error in DOM
+  document.body.innerHTML = `
+    <div style="padding: 40px; font-family: Arial; color: red;">
+      <h1>Error Loading Application</h1>
+      <pre>${error}</pre>
+    </div>
+  `;
+}
