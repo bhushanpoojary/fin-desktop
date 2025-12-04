@@ -1,6 +1,8 @@
 const { BrowserWindow } = require('electron');
 const path = require('node:path');
 
+const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL || 'http://localhost:5173';
+
 async function createWorkspaceWindow() {
   const win = new BrowserWindow({
     width: 1600,
@@ -10,7 +12,7 @@ async function createWorkspaceWindow() {
     }
   });
 
-  await win.loadURL('http://localhost:5173/?entry=workspace');
+  await win.loadURL(`${VITE_DEV_SERVER_URL}/?entry=workspace`);
   
   return win;
 }
@@ -24,7 +26,7 @@ async function createAppWindow(appId) {
     }
   });
 
-  await win.loadURL(`http://localhost:5173/?entry=app&appId=${encodeURIComponent(appId)}`);
+  await win.loadURL(`${VITE_DEV_SERVER_URL}/?entry=app&appId=${encodeURIComponent(appId)}`);
   
   return win.id;
 }
