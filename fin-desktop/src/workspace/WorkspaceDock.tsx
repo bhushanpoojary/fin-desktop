@@ -1,6 +1,6 @@
 import React, { useRef, useImperativeHandle, useCallback } from "react";
 import * as FlexLayout from "flexlayout-react";
-import "flexlayout-react/style/light.css";
+import "flexlayout-react/style/dark.css";
 import type { AppComponentRegistry } from "./appRegistry";
 import { defaultAppRegistry } from "./appRegistry";
 

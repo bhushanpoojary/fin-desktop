@@ -29,23 +29,25 @@ export const InstrumentTargetApp: React.FC = () => {
       height: "100%",
       display: "flex",
       flexDirection: "column",
-      background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-      color: "white",
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      background: "var(--theme-bg-primary)",
+      color: "var(--theme-text-primary)",
+      fontFamily: "var(--theme-font-family)"
     }}>
-      <div style={{ padding: "24px 24px 16px" }}>
+      <div style={{ padding: "16px" }}>
         <h1 style={{ 
           margin: 0, 
-          fontSize: "24px", 
-          fontWeight: 600,
-          letterSpacing: "-0.5px"
+          fontSize: "var(--theme-font-size-xl)", 
+          fontWeight: "var(--theme-font-weight-bold)",
+          letterSpacing: "0.5px",
+          textTransform: "uppercase",
+          color: "var(--theme-primary)"
         }}>
           Instrument Subscriber
         </h1>
         <p style={{ 
-          margin: "8px 0 0", 
-          opacity: 0.9,
-          fontSize: "14px"
+          margin: "4px 0 0", 
+          color: "var(--theme-text-secondary)",
+          fontSize: "var(--theme-font-size-sm)"
         }}>
           Listening for FDC3 instrument broadcasts
         </p>
@@ -53,11 +55,9 @@ export const InstrumentTargetApp: React.FC = () => {
       
       <div style={{
         flex: 1,
-        background: "white",
-        borderRadius: "16px 16px 0 0",
-        padding: "24px",
+        background: "var(--theme-bg-primary)",
+        padding: "16px",
         overflowY: "auto",
-        boxShadow: "0 -4px 20px rgba(0,0,0,0.1)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
@@ -65,42 +65,43 @@ export const InstrumentTargetApp: React.FC = () => {
         {ctx ? (
           <div style={{ width: "100%", maxWidth: "500px" }}>
             <div style={{
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-              borderRadius: "16px",
-              padding: "32px",
-              color: "white",
-              textAlign: "center",
-              boxShadow: "0 8px 32px rgba(102, 126, 234, 0.3)"
+              background: "var(--theme-bg-secondary)",
+              border: "1px solid var(--theme-border-primary)",
+              borderRadius: "var(--theme-radius-sm)",
+              padding: "20px",
+              color: "var(--theme-text-primary)",
+              textAlign: "center"
             }}>
               <div style={{
-                fontSize: "14px",
-                fontWeight: 600,
-                opacity: 0.9,
+                fontSize: "var(--theme-font-size-sm)",
+                fontWeight: "var(--theme-font-weight-bold)",
+                color: "var(--theme-primary)",
                 textTransform: "uppercase",
-                letterSpacing: "1px",
-                marginBottom: "16px"
+                letterSpacing: "0.5px",
+                marginBottom: "12px"
               }}>
                 Current Instrument
               </div>
               <div style={{
-                fontSize: "56px",
-                fontWeight: 700,
-                letterSpacing: "-1px",
-                marginBottom: "24px"
+                fontSize: "48px",
+                fontWeight: "var(--theme-font-weight-bold)",
+                letterSpacing: "0.5px",
+                marginBottom: "16px",
+                color: "var(--theme-text-primary)"
               }}>
                 {ctx.instrument}
               </div>
               <div style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                gap: "16px",
-                marginTop: "24px"
+                gap: "12px",
+                marginTop: "16px"
               }}>
                 <div style={{
-                  background: "rgba(255,255,255,0.15)",
-                  borderRadius: "12px",
-                  padding: "16px",
-                  backdropFilter: "blur(10px)"
+                  background: "var(--theme-bg-tertiary)",
+                  border: "1px solid var(--theme-border-primary)",
+                  borderRadius: "var(--theme-radius-sm)",
+                  padding: "12px"
                 }}>
                   <div style={{ 
                     fontSize: "11px", 
@@ -140,23 +141,23 @@ export const InstrumentTargetApp: React.FC = () => {
             </div>
             
             <div style={{
-              marginTop: "24px",
-              padding: "16px 20px",
-              background: "#f0fdf4",
-              border: "2px solid #86efac",
-              borderRadius: "12px",
+              marginTop: "16px",
+              padding: "10px 12px",
+              background: "var(--theme-bg-primary)",
+              border: "1px solid var(--theme-success)",
+              borderRadius: "var(--theme-radius-sm)",
               display: "flex",
               alignItems: "center",
-              gap: "12px"
+              gap: "8px"
             }}>
               <div style={{
-                width: "8px",
-                height: "8px",
+                width: "6px",
+                height: "6px",
                 borderRadius: "50%",
-                background: "#22c55e",
+                background: "var(--theme-success)",
                 animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
               }} />
-              <span style={{ fontSize: "13px", color: "#166534", fontWeight: 500 }}>
+              <span style={{ fontSize: "var(--theme-font-size-sm)", color: "var(--theme-success)", fontWeight: "var(--theme-font-weight-bold)" }}>
                 Connected and listening for updates
               </span>
             </div>
@@ -164,31 +165,31 @@ export const InstrumentTargetApp: React.FC = () => {
         ) : (
           <div style={{ textAlign: "center", maxWidth: "400px" }}>
             <div style={{
-              width: "80px",
-              height: "80px",
+              width: "64px",
+              height: "64px",
               borderRadius: "50%",
-              background: "linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%)",
-              margin: "0 auto 24px",
+              background: "var(--theme-bg-secondary)",
+              margin: "0 auto 16px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "32px"
+              fontSize: "28px"
             }}>
               📡
             </div>
             <h3 style={{ 
-              margin: "0 0 12px", 
-              fontSize: "20px", 
-              color: "#111827",
-              fontWeight: 600
+              margin: "0 0 8px", 
+              fontSize: "var(--theme-font-size-lg)", 
+              color: "var(--theme-text-primary)",
+              fontWeight: "var(--theme-font-weight-bold)"
             }}>
               Waiting for Instrument
             </h3>
             <p style={{ 
               margin: 0, 
-              fontSize: "14px", 
-              color: "#6b7280",
-              lineHeight: "1.6"
+              fontSize: "var(--theme-font-size-md)", 
+              color: "var(--theme-text-secondary)",
+              lineHeight: "1.4"
             }}>
               No instrument selected yet. Click an instrument in the Publisher window to see it here.
             </p>

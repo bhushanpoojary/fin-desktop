@@ -32,23 +32,25 @@ export const InstrumentSourceApp: React.FC = () => {
       height: "100%",
       display: "flex",
       flexDirection: "column",
-      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-      color: "white",
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      background: "var(--theme-bg-primary)",
+      color: "var(--theme-text-primary)",
+      fontFamily: "var(--theme-font-family)"
     }}>
-      <div style={{ padding: "24px 24px 16px" }}>
+      <div style={{ padding: "16px" }}>
         <h1 style={{ 
           margin: 0, 
-          fontSize: "24px", 
-          fontWeight: 600,
-          letterSpacing: "-0.5px"
+          fontSize: "var(--theme-font-size-xl)", 
+          fontWeight: "var(--theme-font-weight-bold)",
+          letterSpacing: "0.5px",
+          textTransform: "uppercase",
+          color: "var(--theme-primary)"
         }}>
           Instrument Publisher
         </h1>
         <p style={{ 
-          margin: "8px 0 0", 
-          opacity: 0.9,
-          fontSize: "14px"
+          margin: "4px 0 0", 
+          color: "var(--theme-text-secondary)",
+          fontSize: "var(--theme-font-size-sm)"
         }}>
           Select an instrument to broadcast via FDC3
         </p>
@@ -56,24 +58,22 @@ export const InstrumentSourceApp: React.FC = () => {
       
       <div style={{
         flex: 1,
-        background: "white",
-        borderRadius: "16px 16px 0 0",
-        padding: "20px",
-        overflowY: "auto",
-        boxShadow: "0 -4px 20px rgba(0,0,0,0.1)"
+        background: "var(--theme-bg-primary)",
+        padding: "12px 16px",
+        overflowY: "auto"
       }}>
-        <div style={{ display: "grid", gap: "12px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
           {INSTRUMENTS.map(({ symbol, name, sector }) => (
             <button
               key={symbol}
               onClick={() => handleSelect(symbol)}
               style={{
-                padding: "16px 20px",
-                border: selectedSymbol === symbol ? "2px solid #667eea" : "2px solid #e5e7eb",
-                borderRadius: "12px",
-                background: selectedSymbol === symbol ? "#f0f4ff" : "white",
+                padding: "12px",
+                border: selectedSymbol === symbol ? "1px solid var(--theme-primary)" : "1px solid var(--theme-border-primary)",
+                borderRadius: "var(--theme-radius-sm)",
+                background: selectedSymbol === symbol ? "var(--theme-bg-tertiary)" : "var(--theme-bg-secondary)",
                 cursor: "pointer",
-                transition: "all 0.2s ease",
+                transition: "var(--theme-transition-fast)",
                 textAlign: "left",
                 display: "flex",
                 flexDirection: "column",
@@ -81,50 +81,48 @@ export const InstrumentSourceApp: React.FC = () => {
               }}
               onMouseEnter={(e) => {
                 if (selectedSymbol !== symbol) {
-                  e.currentTarget.style.background = "#f9fafb";
-                  e.currentTarget.style.borderColor = "#d1d5db";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)";
+                  e.currentTarget.style.background = "var(--theme-bg-tertiary)";
+                  e.currentTarget.style.borderColor = "var(--theme-primary)";
                 }
               }}
               onMouseLeave={(e) => {
                 if (selectedSymbol !== symbol) {
-                  e.currentTarget.style.background = "white";
-                  e.currentTarget.style.borderColor = "#e5e7eb";
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.background = "var(--theme-bg-secondary)";
+                  e.currentTarget.style.borderColor = "var(--theme-border-primary)";
                 }
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ 
-                  fontSize: "18px", 
-                  fontWeight: 600, 
-                  color: "#111827",
-                  letterSpacing: "-0.3px"
+                  fontSize: "var(--theme-font-size-lg)", 
+                  fontWeight: "var(--theme-font-weight-bold)", 
+                  color: "var(--theme-text-primary)",
+                  letterSpacing: "0.5px"
                 }}>
                   {symbol}
                 </span>
                 {selectedSymbol === symbol && (
                   <span style={{
-                    fontSize: "11px",
-                    fontWeight: 600,
-                    color: "#667eea",
-                    background: "white",
-                    padding: "4px 8px",
-                    borderRadius: "6px"
+                    fontSize: "var(--theme-font-size-xs)",
+                    fontWeight: "var(--theme-font-weight-bold)",
+                    color: "#000",
+                    background: "var(--theme-primary)",
+                    padding: "2px 6px",
+                    borderRadius: "var(--theme-radius-sm)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px"
                   }}>
                     SELECTED
                   </span>
                 )}
               </div>
-              <span style={{ fontSize: "13px", color: "#6b7280", fontWeight: 500 }}>
+              <span style={{ fontSize: "var(--theme-font-size-md)", color: "var(--theme-text-secondary)", fontWeight: "var(--theme-font-weight-medium)" }}>
                 {name}
               </span>
               <span style={{ 
-                fontSize: "11px", 
-                color: "#9ca3af",
-                fontWeight: 500,
+                fontSize: "var(--theme-font-size-sm)", 
+                color: "var(--theme-text-tertiary)",
+                fontWeight: "var(--theme-font-weight-medium)",
                 textTransform: "uppercase",
                 letterSpacing: "0.5px"
               }}>

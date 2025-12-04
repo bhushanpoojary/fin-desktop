@@ -80,8 +80,9 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
           alignItems: "center",
           justifyContent: "center",
           height: "100vh",
-          fontSize: "1.2rem",
-          color: "#666",
+          fontSize: "var(--theme-font-size-base)",
+          color: "var(--theme-text-secondary)",
+          backgroundColor: "var(--theme-bg-primary)",
         }}
       >
         Loading workspace layout…
@@ -97,8 +98,9 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
           alignItems: "center",
           justifyContent: "center",
           height: "100vh",
-          fontSize: "1.2rem",
-          color: "#d32f2f",
+          fontSize: "var(--theme-font-size-base)",
+          color: "var(--theme-danger)",
+          backgroundColor: "var(--theme-bg-primary)",
         }}
       >
         Error loading layout: {error}
@@ -109,32 +111,29 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
   const initialModelJson = activeLayout?.data as FlexLayout.IJsonModel | undefined;
 
   return (
-    <div className="workspace-shell" style={{ position: "relative", height: "100vh", display: "flex", flexDirection: "column" }}>
+    <div className="workspace-shell" style={{ position: "relative", height: "100vh", display: "flex", flexDirection: "column", backgroundColor: "var(--theme-bg-primary)" }}>
       {/* Header with layout controls */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0.5rem 1rem",
-          backgroundColor: "#f5f5f5",
-          borderBottom: "1px solid #ddd",
-          minHeight: "40px",
+          padding: "6px 12px",
+          backgroundColor: "var(--theme-bg-secondary)",
+          borderBottom: "1px solid var(--theme-border-primary)",
+          minHeight: "32px",
         }}
       >
-        <div style={{ fontSize: "0.9rem", color: "#666" }}>
-          Layout: <strong>{activeLayout?.name ?? "Default"}</strong>
+        <div style={{ fontSize: "var(--theme-font-size-md)", color: "var(--theme-text-secondary)" }}>
+          Layout: <strong style={{ color: "var(--theme-primary)" }}>{activeLayout?.name ?? "Default"}</strong>
         </div>
         <button
           onClick={handleManualSave}
           disabled={isSaving}
+          className="btn-primary"
           style={{
-            padding: "0.25rem 0.75rem",
-            fontSize: "0.875rem",
-            backgroundColor: "#007acc",
-            color: "white",
-            border: "none",
-            borderRadius: "3px",
+            padding: "4px 12px",
+            fontSize: "var(--theme-font-size-sm)",
             cursor: isSaving ? "not-allowed" : "pointer",
             opacity: isSaving ? 0.6 : 1,
           }}

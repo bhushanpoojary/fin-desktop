@@ -50,37 +50,37 @@ function OrderTicketApp() {
 
   return (
     <div style={{ 
-      padding: '16px', 
+      padding: '12px', 
       height: '100vh',
-      background: '#0a0a0a',
+      background: 'var(--theme-bg-primary)',
       display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+      flexDirection: 'column',
+      fontFamily: 'var(--theme-font-family)',
+      overflow: 'auto'
     }}>
       <div style={{
-        backgroundColor: '#1a1a1a',
-        border: '1px solid #2a2a2a',
-        borderRadius: '2px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
-        padding: '20px',
+        backgroundColor: 'var(--theme-bg-secondary)',
+        border: '1px solid var(--theme-border-primary)',
+        borderRadius: 'var(--theme-radius-sm)',
+        padding: '12px',
         width: '100%',
-        maxWidth: '420px'
+        maxWidth: '420px',
+        margin: '0 auto'
       }}>
         <h2 style={{ 
-          margin: '0 0 4px 0', 
-          fontSize: '16px', 
-          fontWeight: '600',
-          color: '#ff8c00',
+          margin: '0 0 2px 0', 
+          fontSize: 'var(--theme-font-size-xl)', 
+          fontWeight: 'var(--theme-font-weight-bold)',
+          color: 'var(--theme-primary)',
           textTransform: 'uppercase',
           letterSpacing: '0.5px'
         }}>
           Order Ticket
         </h2>
         <p style={{ 
-          margin: '0 0 16px 0', 
-          color: '#888',
-          fontSize: '11px'
+          margin: '0 0 12px 0', 
+          color: 'var(--theme-text-secondary)',
+          fontSize: 'var(--theme-font-size-sm)'
         }}>
           Enter trade details to execute
         </p>

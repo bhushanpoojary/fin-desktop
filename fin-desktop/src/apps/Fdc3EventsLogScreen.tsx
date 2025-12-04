@@ -46,25 +46,27 @@ export const Fdc3EventsLogScreen: React.FC = () => {
       height: "100%",
       display: "flex",
       flexDirection: "column",
-      background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-      color: "white",
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      background: "var(--theme-bg-primary)",
+      color: "var(--theme-text-primary)",
+      fontFamily: "var(--theme-font-family)"
     }}>
-      <div style={{ padding: "24px 24px 16px" }}>
+      <div style={{ padding: "16px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
             <h1 style={{ 
               margin: 0, 
-              fontSize: "24px", 
-              fontWeight: 600,
-              letterSpacing: "-0.5px"
+              fontSize: "var(--theme-font-size-xl)", 
+              fontWeight: "var(--theme-font-weight-bold)",
+              letterSpacing: "0.5px",
+              textTransform: "uppercase",
+              color: "var(--theme-primary)"
             }}>
               FDC3 Events Log
             </h1>
             <p style={{ 
-              margin: "8px 0 0", 
-              opacity: 0.9,
-              fontSize: "14px"
+              margin: "4px 0 0", 
+              color: "var(--theme-text-secondary)",
+              fontSize: "var(--theme-font-size-sm)"
             }}>
               Real-time log of all instrument selection events
             </p>
@@ -73,22 +75,25 @@ export const Fdc3EventsLogScreen: React.FC = () => {
             <button
               onClick={clearEvents}
               style={{
-                padding: "8px 16px",
-                background: "rgba(255,255,255,0.2)",
-                border: "1px solid rgba(255,255,255,0.3)",
-                borderRadius: "8px",
-                color: "white",
-                fontSize: "13px",
-                fontWeight: 600,
+                padding: "6px 12px",
+                background: "var(--theme-bg-secondary)",
+                border: "1px solid var(--theme-border-primary)",
+                borderRadius: "var(--theme-radius-sm)",
+                color: "var(--theme-text-primary)",
+                fontSize: "var(--theme-font-size-sm)",
+                fontWeight: "var(--theme-font-weight-bold)",
                 cursor: "pointer",
-                backdropFilter: "blur(10px)",
-                transition: "all 0.2s ease"
+                transition: "var(--theme-transition-fast)",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px"
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.3)";
+                e.currentTarget.style.background = "var(--theme-bg-tertiary)";
+                e.currentTarget.style.borderColor = "var(--theme-primary)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.2)";
+                e.currentTarget.style.background = "var(--theme-bg-secondary)";
+                e.currentTarget.style.borderColor = "var(--theme-border-primary)";
               }}
             >
               Clear Log
@@ -98,13 +103,14 @@ export const Fdc3EventsLogScreen: React.FC = () => {
         
         {events.length > 0 && (
           <div style={{
-            marginTop: "16px",
-            padding: "12px 16px",
-            background: "rgba(255,255,255,0.2)",
-            borderRadius: "8px",
-            fontSize: "13px",
-            fontWeight: 600,
-            backdropFilter: "blur(10px)"
+            marginTop: "12px",
+            padding: "8px 12px",
+            background: "var(--theme-bg-secondary)",
+            border: "1px solid var(--theme-border-primary)",
+            borderRadius: "var(--theme-radius-sm)",
+            fontSize: "var(--theme-font-size-sm)",
+            fontWeight: "var(--theme-font-weight-bold)",
+            color: "var(--theme-primary)"
           }}>
             {events.length} event{events.length !== 1 ? "s" : ""} captured
           </div>
@@ -113,11 +119,9 @@ export const Fdc3EventsLogScreen: React.FC = () => {
       
       <div style={{
         flex: 1,
-        background: "white",
-        borderRadius: "16px 16px 0 0",
-        padding: "20px",
-        overflowY: "auto",
-        boxShadow: "0 -4px 20px rgba(0,0,0,0.1)"
+        background: "var(--theme-bg-primary)",
+        padding: "12px 16px",
+        overflowY: "auto"
       }}>
         {events.length === 0 ? (
           <div style={{ 
@@ -129,31 +133,31 @@ export const Fdc3EventsLogScreen: React.FC = () => {
           }}>
             <div>
               <div style={{
-                width: "80px",
-                height: "80px",
+                width: "64px",
+                height: "64px",
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%)",
-                margin: "0 auto 24px",
+                background: "var(--theme-bg-secondary)",
+                margin: "0 auto 16px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "32px"
+                fontSize: "28px"
               }}>
                 📊
               </div>
               <h3 style={{ 
-                margin: "0 0 12px", 
-                fontSize: "20px", 
-                color: "#111827",
-                fontWeight: 600
+                margin: "0 0 8px", 
+                fontSize: "var(--theme-font-size-lg)", 
+                color: "var(--theme-text-primary)",
+                fontWeight: "var(--theme-font-weight-bold)"
               }}>
                 No Events Yet
               </h3>
               <p style={{ 
                 margin: 0, 
-                fontSize: "14px", 
-                color: "#6b7280",
-                lineHeight: "1.6",
+                fontSize: "var(--theme-font-size-md)", 
+                color: "var(--theme-text-secondary)",
+                lineHeight: "1.4",
                 maxWidth: "400px"
               }}>
                 Events will appear here as instruments are selected. Select an instrument in the Publisher to start logging.
@@ -161,81 +165,81 @@ export const Fdc3EventsLogScreen: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
             {events.map((ev, index) => (
               <div
                 key={ev.id}
                 style={{
-                  padding: "16px 20px",
-                  background: index === 0 ? "#f0f9ff" : "white",
-                  border: index === 0 ? "2px solid #0ea5e9" : "1px solid #e5e7eb",
-                  borderRadius: "12px",
+                  padding: "12px",
+                  background: index === 0 ? "var(--theme-bg-tertiary)" : "var(--theme-bg-secondary)",
+                  border: index === 0 ? "1px solid var(--theme-primary)" : "1px solid var(--theme-border-primary)",
+                  borderRadius: "var(--theme-radius-sm)",
                   display: "grid",
-                  gridTemplateColumns: "100px 120px 1fr auto",
-                  gap: "16px",
+                  gridTemplateColumns: "80px 100px 1fr auto",
+                  gap: "12px",
                   alignItems: "center",
-                  transition: "all 0.2s ease",
+                  transition: "var(--theme-transition-fast)",
                   animation: index === 0 ? "slideIn 0.3s ease" : "none"
                 }}
               >
                 <div>
                   <div style={{ 
-                    fontSize: "11px", 
-                    color: "#9ca3af", 
-                    fontWeight: 600,
+                    fontSize: "var(--theme-font-size-xs)", 
+                    color: "var(--theme-primary)", 
+                    fontWeight: "var(--theme-font-weight-bold)",
                     textTransform: "uppercase",
                     letterSpacing: "0.5px",
-                    marginBottom: "4px"
+                    marginBottom: "2px"
                   }}>
                     Time
                   </div>
-                  <div style={{ fontSize: "14px", color: "#111827", fontWeight: 600, fontFamily: "monospace" }}>
+                  <div style={{ fontSize: "var(--theme-font-size-md)", color: "var(--theme-text-primary)", fontWeight: "var(--theme-font-weight-bold)", fontFamily: "monospace" }}>
                     {formatTime(ev.context.timestamp)}
                   </div>
                 </div>
                 <div>
                   <div style={{ 
-                    fontSize: "11px", 
-                    color: "#9ca3af", 
-                    fontWeight: 600,
+                    fontSize: "var(--theme-font-size-xs)", 
+                    color: "var(--theme-primary)", 
+                    fontWeight: "var(--theme-font-weight-bold)",
                     textTransform: "uppercase",
                     letterSpacing: "0.5px",
-                    marginBottom: "4px"
+                    marginBottom: "2px"
                   }}>
                     Instrument
                   </div>
                   <div style={{
-                    fontSize: "16px",
-                    color: "#111827",
-                    fontWeight: 700,
-                    letterSpacing: "-0.3px"
+                    fontSize: "var(--theme-font-size-lg)",
+                    color: "var(--theme-text-primary)",
+                    fontWeight: "var(--theme-font-weight-bold)",
+                    letterSpacing: "0.5px"
                   }}>
                     {ev.context.instrument}
                   </div>
                 </div>
                 <div>
                   <div style={{ 
-                    fontSize: "11px", 
-                    color: "#9ca3af", 
-                    fontWeight: 600,
+                    fontSize: "var(--theme-font-size-xs)", 
+                    color: "var(--theme-primary)", 
+                    fontWeight: "var(--theme-font-weight-bold)",
                     textTransform: "uppercase",
                     letterSpacing: "0.5px",
-                    marginBottom: "4px"
+                    marginBottom: "2px"
                   }}>
                     Source App
                   </div>
-                  <div style={{ fontSize: "13px", color: "#6b7280", fontWeight: 500 }}>
+                  <div style={{ fontSize: "var(--theme-font-size-md)", color: "var(--theme-text-secondary)", fontWeight: "var(--theme-font-weight-medium)" }}>
                     {ev.context.sourceAppId ?? "unknown"}
                   </div>
                 </div>
                 {index === 0 && (
                   <div style={{
-                    padding: "6px 12px",
-                    background: "#0ea5e9",
-                    color: "white",
-                    borderRadius: "6px",
-                    fontSize: "11px",
-                    fontWeight: 700,
+                    padding: "4px 8px",
+                    background: "var(--theme-primary)",
+                    color: "#000",
+                    borderRadius: "var(--theme-radius-sm)",
+                    fontSize: "var(--theme-font-size-xs)",
+                    fontWeight: "var(--theme-font-weight-bold)",
                     textTransform: "uppercase",
                     letterSpacing: "0.5px"
                   }}>
