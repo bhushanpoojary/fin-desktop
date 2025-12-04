@@ -1,10 +1,13 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, nativeTheme } = require('electron');
 const path = require('node:path');
 const { createWorkspaceWindow } = require('./workspaceWindow.cjs');
 const { createAppWindow } = require('./appWindow.cjs');
 const { setupBusHandlers } = require('./bus.cjs');
 
 function createMain() {
+  // Force dark mode
+  nativeTheme.themeSource = 'dark';
+  
   // Create the workspace window
   createWorkspaceWindow();
 

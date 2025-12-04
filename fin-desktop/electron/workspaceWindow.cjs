@@ -7,6 +7,9 @@ async function createWorkspaceWindow() {
   const win = new BrowserWindow({
     width: 1600,
     height: 900,
+    backgroundColor: '#0a0a0a',
+    titleBarStyle: 'default',
+    darkTheme: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs')
     }
@@ -24,6 +27,9 @@ async function createAppWindow(appId) {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    backgroundColor: '#0a0a0a',
+    titleBarStyle: 'default',
+    darkTheme: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs')
     }
