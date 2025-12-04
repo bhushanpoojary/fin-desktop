@@ -131,10 +131,12 @@ export const Launcher: React.FC<LauncherProps> = ({ onLaunch }) => {
                   </div>
                 )}
               </div>
-              <div className="launcher-app-title">{app.title}</div>
-              {app.category && (
-                <div className="launcher-app-category">{app.category}</div>
-              )}
+              <div style={{ flex: 1, textAlign: 'left' }}>
+                <div className="launcher-app-title">{app.title}</div>
+                {app.category && (
+                  <div className="launcher-app-category">{app.category}</div>
+                )}
+              </div>
             </button>
           ))
         )}

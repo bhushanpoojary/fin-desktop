@@ -20,13 +20,13 @@ function WorkspaceDockDemo() {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh', width: '100vw' }}>
+    <div style={{ display: 'flex', height: '100vh', width: '100vw', backgroundColor: '#0a0a0a' }}>
       {/* Launcher Sidebar */}
       <div
         style={{
-          width: '320px',
-          backgroundColor: '#2c3e50',
-          boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
+          width: '280px',
+          backgroundColor: '#1a1a1a',
+          borderRight: '1px solid #2a2a2a',
           display: 'flex',
           flexDirection: 'column',
           zIndex: 100,
@@ -34,15 +34,15 @@ function WorkspaceDockDemo() {
       >
         <div
           style={{
-            padding: '20px',
-            backgroundColor: '#1a252f',
-            borderBottom: '1px solid #34495e',
+            padding: '12px 16px',
+            backgroundColor: '#0a0a0a',
+            borderBottom: '1px solid #2a2a2a',
           }}
         >
-          <h2 style={{ margin: 0, color: 'white', fontSize: '1.3rem' }}>
+          <h2 style={{ margin: 0, color: '#ff8c00', fontSize: '14px', fontWeight: '700', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
             🚀 Workspace Dock Demo
           </h2>
-          <p style={{ margin: '8px 0 0 0', color: '#95a5a6', fontSize: '0.85rem' }}>
+          <p style={{ margin: '4px 0 0 0', color: '#666', fontSize: '10px' }}>
             Click an app to open in dock
           </p>
         </div>
@@ -51,14 +51,14 @@ function WorkspaceDockDemo() {
         </div>
         <div
           style={{
-            padding: '12px',
-            backgroundColor: '#1a252f',
-            borderTop: '1px solid #34495e',
-            fontSize: '0.75rem',
-            color: '#95a5a6',
+            padding: '8px 12px',
+            backgroundColor: '#0a0a0a',
+            borderTop: '1px solid #2a2a2a',
+            fontSize: '9px',
+            color: '#666',
           }}
         >
-          <strong>Tip:</strong> Drag tabs to split views or create floating windows!
+          <strong style={{ color: '#ff8c00' }}>Tip:</strong> Drag tabs to split views or create floating windows!
         </div>
       </div>
 

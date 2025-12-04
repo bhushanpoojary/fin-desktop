@@ -14,6 +14,9 @@ async function createAppWindow(appId) {
 
   await win.loadURL(`${VITE_DEV_SERVER_URL}/?entry=app&appId=${encodeURIComponent(appId)}`);
   
+  // Open DevTools for debugging
+  win.webContents.openDevTools();
+  
   return win.id;
 }
 

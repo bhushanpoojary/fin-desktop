@@ -56,14 +56,31 @@ function LiveMarketApp() {
   });
 
   return (
-    <div style={{ padding: '20px', height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <h2 style={{ marginTop: 0, marginBottom: '20px' }}>Live Market</h2>
+    <div style={{ 
+      padding: '16px', 
+      height: '100vh', 
+      display: 'flex', 
+      flexDirection: 'column',
+      backgroundColor: 'var(--theme-bg-primary)',
+      fontFamily: 'var(--theme-font-family)'
+    }}>
+      <h2 style={{ 
+        marginTop: 0, 
+        marginBottom: '12px',
+        color: 'var(--theme-primary)',
+        fontSize: 'var(--theme-font-size-xl)',
+        fontWeight: 'var(--theme-font-weight-bold)',
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px'
+      }}>
+        Live Market
+      </h2>
       <div style={{ flex: 1 }}>
         <DataGrid
           columns={columns}
           rows={trades}
           pageSize={10}
-          theme="quartz"
+          theme="dark"
         />
       </div>
     </div>

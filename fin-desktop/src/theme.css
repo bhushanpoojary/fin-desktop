@@ -1,0 +1,268 @@
+/**
+ * Bloomberg-Inspired Dark Theme for Financial Desktop Application
+ * 
+ * This file contains all theme variables that can be customized.
+ * Override these CSS variables in your own stylesheet to customize the theme.
+ */
+
+:root {
+  /* ===== Color Palette ===== */
+  --theme-primary: #ff8c00;           /* Bloomberg orange */
+  --theme-primary-dark: #ff6600;
+  --theme-primary-light: #ffaa33;
+  
+  --theme-success: #00a86b;           /* Buy/Positive */
+  --theme-danger: #dc143c;            /* Sell/Negative */
+  --theme-warning: #ffa500;
+  --theme-info: #4a9eff;
+  
+  /* ===== Background Colors ===== */
+  --theme-bg-primary: #0a0a0a;        /* Darkest - main background */
+  --theme-bg-secondary: #1a1a1a;      /* Dark - cards, panels */
+  --theme-bg-tertiary: #2a2a2a;       /* Medium - hover states */
+  
+  /* ===== Border Colors ===== */
+  --theme-border-primary: #2a2a2a;
+  --theme-border-secondary: #3a3a3a;
+  --theme-border-focus: var(--theme-primary);
+  
+  /* ===== Text Colors ===== */
+  --theme-text-primary: #ffffff;
+  --theme-text-secondary: #888888;
+  --theme-text-tertiary: #666666;
+  --theme-text-disabled: #444444;
+  
+  /* ===== Typography ===== */
+  --theme-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --theme-font-size-xs: 9px;
+  --theme-font-size-sm: 10px;
+  --theme-font-size-md: 11px;
+  --theme-font-size-base: 12px;
+  --theme-font-size-lg: 13px;
+  --theme-font-size-xl: 14px;
+  --theme-font-size-2xl: 16px;
+  
+  --theme-font-weight-normal: 400;
+  --theme-font-weight-medium: 600;
+  --theme-font-weight-bold: 700;
+  
+  /* ===== Spacing ===== */
+  --theme-spacing-xs: 4px;
+  --theme-spacing-sm: 8px;
+  --theme-spacing-md: 12px;
+  --theme-spacing-lg: 16px;
+  --theme-spacing-xl: 20px;
+  
+  /* ===== Border Radius ===== */
+  --theme-radius-none: 0;
+  --theme-radius-sm: 2px;
+  --theme-radius-md: 4px;
+  
+  /* ===== Transitions ===== */
+  --theme-transition-fast: 0.15s ease;
+  --theme-transition-normal: 0.2s ease;
+  
+  /* ===== Shadows ===== */
+  --theme-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --theme-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --theme-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== Global Styles ===== */
+body {
+  font-family: var(--theme-font-family);
+  background-color: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+}
+
+/* ===== DataGrid Dark Theme Overrides ===== */
+/* Override react-open-source-grid styles for dark theme */
+
+.data-grid-container,
+.rdg {
+  --rdg-background-color: var(--theme-bg-secondary) !important;
+  --rdg-header-background-color: var(--theme-bg-primary) !important;
+  --rdg-row-hover-background-color: var(--theme-bg-tertiary) !important;
+  --rdg-row-selected-background-color: rgba(255, 140, 0, 0.15) !important;
+  --rdg-border-color: var(--theme-border-primary) !important;
+  --rdg-summary-border-color: var(--theme-border-primary) !important;
+  --rdg-color: var(--theme-text-primary) !important;
+  --rdg-header-color: var(--theme-primary) !important;
+  --rdg-font-size: var(--theme-font-size-md) !important;
+  
+  background-color: var(--theme-bg-secondary) !important;
+  color: var(--theme-text-primary) !important;
+  border: 1px solid var(--theme-border-primary) !important;
+  border-radius: var(--theme-radius-sm) !important;
+  font-size: var(--theme-font-size-md) !important;
+}
+
+.rdg-header-row {
+  background-color: var(--theme-bg-primary) !important;
+  border-bottom: 1px solid var(--theme-border-secondary) !important;
+  font-weight: var(--theme-font-weight-bold) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: var(--theme-font-size-sm) !important;
+}
+
+.rdg-cell {
+  background-color: var(--theme-bg-secondary) !important;
+  color: var(--theme-text-primary) !important;
+  border-right: 1px solid var(--theme-border-primary) !important;
+  border-bottom: 1px solid var(--theme-border-primary) !important;
+  padding: 6px 8px !important;
+}
+
+.rdg-header-cell {
+  background-color: var(--theme-bg-primary) !important;
+  color: var(--theme-primary) !important;
+  border-right: 1px solid var(--theme-border-primary) !important;
+  padding: 8px !important;
+  font-weight: var(--theme-font-weight-bold) !important;
+}
+
+.rdg-row:hover .rdg-cell {
+  background-color: var(--theme-bg-tertiary) !important;
+}
+
+.rdg-row-selected .rdg-cell {
+  background-color: rgba(255, 140, 0, 0.15) !important;
+}
+
+/* Filter inputs */
+.rdg-filter-container input,
+.rdg-filter-container select {
+  background-color: var(--theme-bg-primary) !important;
+  color: var(--theme-text-primary) !important;
+  border: 1px solid var(--theme-border-primary) !important;
+  border-radius: var(--theme-radius-sm) !important;
+  padding: 4px 6px !important;
+  font-size: var(--theme-font-size-sm) !important;
+}
+
+.rdg-filter-container input:focus,
+.rdg-filter-container select:focus {
+  border-color: var(--theme-primary) !important;
+  outline: none !important;
+}
+
+/* Pagination */
+.pagination,
+.pagination-controls {
+  background-color: var(--theme-bg-primary) !important;
+  color: var(--theme-text-primary) !important;
+  border-top: 1px solid var(--theme-border-primary) !important;
+  padding: var(--theme-spacing-sm) !important;
+}
+
+.pagination button,
+.pagination-controls button {
+  background-color: var(--theme-bg-secondary) !important;
+  color: var(--theme-text-primary) !important;
+  border: 1px solid var(--theme-border-primary) !important;
+  border-radius: var(--theme-radius-sm) !important;
+  padding: 4px 8px !important;
+  font-size: var(--theme-font-size-sm) !important;
+  cursor: pointer;
+  transition: var(--theme-transition-fast);
+}
+
+.pagination button:hover:not(:disabled),
+.pagination-controls button:hover:not(:disabled) {
+  background-color: var(--theme-bg-tertiary) !important;
+  border-color: var(--theme-primary) !important;
+}
+
+.pagination button.active,
+.pagination-controls button.active {
+  background-color: var(--theme-primary) !important;
+  color: #000 !important;
+  border-color: var(--theme-primary) !important;
+}
+
+.pagination button:disabled,
+.pagination-controls button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Scrollbars for dark theme */
+.rdg::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.rdg::-webkit-scrollbar-track {
+  background: var(--theme-bg-primary);
+}
+
+.rdg::-webkit-scrollbar-thumb {
+  background: var(--theme-bg-tertiary);
+  border-radius: 6px;
+}
+
+.rdg::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-border-secondary);
+}
+
+/* ===== Button Styles ===== */
+.btn-primary {
+  background-color: var(--theme-primary);
+  color: #000;
+  border: none;
+  border-radius: var(--theme-radius-sm);
+  padding: var(--theme-spacing-sm) var(--theme-spacing-lg);
+  font-size: var(--theme-font-size-md);
+  font-weight: var(--theme-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: var(--theme-transition-fast);
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+}
+
+.btn-buy {
+  background-color: var(--theme-success);
+  color: #000;
+}
+
+.btn-sell {
+  background-color: var(--theme-danger);
+  color: #fff;
+}
+
+/* ===== Input Styles ===== */
+.input-dark {
+  background-color: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+  border: 1px solid var(--theme-border-primary);
+  border-radius: var(--theme-radius-sm);
+  padding: 6px 8px;
+  font-size: var(--theme-font-size-md);
+  font-weight: var(--theme-font-weight-medium);
+  transition: var(--theme-transition-fast);
+}
+
+.input-dark:focus {
+  border-color: var(--theme-primary);
+  outline: none;
+}
+
+.input-dark::placeholder {
+  color: var(--theme-text-tertiary);
+}
+
+/* ===== Label Styles ===== */
+.label-primary {
+  color: var(--theme-primary);
+  font-size: var(--theme-font-size-sm);
+  font-weight: var(--theme-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 4px;
+}

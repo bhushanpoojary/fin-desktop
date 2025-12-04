@@ -14,6 +14,9 @@ async function createWorkspaceWindow() {
 
   await win.loadURL(`${VITE_DEV_SERVER_URL}/?entry=workspace`);
   
+  // Open DevTools for debugging
+  win.webContents.openDevTools();
+  
   return win;
 }
 

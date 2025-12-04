@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import './theme.css'
 import WorkspaceApp from './main-workspace/App'
 import UltraMinimalTest from './workspace/UltraMinimalTest'
 import MinimalTest from './workspace/MinimalTest'
@@ -18,29 +19,19 @@ const test = params.get('test') // Add test parameter
 // Determine which component to render
 let AppComponent
 
-console.log('🚀 main.tsx loading...', { entry, appId, test });
-
 if (test === 'ultra') {
-  console.log('Loading UltraMinimalTest');
   AppComponent = <UltraMinimalTest />  // Ultra minimal - just React rendering
 } else if (test === 'minimal') {
-  console.log('Loading MinimalTest');
   AppComponent = <MinimalTest />  // Minimal with Launcher
 } else if (test === 'full') {
-  console.log('Loading WorkspaceDockTestApp');
   AppComponent = <WorkspaceDockTestApp />  // Full workspace with FlexLayout
 } else if (entry === 'workspace') {
-  console.log('Loading WorkspaceDockTestApp - Full FlexLayout docking');
   AppComponent = <WorkspaceDockTestApp />  // Full workspace with docking!
 } else if (entry === 'app' && appId) {
-  console.log('Loading AppHost for app:', appId);
   AppComponent = <AppHost appId={appId} />
 } else {
-  console.log('Loading default UltraMinimalTest');
   AppComponent = <UltraMinimalTest />
 }
-
-console.log('Rendering React app...');
 
 try {
   createRoot(document.getElementById('root')!).render(
@@ -52,7 +43,6 @@ try {
       </Fdc3Provider>
     </StrictMode>,
   );
-  console.log('✅ React app rendered successfully');
 } catch (error) {
   console.error('❌ Error rendering React app:', error);
   // Fallback: show error in DOM

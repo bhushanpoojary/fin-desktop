@@ -79,6 +79,7 @@ export const WorkspaceDock = React.forwardRef<WorkspaceDockHandle, WorkspaceDock
         tabEnableRename: false,
         tabSetEnableMaximize: true,
         tabSetEnableTabStrip: true,
+        enableEdgeDock: true,
       },
       borders: [],
       layout: {
@@ -100,8 +101,19 @@ export const WorkspaceDock = React.forwardRef<WorkspaceDockHandle, WorkspaceDock
       },
     };
 
+    // Ensure the model has required global properties
+    const modelJson = initialModelJson ?? defaultModel;
+    const mergedModel: FlexLayout.IJsonModel = {
+      global: {
+        ...defaultModel.global,
+        ...(modelJson.global || {}),
+      },
+      borders: modelJson.borders || [],
+      layout: modelJson.layout || defaultModel.layout,
+    };
+    
     const modelRef = useRef<FlexLayout.Model>(
-      FlexLayout.Model.fromJson(initialModelJson ?? defaultModel)
+      FlexLayout.Model.fromJson(mergedModel)
     );
 
     const handleModelChange = useCallback(() => {

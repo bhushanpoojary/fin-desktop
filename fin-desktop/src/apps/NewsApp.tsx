@@ -108,90 +108,101 @@ function NewsApp() {
 
   return (
     <div style={{ 
-      padding: '20px', 
+      padding: '16px', 
       height: '100vh', 
       overflow: 'auto',
-      backgroundColor: '#f5f5f5'
+      backgroundColor: 'var(--theme-bg-primary)',
+      fontFamily: 'var(--theme-font-family)'
     }}>
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ 
           display: 'flex', 
           alignItems: 'center', 
-          marginBottom: '30px',
-          paddingBottom: '20px',
-          borderBottom: '2px solid #ddd'
+          marginBottom: '16px',
+          paddingBottom: '12px',
+          borderBottom: '1px solid var(--theme-border-primary)'
         }}>
-          <h2 style={{ margin: 0, fontSize: '28px', fontWeight: '700' }}>
+          <h2 style={{ 
+            margin: 0, 
+            fontSize: 'var(--theme-font-size-xl)', 
+            fontWeight: 'var(--theme-font-weight-bold)',
+            color: 'var(--theme-primary)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px'
+          }}>
             Bloomberg News
           </h2>
           {loading && (
-            <span style={{ marginLeft: '20px', color: '#666' }}>Loading...</span>
+            <span style={{ marginLeft: '16px', color: 'var(--theme-text-secondary)', fontSize: 'var(--theme-font-size-sm)' }}>
+              Loading...
+            </span>
           )}
         </div>
 
         {error && (
           <div style={{
-            padding: '15px',
-            backgroundColor: '#fff3cd',
-            border: '1px solid #ffc107',
-            borderRadius: '8px',
-            marginBottom: '20px',
-            color: '#856404'
+            padding: '12px',
+            backgroundColor: 'var(--theme-bg-secondary)',
+            border: '1px solid var(--theme-border-secondary)',
+            borderRadius: 'var(--theme-radius-sm)',
+            marginBottom: '16px',
+            color: 'var(--theme-warning)',
+            fontSize: 'var(--theme-font-size-md)'
           }}>
             {error}
-            <div style={{ marginTop: '10px', fontSize: '14px' }}>
+            <div style={{ marginTop: '8px', fontSize: 'var(--theme-font-size-sm)', color: 'var(--theme-text-secondary)' }}>
               Showing sample data instead. To get live news:
-              <ol style={{ marginTop: '5px', paddingLeft: '20px' }}>
-                <li>Get a free API key from <a href="https://newsapi.org" target="_blank" rel="noopener noreferrer">newsapi.org</a></li>
+              <ol style={{ marginTop: '4px', paddingLeft: '16px' }}>
+                <li>Get a free API key from <a href="https://newsapi.org" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--theme-primary)' }}>newsapi.org</a></li>
                 <li>Replace 'YOUR_API_KEY' in the NewsApp.tsx file</li>
               </ol>
             </div>
           </div>
         )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {articles.map((article) => (
             <div
               key={article.id}
               style={{
-                backgroundColor: 'white',
-                padding: '24px',
-                borderRadius: '12px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                backgroundColor: 'var(--theme-bg-secondary)',
+                padding: '12px',
+                border: '1px solid var(--theme-border-primary)',
+                borderRadius: 'var(--theme-radius-sm)',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
+                transition: 'var(--theme-transition-fast)',
               }}
               onClick={() => window.open(article.url, '_blank')}
               onMouseOver={(e) => {
-                e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.15)';
-                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.backgroundColor = 'var(--theme-bg-tertiary)';
+                e.currentTarget.style.borderColor = 'var(--theme-primary)';
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
-                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.backgroundColor = 'var(--theme-bg-secondary)';
+                e.currentTarget.style.borderColor = 'var(--theme-border-primary)';
               }}
             >
               <div style={{ 
                 display: 'flex', 
                 justifyContent: 'space-between', 
                 alignItems: 'flex-start',
-                marginBottom: '12px'
+                marginBottom: '6px'
               }}>
                 <h3 style={{ 
                   margin: 0, 
-                  fontSize: '20px', 
-                  fontWeight: '600',
-                  color: '#1a1a1a',
+                  fontSize: 'var(--theme-font-size-base)', 
+                  fontWeight: 'var(--theme-font-weight-bold)',
+                  color: 'var(--theme-text-primary)',
                   flex: 1
                 }}>
                   {article.title}
                 </h3>
               </div>
               <p style={{ 
-                margin: '0 0 12px 0', 
-                color: '#666', 
-                fontSize: '15px',
-                lineHeight: '1.6'
+                margin: '0 0 8px 0', 
+                color: 'var(--theme-text-secondary)', 
+                fontSize: 'var(--theme-font-size-md)',
+                lineHeight: '1.4'
               }}>
                 {article.description}
               </p>
@@ -199,12 +210,14 @@ function NewsApp() {
                 display: 'flex', 
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                fontSize: '13px',
-                color: '#999'
+                fontSize: 'var(--theme-font-size-sm)',
+                color: 'var(--theme-text-tertiary)'
               }}>
                 <span style={{ 
-                  fontWeight: '600',
-                  color: '#667eea'
+                  fontWeight: 'var(--theme-font-weight-bold)',
+                  color: 'var(--theme-primary)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
                 }}>
                   {article.source}
                 </span>
