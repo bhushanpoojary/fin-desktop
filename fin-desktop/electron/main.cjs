@@ -1,8 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('node:path');
-const { createWorkspaceWindow } = require('./workspaceWindow');
-const { createAppWindow } = require('./appWindow');
-const { setupBusHandlers } = require('./bus');
+const { createWorkspaceWindow } = require('./workspaceWindow.cjs');
+const { createAppWindow } = require('./appWindow.cjs');
+const { setupBusHandlers } = require('./bus.cjs');
 
 function createMain() {
   // Create the workspace window

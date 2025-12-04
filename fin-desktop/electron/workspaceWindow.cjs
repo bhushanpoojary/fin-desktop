@@ -8,7 +8,7 @@ async function createWorkspaceWindow() {
     width: 1600,
     height: 900,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.cjs')
     }
   });
 
@@ -22,7 +22,7 @@ async function createAppWindow(appId) {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.cjs')
     }
   });
 
