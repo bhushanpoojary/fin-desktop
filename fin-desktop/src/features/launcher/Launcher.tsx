@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import type { AppDefinition } from "../../config/types";
 import { useAppsCatalog } from "./useAppsCatalog";
 import { LauncherSearchBox } from "./LauncherSearchBox";
+import { useLogger } from "../../logging/useLogger";
 import "./Launcher.css";
 
 export interface LauncherProps {
@@ -10,8 +11,24 @@ export interface LauncherProps {
 
 export const Launcher: React.FC<LauncherProps> = ({ onLaunch }) => {
   const { apps, categories, isLoading, error } = useAppsCatalog();
+  const logger = useLogger("Launcher");
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  // Log when the launcher mounts
+  useEffect(() => {
+    logger.info("Launcher mounted", { appCount: apps.length });
+  }, [logger, apps.length]);
+
+  // Log when loading completes or fails
+  useEffect(() => {
+    if (!isLoading && !error && apps.length > 0) {
+      logger.info("Apps catalog loaded successfully", { appCount: apps.length });
+    }
+    if (error) {
+      logger.error("Failed to load apps catalog", { error });
+    }
+  }, [isLoading, error, apps.length, logger]);
 
   const filteredApps = useMemo(() => {
     const normalizedQuery = searchText.trim().toLowerCase();
@@ -40,6 +57,7 @@ export const Launcher: React.FC<LauncherProps> = ({ onLaunch }) => {
   }, [apps, searchText, selectedCategory]);
 
   const handleAppClick = (app: AppDefinition) => {
+    logger.info("App launch clicked", { appId: app.id, appTitle: app.title });
     onLaunch?.(app);
   };
 

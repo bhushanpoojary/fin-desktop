@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import WorkspaceApp from './main-workspace/App'
 import AppHost from './apps/AppHost'
+import { LogStoreProvider } from './logging/LogStoreContext'
 
 // Read URL search parameters
 const params = new URLSearchParams(window.location.search)
@@ -23,6 +24,8 @@ if (entry === 'workspace') {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {AppComponent}
+    <LogStoreProvider>
+      {AppComponent}
+    </LogStoreProvider>
   </StrictMode>,
 )

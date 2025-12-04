@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDesktopApi } from '../shared/hooks/useDesktopApi';
+import { useLogger } from '../logging/useLogger';
 
 function OrderTicketApp() {
   const [symbol, setSymbol] = useState("");
@@ -8,20 +9,32 @@ function OrderTicketApp() {
   const [side, setSide] = useState<"BUY" | "SELL">("BUY");
   const [submitted, setSubmitted] = useState(false);
   const { publish } = useDesktopApi();
+  const logger = useLogger("OrderTicketApp");
 
   const handleExecuteTrade = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!symbol || !qty || !price) {
+      logger.warn("Trade submission validation failed", {
+        symbol,
+        qty,
+        price,
+        reason: "Missing required fields"
+      });
       return;
     }
     
-    publish("TRADE_EXECUTED", {
+    const tradeData = {
       id: Date.now(),
       symbol: symbol.toUpperCase(),
       qty: Number(qty),
       price: Number(price),
-    });
+      side,
+    };
+
+    publish("TRADE_EXECUTED", tradeData);
+
+    logger.info("Trade executed successfully", tradeData);
 
     // Show success message
     setSubmitted(true);
