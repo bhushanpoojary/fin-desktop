@@ -1,0 +1,37 @@
+import React from "react";
+import { InstrumentSourceApp } from "../apps/InstrumentSourceApp";
+import { InstrumentTargetApp } from "../apps/InstrumentTargetApp";
+import { Fdc3EventsLogScreen } from "../apps/Fdc3EventsLogScreen";
+
+/**
+ * Demo layout showing all three FDC3 screens side-by-side.
+ * 
+ * Usage:
+ * 1. Click an instrument in the Source app (left)
+ * 2. See it immediately appear in the Target app (center)
+ * 3. View the event log in the Events Log (right)
+ * 
+ * This demonstrates the minimal FDC3 publish/subscribe flow for
+ * instrument selection context.
+ */
+export const Fdc3DemoLayout: React.FC = () => {
+  return (
+    <div style={{ 
+      display: "grid", 
+      gridTemplateColumns: "1fr 1fr 1fr", 
+      height: "100vh",
+      gap: "1px",
+      backgroundColor: "#ccc"
+    }}>
+      <div style={{ backgroundColor: "white", overflow: "auto" }}>
+        <InstrumentSourceApp />
+      </div>
+      <div style={{ backgroundColor: "white", overflow: "auto" }}>
+        <InstrumentTargetApp />
+      </div>
+      <div style={{ backgroundColor: "white", overflow: "auto" }}>
+        <Fdc3EventsLogScreen />
+      </div>
+    </div>
+  );
+};

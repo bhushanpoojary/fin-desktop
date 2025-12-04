@@ -50,5 +50,44 @@
       "height": 600,
       "resizable": true
     }
+  },
+  {
+    "id": "instrument-source",
+    "title": "Instrument Source",
+    "iconUrl": "/icons/order-ticket.svg",
+    "category": "FDC3",
+    "tags": ["fdc3", "instrument", "publisher", "demo"],
+    "launchUrl": "/apps/instrument-source",
+    "windowOptions": {
+      "width": 400,
+      "height": 500,
+      "resizable": true
+    }
+  },
+  {
+    "id": "instrument-target",
+    "title": "Instrument Target",
+    "iconUrl": "/icons/market.svg",
+    "category": "FDC3",
+    "tags": ["fdc3", "instrument", "subscriber", "demo"],
+    "launchUrl": "/apps/instrument-target",
+    "windowOptions": {
+      "width": 500,
+      "height": 400,
+      "resizable": true
+    }
+  },
+  {
+    "id": "fdc3-events-log",
+    "title": "FDC3 Events Log",
+    "iconUrl": "/icons/news.svg",
+    "category": "FDC3",
+    "tags": ["fdc3", "events", "log", "demo"],
+    "launchUrl": "/apps/fdc3-events-log",
+    "windowOptions": {
+      "width": 800,
+      "height": 600,
+      "resizable": true
+    }
   }
 ]
