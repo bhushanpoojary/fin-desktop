@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useDesktopApi } from '../shared/hooks/useDesktopApi';
 import { Launcher } from '../features/launcher/Launcher';
 import { LogsScreen } from '../features/logs';
+import { LayoutDemo } from '../layout';
 import type { AppDefinition } from '../config/types';
 
 function WorkspaceApp() {
   const { openApp } = useDesktopApi();
   const [showLogs, setShowLogs] = useState(false);
+  const [showLayoutDemo, setShowLayoutDemo] = useState(false);
 
   const handleLaunch = (app: AppDefinition) => {
     console.log("Launching app:", app.id, app);
@@ -42,36 +44,82 @@ function WorkspaceApp() {
             </p>
           </div>
           
-          <button
-            onClick={() => setShowLogs(!showLogs)}
-            style={{
-              padding: '12px 24px',
-              background: showLogs ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.2)',
-              color: showLogs ? '#667eea' : 'white',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              backdropFilter: 'blur(10px)',
-            }}
-            onMouseEnter={(e) => {
-              if (!showLogs) {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!showLogs) {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-              }
-            }}
-          >
-            {showLogs ? '← Back to Launcher' : '📋 View Logs'}
-          </button>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button
+              onClick={() => {
+                setShowLayoutDemo(!showLayoutDemo);
+                setShowLogs(false);
+              }}
+              style={{
+                padding: '12px 24px',
+                background: showLayoutDemo ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.2)',
+                color: showLayoutDemo ? '#667eea' : 'white',
+                border: '2px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '8px',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                backdropFilter: 'blur(10px)',
+              }}
+              onMouseEnter={(e) => {
+                if (!showLayoutDemo) {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!showLayoutDemo) {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                }
+              }}
+            >
+              {showLayoutDemo ? '← Back to Launcher' : '🎨 Layout Demo'}
+            </button>
+
+            <button
+              onClick={() => {
+                setShowLogs(!showLogs);
+                setShowLayoutDemo(false);
+              }}
+              style={{
+                padding: '12px 24px',
+                background: showLogs ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.2)',
+                color: showLogs ? '#667eea' : 'white',
+                border: '2px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '8px',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                backdropFilter: 'blur(10px)',
+              }}
+              onMouseEnter={(e) => {
+                if (!showLogs) {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!showLogs) {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                }
+              }}
+            >
+              {showLogs ? '← Back to Launcher' : '📋 View Logs'}
+            </button>
+          </div>
         </div>
         
-        {showLogs ? (
+        {showLayoutDemo ? (
+          <div style={{
+            background: 'white',
+            borderRadius: '12px',
+            overflow: 'auto',
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+            maxHeight: 'calc(100vh - 240px)',
+          }}>
+            <LayoutDemo />
+          </div>
+        ) : showLogs ? (
           <div style={{
             background: 'white',
             borderRadius: '12px',
