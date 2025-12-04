@@ -1,0 +1,54 @@
+[
+  {
+    "id": "order-ticket",
+    "title": "Order Ticket",
+    "iconUrl": "/icons/order-ticket.png",
+    "category": "Trading",
+    "tags": ["order", "ticket", "trade"],
+    "launchUrl": "/apps/order-ticket",
+    "windowOptions": {
+      "width": 800,
+      "height": 600,
+      "resizable": true
+    }
+  },
+  {
+    "id": "blotter",
+    "title": "Trade Blotter",
+    "iconUrl": "/icons/blotter.png",
+    "category": "Trading",
+    "tags": ["trades", "fills", "blotter"],
+    "launchUrl": "/apps/blotter",
+    "windowOptions": {
+      "width": 1200,
+      "height": 800,
+      "resizable": true
+    }
+  },
+  {
+    "id": "live-market",
+    "title": "Live Market Data",
+    "iconUrl": "/icons/market.png",
+    "category": "Research",
+    "tags": ["market", "quotes", "prices", "data"],
+    "launchUrl": "/apps/live-market",
+    "windowOptions": {
+      "width": 1000,
+      "height": 700,
+      "resizable": true
+    }
+  },
+  {
+    "id": "news",
+    "title": "News Feed",
+    "iconUrl": "/icons/news.png",
+    "category": "Research",
+    "tags": ["news", "headlines", "alerts"],
+    "launchUrl": "/apps/news",
+    "windowOptions": {
+      "width": 900,
+      "height": 600,
+      "resizable": true
+    }
+  }
+]

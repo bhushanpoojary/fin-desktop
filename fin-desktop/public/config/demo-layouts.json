@@ -1,0 +1,44 @@
+[
+  {
+    "id": "default",
+    "name": "Default Workspace",
+    "data": {
+      "version": 1,
+      "panels": []
+    }
+  },
+  {
+    "id": "trading-desk",
+    "name": "Trading Desk",
+    "data": {
+      "version": 1,
+      "panels": [
+        {
+          "appId": "order-ticket",
+          "position": "left"
+        },
+        {
+          "appId": "blotter",
+          "position": "right"
+        }
+      ]
+    }
+  },
+  {
+    "id": "research",
+    "name": "Research Workspace",
+    "data": {
+      "version": 1,
+      "panels": [
+        {
+          "appId": "live-market",
+          "position": "top"
+        },
+        {
+          "appId": "news",
+          "position": "bottom"
+        }
+      ]
+    }
+  }
+]
