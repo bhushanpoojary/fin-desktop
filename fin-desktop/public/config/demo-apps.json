@@ -2,7 +2,7 @@
   {
     "id": "order-ticket",
     "title": "Order Ticket",
-    "iconUrl": "/icons/order-ticket.png",
+    "iconUrl": "/icons/order-ticket.svg",
     "category": "Trading",
     "tags": ["order", "ticket", "trade"],
     "launchUrl": "/apps/order-ticket",
@@ -15,7 +15,7 @@
   {
     "id": "blotter",
     "title": "Trade Blotter",
-    "iconUrl": "/icons/blotter.png",
+    "iconUrl": "/icons/blotter.svg",
     "category": "Trading",
     "tags": ["trades", "fills", "blotter"],
     "launchUrl": "/apps/blotter",
@@ -28,7 +28,7 @@
   {
     "id": "live-market",
     "title": "Live Market Data",
-    "iconUrl": "/icons/market.png",
+    "iconUrl": "/icons/market.svg",
     "category": "Research",
     "tags": ["market", "quotes", "prices", "data"],
     "launchUrl": "/apps/live-market",
@@ -41,7 +41,7 @@
   {
     "id": "news",
     "title": "News Feed",
-    "iconUrl": "/icons/news.png",
+    "iconUrl": "/icons/news.svg",
     "category": "Research",
     "tags": ["news", "headlines", "alerts"],
     "launchUrl": "/apps/news",

@@ -1,0 +1,174 @@
+/* Search Box */
+.launcher-search-box {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.launcher-search-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.launcher-search-input:focus {
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: white;
+}
+
+.launcher-category-select {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+  min-width: 150px;
+}
+
+.launcher-category-select:focus {
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: white;
+}
+
+/* Results Info */
+.launcher-results-info {
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  font-weight: 300;
+}
+
+/* Loading and Error States */
+.launcher-loading,
+.launcher-error {
+  padding: 3rem;
+  text-align: center;
+  font-size: 1.125rem;
+}
+
+.launcher-error {
+  color: #d32f2f;
+  background-color: #ffebee;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.launcher-error strong {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* App Grid */
+.launcher-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .launcher-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+}
+
+/* App Tile */
+.launcher-app-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-family: inherit;
+  outline: none;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.launcher-app-tile:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  transform: translateY(-4px);
+  background-color: white;
+}
+
+.launcher-app-tile:focus {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  background-color: white;
+}
+
+.launcher-app-tile:active {
+  transform: translateY(0);
+}
+
+/* App Icon */
+.launcher-app-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.launcher-app-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.launcher-app-icon-placeholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* App Title */
+.launcher-app-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+/* App Category Badge */
+.launcher-app-category {
+  font-size: 0.75rem;
+  color: #666;
+  background-color: #f5f5f5;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+}
+
+/* No Results */
+.launcher-no-results {
+  grid-column: 1 / -1;
+  padding: 3rem;
+  text-align: center;
+  color: #999;
+  font-size: 1rem;
+}
