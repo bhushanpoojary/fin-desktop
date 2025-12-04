@@ -10,9 +10,10 @@
     "build": "vite build",
     "preview": "vite preview"
   },
- "dependencies": {
+  "dependencies": {
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-open-source-grid": "^1.7.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

@@ -1,7 +1,40 @@
 import { useState } from 'react';
 import { useDesktopApi } from '../shared/hooks/useDesktopApi';
+import { DataGrid } from 'react-open-source-grid';
+import type { Column } from 'react-open-source-grid';
+import 'react-open-source-grid/dist/lib/index.css';
 
 type Trade = { id: number; symbol: string; qty: number; price: number };
+
+const columns: Column[] = [
+  {
+    field: 'id',
+    headerName: 'Id',
+    width: 100,
+    sortable: true
+  },
+  {
+    field: 'symbol',
+    headerName: 'Symbol',
+    width: 150,
+    sortable: true,
+    filterable: true
+  },
+  {
+    field: 'qty',
+    headerName: 'Quantity',
+    width: 150,
+    sortable: true,
+    filterable: true
+  },
+  {
+    field: 'price',
+    headerName: 'Price',
+    width: 150,
+    sortable: true,
+    filterable: true
+  },
+];
 
 function LiveMarketApp() {
   const [trades, setTrades] = useState<Trade[]>([]);
@@ -14,13 +47,12 @@ function LiveMarketApp() {
   return (
     <div>
       <h2>Live Market</h2>
-      <ul>
-        {trades.map((trade) => (
-          <li key={trade.id}>
-            {trade.symbol} - Qty: {trade.qty} - Price: ${trade.price}
-          </li>
-        ))}
-      </ul>
+      <DataGrid
+        columns={columns}
+        rows={trades}
+        pageSize={10}
+        theme="quartz"
+      />
     </div>
   );
 }
