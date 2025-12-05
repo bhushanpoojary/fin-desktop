@@ -27,9 +27,12 @@ export interface WorkspaceDockProps {
    * Optional callback for telemetry when an app is opened in the dock.
    */
   onAppLaunchedFromDock?: (appId: string) => void;
-}
-
-export interface WorkspaceDockHandle {
+  
+  /**
+   * Optional callback to open the launcher.
+   */
+  onOpenLauncher?: () => void;
+}export interface WorkspaceDockHandle {
   /**
    * Open an app in the workspace dock.
    * @param appId - The ID of the app to open (must exist in appRegistry)
@@ -67,6 +70,7 @@ export const WorkspaceDock = React.forwardRef<WorkspaceDockHandle, WorkspaceDock
       onLayoutChange,
       appRegistry,
       onAppLaunchedFromDock,
+      onOpenLauncher,
     },
     ref
   ) => {
@@ -135,14 +139,43 @@ export const WorkspaceDock = React.forwardRef<WorkspaceDockHandle, WorkspaceDock
             <div
               style={{
                 display: "flex",
+                flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
                 height: "100%",
                 color: "#666",
                 fontSize: "1.2rem",
+                gap: "20px",
               }}
             >
-              Welcome to the Workspace. Use the Launcher to open apps.
+              <div>Welcome to the Workspace</div>
+              {onOpenLauncher && (
+                <button
+                  onClick={onOpenLauncher}
+                  style={{
+                    padding: "12px 24px",
+                    fontSize: "1rem",
+                    fontWeight: "600",
+                    backgroundColor: "var(--theme-primary, #667eea)",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    boxShadow: "0 2px 8px rgba(102, 126, 234, 0.3)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow = "0 4px 12px rgba(102, 126, 234, 0.4)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "0 2px 8px rgba(102, 126, 234, 0.3)";
+                  }}
+                >
+                  🚀 Open Launcher
+                </button>
+              )}
             </div>
           );
         }

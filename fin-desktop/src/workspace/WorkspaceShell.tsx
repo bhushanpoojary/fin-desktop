@@ -2,6 +2,8 @@ import React, { useRef, useCallback, useState } from "react";
 import type { WorkspaceDockHandle } from "./WorkspaceDock";
 import { WorkspaceDock } from "./WorkspaceDock";
 import { useActiveLayout } from "../layout/useActiveLayout";
+import { Launcher } from "../features/launcher/Launcher";
+import type { AppDefinition } from "../config/types";
 import type * as FlexLayout from "flexlayout-react";
 
 export interface WorkspaceShellProps {
@@ -39,9 +41,10 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
   const dockRef = externalDockRef ?? internalDockRef;
   const { activeLayout, saveCurrentLayout, isLoading, error } = useActiveLayout();
   const [isSaving, setIsSaving] = useState(false);
+  const [showLauncher, setShowLauncher] = useState(false);
 
   // Debounce layout changes to avoid excessive saves
-  const saveTimeoutRef = useRef<number | null>(null);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleLayoutChange = useCallback(
     (modelJson: FlexLayout.IJsonModel) => {
@@ -71,6 +74,14 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
       setIsSaving(false);
     }
   }, [activeLayout, saveCurrentLayout]);
+
+  const handleLaunch = useCallback((app: AppDefinition) => {
+    console.log("Launching app from workspace:", app.id);
+    if (dockRef.current) {
+      dockRef.current.openApp(app.id, { title: app.title });
+      setShowLauncher(false); // Close launcher after launching an app
+    }
+  }, [dockRef]);
 
   if (isLoading) {
     return (
@@ -128,6 +139,19 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
           Layout: <strong style={{ color: "var(--theme-primary)" }}>{activeLayout?.name ?? "Default"}</strong>
         </div>
         <div style={{ display: "flex", gap: "8px" }}>
+          {/* Launcher Button */}
+          <button
+            onClick={() => setShowLauncher(true)}
+            className="btn-primary"
+            style={{
+              padding: "4px 12px",
+              fontSize: "var(--theme-font-size-sm)",
+              cursor: "pointer",
+              fontWeight: "600",
+            }}
+          >
+            🚀 Launcher
+          </button>
           {/* Test Tray Button */}
           <button
             onClick={() => {
@@ -169,8 +193,74 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
           ref={dockRef}
           initialModelJson={initialModelJson}
           onLayoutChange={handleLayoutChange}
+          onOpenLauncher={() => setShowLauncher(true)}
         />
       </div>
+
+      {/* Launcher Modal */}
+      {showLauncher && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+            backdropFilter: "blur(4px)",
+          }}
+          onClick={() => setShowLauncher(false)}
+        >
+          <div
+            style={{
+              backgroundColor: "var(--theme-bg-primary)",
+              borderRadius: "12px",
+              padding: "24px",
+              maxWidth: "900px",
+              width: "90%",
+              maxHeight: "85vh",
+              overflow: "auto",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
+              border: "1px solid var(--theme-border-primary)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+              <h2 style={{ margin: 0, color: "var(--theme-text-primary)", fontSize: "1.5rem" }}>App Launcher</h2>
+              <button
+                onClick={() => setShowLauncher(false)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  fontSize: "1.5rem",
+                  cursor: "pointer",
+                  color: "var(--theme-text-secondary)",
+                  padding: "0",
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "4px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "var(--theme-bg-tertiary)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                }}
+              >
+                ×
+              </button>
+            </div>
+            <Launcher onLaunch={handleLaunch} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
