@@ -15,11 +15,13 @@ export class DefaultBranding implements IProductBranding {
   }
 
   getLogoUrl(): string {
-    return '/logo.svg';
+    // Using vite.svg as placeholder - replace with your actual logo
+    return '/vite.svg';
   }
 
   getIconUrl(): string {
-    return '/icon.svg';
+    // Using vite.svg as placeholder - replace with your actual icon
+    return '/vite.svg';
   }
 
   getTagline(): string {
