@@ -42,6 +42,16 @@ const api = {
         }
       }
     };
+  },
+
+  // Tray API
+  tray: {
+    minimizeToTray() {
+      ipcRenderer.send('tray-minimize');
+    },
+    restoreFromTray() {
+      ipcRenderer.send('tray-restore');
+    },
   }
 };
 

@@ -127,19 +127,40 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
         <div style={{ fontSize: "var(--theme-font-size-md)", color: "var(--theme-text-secondary)" }}>
           Layout: <strong style={{ color: "var(--theme-primary)" }}>{activeLayout?.name ?? "Default"}</strong>
         </div>
-        <button
-          onClick={handleManualSave}
-          disabled={isSaving}
-          className="btn-primary"
-          style={{
-            padding: "4px 12px",
-            fontSize: "var(--theme-font-size-sm)",
-            cursor: isSaving ? "not-allowed" : "pointer",
-            opacity: isSaving ? 0.6 : 1,
-          }}
-        >
-          {isSaving ? "Saving..." : "Save Layout"}
-        </button>
+        <div style={{ display: "flex", gap: "8px" }}>
+          {/* Test Tray Button */}
+          <button
+            onClick={() => {
+              console.log('[WorkspaceShell] Minimizing to tray...');
+              if (window.desktopApi?.tray) {
+                window.desktopApi.tray.minimizeToTray();
+              } else {
+                console.warn('[WorkspaceShell] Tray API not available');
+              }
+            }}
+            className="btn-secondary"
+            style={{
+              padding: "4px 12px",
+              fontSize: "var(--theme-font-size-sm)",
+              cursor: "pointer",
+            }}
+          >
+            📍 Minimize to Tray
+          </button>
+          <button
+            onClick={handleManualSave}
+            disabled={isSaving}
+            className="btn-primary"
+            style={{
+              padding: "4px 12px",
+              fontSize: "var(--theme-font-size-sm)",
+              cursor: isSaving ? "not-allowed" : "pointer",
+              opacity: isSaving ? 0.6 : 1,
+            }}
+          >
+            {isSaving ? "Saving..." : "Save Layout"}
+          </button>
+        </div>
       </div>
 
       {/* Dock area */}

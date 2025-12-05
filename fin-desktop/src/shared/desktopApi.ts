@@ -22,6 +22,21 @@ export interface DesktopApi {
    * @returns A function to unsubscribe from the topic
    */
   subscribe(topic: string, handler: (payload: any) => void): () => void;
+
+  /**
+   * System tray API (TEST)
+   */
+  tray?: {
+    /**
+     * Minimize the window to the system tray
+     */
+    minimizeToTray(): void;
+
+    /**
+     * Restore the window from the system tray
+     */
+    restoreFromTray(): void;
+  };
 }
 
 declare global {

@@ -67,6 +67,18 @@ export interface IProductBranding {
    * Get footer configuration
    */
   getFooterConfig(): FooterConfig;
+
+  /**
+   * Get system tray icon path
+   * @returns Absolute or relative path to the tray icon image
+   */
+  getTrayIconPath(): string;
+
+  /**
+   * Get system tray tooltip text
+   * @returns Tooltip text displayed when hovering over the tray icon
+   */
+  getTrayTooltip(): string;
 }
 
 export interface BrandColors {

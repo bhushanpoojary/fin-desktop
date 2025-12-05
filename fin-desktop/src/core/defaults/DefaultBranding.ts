@@ -76,4 +76,13 @@ export class DefaultBranding implements IProductBranding {
       ],
     };
   }
+
+  getTrayIconPath(): string {
+    // Default tray icon path - relative to the public directory
+    return '/icons/tray-icon.png';
+  }
+
+  getTrayTooltip(): string {
+    return `${this.getProductName()} - ${this.getTagline()}`;
+  }
 }
