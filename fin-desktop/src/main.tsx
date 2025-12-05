@@ -11,6 +11,7 @@ import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
 import { AppShell } from './shell'
 import { DefaultBranding } from './core/defaults/DefaultBranding'
+import { NotificationTray } from './ui/NotificationTray'
 
 // Read URL search parameters
 const params = new URLSearchParams(window.location.search)
@@ -42,6 +43,7 @@ try {
       <Fdc3Provider>
         <LogStoreProvider>
           {AppComponent}
+          <NotificationTray />
         </LogStoreProvider>
       </Fdc3Provider>
     </StrictMode>,

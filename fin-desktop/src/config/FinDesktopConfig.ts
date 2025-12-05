@@ -56,6 +56,24 @@ import type { INotificationProvider } from '../core/interfaces/INotificationProv
 import type { IThemeProvider } from '../core/interfaces/IThemeProvider';
 import type { IChannelProvider } from '../core/interfaces/IChannelProvider';
 import type { IProductBranding } from '../core/interfaces/IProductBranding';
+import type { Notification, NotificationAction } from '../core/notifications/NotificationTypes';
+
+/**
+ * Notification Action Handler
+ * Callback function invoked when a notification action button is clicked
+ */
+export type NotificationActionHandler = (
+  notification: Notification,
+  action: NotificationAction
+) => void;
+
+/**
+ * Notification Actions Map
+ * Maps action IDs to their handler functions
+ */
+export interface NotificationActionsMap {
+  [actionId: string]: NotificationActionHandler;
+}
 
 export interface FinDesktopConfig {
   authProvider: IAuthProvider;
@@ -63,7 +81,21 @@ export interface FinDesktopConfig {
   themeProvider: IThemeProvider;
   channelProvider: IChannelProvider;
   branding: IProductBranding;
+  notificationActions?: NotificationActionsMap;
 }
+
+/**
+ * Default Notification Actions
+ * Provides basic handlers for common notification actions
+ */
+export const DefaultNotificationActions: NotificationActionsMap = {
+  "DISMISS": (notification) => {
+    console.log("Notification dismissed:", notification.id);
+  },
+  "VIEW_DETAILS": (notification) => {
+    console.log("View details for notification:", notification.id);
+  },
+};
 
 /**
  * Main FinDesktop Configuration
@@ -86,6 +118,9 @@ export const finDesktopConfig: FinDesktopConfig = {
   // Using default implementations for these (customize as needed)
   notificationProvider: new DefaultNotificationProvider(),
   channelProvider: new DefaultChannelProvider(),
+
+  // Notification action handlers (can be overridden in extensions)
+  notificationActions: DefaultNotificationActions,
 };
 
 /**

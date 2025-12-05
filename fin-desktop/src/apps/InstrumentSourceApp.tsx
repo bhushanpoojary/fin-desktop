@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFdc3Bus } from "../fdc3/Fdc3Context";
 import type { SelectedInstrumentContext } from "../fdc3/types";
 import { useLogger } from "../logging/useLogger";
+import { notificationCenter } from "../core/notifications/NotificationCenter";
 
 const INSTRUMENTS = [
   { symbol: "AAPL", name: "Apple Inc.", sector: "Technology" },
@@ -54,6 +55,35 @@ export const InstrumentSourceApp: React.FC = () => {
         }}>
           Select an instrument to broadcast via FDC3
         </p>
+        
+        {/* Notification Test Button */}
+        <button
+          onClick={() => {
+            notificationCenter.show({
+              id: crypto.randomUUID(),
+              type: "success",
+              title: "Test Notification",
+              message: "This is a test notification from Instrument Publisher",
+              actions: [
+                { label: "View Details", actionId: "VIEW_DETAILS" },
+                { label: "Dismiss", actionId: "DISMISS" },
+              ],
+            });
+          }}
+          style={{
+            marginTop: "12px",
+            padding: "8px 16px",
+            backgroundColor: "#673ab7",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontSize: "12px",
+            fontWeight: "500",
+          }}
+        >
+          🔔 Test Notification
+        </button>
       </div>
       
       <div style={{
