@@ -22,6 +22,7 @@ import type { IAuthProvider, User, AuthResult } from '../core/interfaces/IAuthPr
 export class CustomAuthProvider implements IAuthProvider {
   private currentUser: User | null = null;
   private token: string | null = null;
+  private authChangedCallbacks: Array<(user: User | null) => void> = [];
   
   // TODO: Add your authentication service configuration
   // private authServiceUrl = 'https://auth.mycompany.com';
@@ -40,6 +41,38 @@ export class CustomAuthProvider implements IAuthProvider {
         this.token = storedToken;
         // TODO: Fetch user info from your auth service
       }
+    }
+  }
+
+  /**
+   * Notify all registered callbacks of auth state change.
+   * This is not part of IAuthProvider but is useful for reactive auth in AppShell.
+   */
+  private notifyAuthChanged(user: User | null): void {
+    this.authChangedCallbacks.forEach(callback => {
+      try {
+        callback(user);
+      } catch (error) {
+        console.error('Error in auth changed callback:', error);
+      }
+    });
+  }
+
+  /**
+   * Register a callback to be notified when auth state changes.
+   * Optional extension to IAuthProvider - enables reactive auth in AppShell.
+   */
+  onAuthChanged(callback: (user: User | null) => void): void {
+    this.authChangedCallbacks.push(callback);
+  }
+
+  /**
+   * Unregister an auth changed callback.
+   */
+  offAuthChanged(callback: (user: User | null) => void): void {
+    const index = this.authChangedCallbacks.indexOf(callback);
+    if (index !== -1) {
+      this.authChangedCallbacks.splice(index, 1);
     }
   }
 
@@ -76,6 +109,9 @@ export class CustomAuthProvider implements IAuthProvider {
         sessionStorage.setItem('custom_auth_token', token);
         sessionStorage.setItem('custom_auth_user', JSON.stringify(user));
 
+        // Notify listeners
+        this.notifyAuthChanged(user);
+
         return {
           success: true,
           token,
@@ -107,6 +143,10 @@ export class CustomAuthProvider implements IAuthProvider {
     this.token = null;
     sessionStorage.removeItem('custom_auth_token');
     sessionStorage.removeItem('custom_auth_user');
+    
+    // Notify listeners
+    this.notifyAuthChanged(null);
+    
     console.log('Custom auth: User logged out');
   }
 

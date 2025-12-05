@@ -2,15 +2,29 @@
  * AppShell Component
  * 
  * Main application shell that orchestrates:
+ * - Authentication (login/logout flow)
  * - Splash screen display during initialization
  * - Layout manager workspace loading
  * - Desktop API / event bus initialization
  * - Transition to the main desktop workspace
  * 
  * Architecture:
- * The AppShell manages the app lifecycle and shows a splash screen while
- * critical resources are loading. Once both the layout and desktop API are ready,
- * it transitions to the main workspace UI.
+ * The AppShell manages the app lifecycle including authentication.
+ * It checks for an existing session, shows a login screen if needed,
+ * and then shows a splash screen while critical resources are loading.
+ * Once authenticated and resources are ready, it transitions to the main workspace.
+ * 
+ * Authentication:
+ * - Auth provider is resolved from finDesktopConfig.authProvider
+ * - Defaults to DefaultAuthProvider (demo/localStorage auth)
+ * - Customers can inject custom auth via finDesktopConfig:
+ *   * OAuth 2.0 / OpenID Connect
+ *   * SAML SSO
+ *   * JWT token validation
+ *   * Active Directory
+ *   * etc.
+ * 
+ * See /extensions/CustomAuthProvider.ts for an example.
  * 
  * Customization:
  * Customers can override the splash behavior by:
@@ -25,11 +39,15 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { SplashScreen } from './SplashScreen';
+import { LoginScreen } from './LoginScreen';
 import { WorkspaceShell } from '../workspace/WorkspaceShell';
 import { DefaultBranding } from '../core/defaults/DefaultBranding';
 import { LayoutManagerFactory } from '../layout/LayoutManagerFactory';
+import { DefaultAuthProvider } from '../core/defaults/DefaultAuthProvider';
+import { finDesktopConfig } from '../config/FinDesktopConfig';
 import type { IProductBranding } from '../core/interfaces/IProductBranding';
 import type { ILayoutManager } from '../layout/ILayoutManager';
+import type { IAuthProvider, User } from '../core/interfaces/IAuthProvider';
 
 export interface AppShellProps {
   /**
@@ -43,6 +61,12 @@ export interface AppShellProps {
    * @default LayoutManagerFactory.create()
    */
   layoutManager?: ILayoutManager;
+
+  /**
+   * Auth provider instance
+   * @default finDesktopConfig.authProvider ?? new DefaultAuthProvider()
+   */
+  authProvider?: IAuthProvider;
 
   /**
    * Custom splash screen component (for advanced customization)
@@ -61,15 +85,24 @@ export interface AppShellProps {
 }
 
 /**
- * AppShell manages the application lifecycle and splash screen
+ * AppShell manages the application lifecycle including authentication and splash screen
  */
 export const AppShell: React.FC<AppShellProps> = ({
   branding = new DefaultBranding(),
   layoutManager,
+  authProvider: authProviderProp,
   splashComponent: CustomSplash,
   onInitComplete,
   onInitError,
 }) => {
+  // Resolve auth provider: use prop, then config, then default
+  const authProvider = authProviderProp ?? finDesktopConfig.authProvider ?? new DefaultAuthProvider();
+
+  // Authentication state
+  // undefined = checking session, null = not authenticated, User = authenticated
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(undefined);
+  const [showInitialSplash, setShowInitialSplash] = useState(true);
+
   // Initialization state
   const [isLayoutReady, setIsLayoutReady] = useState(false);
   const [isDesktopApiReady, setIsDesktopApiReady] = useState(false);
@@ -84,6 +117,92 @@ export const AppShell: React.FC<AppShellProps> = ({
 
   // Derive loading state
   const isLoading = !isLayoutReady || !isDesktopApiReady;
+
+  /**
+   * Initialize authentication - check for existing session
+   */
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        console.log('🚀 [AppShell] Checking authentication...');
+        
+        // Add minimum splash display time (1.5 seconds)
+        const minDisplayTime = new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Initialize the auth provider first
+        await authProvider.initialize();
+        
+        // Get the current user
+        const user = authProvider.getCurrentUser();
+        
+        // Wait for minimum display time
+        await minDisplayTime;
+        
+        setCurrentUser(user);
+        setShowInitialSplash(false);
+        
+        if (user) {
+          console.log('✅ [AppShell] User authenticated:', user.displayName);
+        } else {
+          console.log('ℹ️ [AppShell] No active session, login required');
+        }
+      } catch (error) {
+        console.error('❌ [AppShell] Auth check failed:', error);
+        // Still wait for minimum display time even on error
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        setCurrentUser(null); // Treat as logged out
+        setShowInitialSplash(false);
+      }
+    };
+
+    checkAuth();
+
+    // Subscribe to auth changes if the provider supports it
+    // Note: onAuthChanged is not part of IAuthProvider but DefaultAuthProvider has it
+    const provider = authProvider as any;
+    if (typeof provider.onAuthChanged === 'function') {
+      const handleAuthChange = (user: User | null) => {
+        console.log('🔄 [AppShell] Auth state changed:', user?.displayName ?? 'logged out');
+        setCurrentUser(user);
+      };
+
+      provider.onAuthChanged(handleAuthChange);
+      
+      // Cleanup on unmount
+      return () => {
+        if (typeof provider.offAuthChanged === 'function') {
+          provider.offAuthChanged(handleAuthChange);
+        }
+      };
+    }
+  }, [authProvider]);
+
+  /**
+   * Handle successful login
+   */
+  const handleLoginSuccess = (user: User) => {
+    console.log('✅ [AppShell] Login successful:', user.displayName);
+    setCurrentUser(user);
+  };
+
+  /**
+   * Handle logout
+   * TODO: Wire this to a logout button in the UI
+   */
+  // const handleLogout = async () => {
+  //   try {
+  //     console.log('🚪 [AppShell] Logging out...');
+  //     await authProvider.logout();
+  //     setCurrentUser(null);
+  //     
+  //     // Reset initialization state so splash shows again on next login
+  //     setIsLayoutReady(false);
+  //     setIsDesktopApiReady(false);
+  //     hasInitialized.current = false;
+  //   } catch (error) {
+  //     console.error('❌ [AppShell] Logout failed:', error);
+  //   }
+  // };
 
   /**
    * Initialize the layout manager
@@ -234,6 +353,28 @@ export const AppShell: React.FC<AppShellProps> = ({
   // Render splash or workspace
   const SplashComponent = CustomSplash || SplashScreen;
 
+  // Show initial splash screen while checking authentication or during minimum display time
+  if (currentUser === undefined || showInitialSplash) {
+    return (
+      <SplashComponent
+        branding={branding}
+        statusText="Initializing Fin Desktop..."
+        isVisible={true}
+      />
+    );
+  }
+
+  // Show login screen if not authenticated (after splash)
+  if (currentUser === null) {
+    return (
+      <LoginScreen
+        authProvider={authProvider}
+        onLoginSuccess={handleLoginSuccess}
+      />
+    );
+  }
+
+  // User is authenticated, proceed with normal initialization flow
   return (
     <>
       {/* Show splash while loading or during fade-out */}
@@ -248,6 +389,7 @@ export const AppShell: React.FC<AppShellProps> = ({
       {/* Render workspace when ready and fade-out is complete */}
       {!isLoading && !isFadingOut && (
         <div style={{ animation: 'fadeIn 0.5s ease-in' }}>
+          {/* TODO: Pass user and logout handler to workspace via context or props */}
           <WorkspaceShell />
         </div>
       )}
