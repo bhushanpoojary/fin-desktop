@@ -25,7 +25,7 @@ let AppComponent
 if (test === 'ultra') {
   AppComponent = <UltraMinimalTest />  // Ultra minimal - just React rendering
 } else if (test === 'minimal') {
-  AppComponent = <MinimalTest />  // Minimal with Launcher
+  AppComponent = <WorkspaceApp />  // Clean launcher workspace
 } else if (test === 'full') {
   AppComponent = <WorkspaceDockTestApp />  // Full workspace with FlexLayout
 } else if (entry === 'workspace') {

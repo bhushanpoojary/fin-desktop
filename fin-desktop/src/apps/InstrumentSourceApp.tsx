@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useFdc3Bus } from "../fdc3/Fdc3Context";
-import type { SelectedInstrumentContext } from "../fdc3/types";
 import { useLogger } from "../logging/useLogger";
 import { notificationCenter } from "../core/notifications/NotificationCenter";
+import { ChannelProvider, useChannels } from "../core/channels";
+import { AppTitleBar } from "../ui";
 
 const INSTRUMENTS = [
   { symbol: "AAPL", name: "Apple Inc.", sector: "Technology" },
@@ -14,17 +15,60 @@ const INSTRUMENTS = [
 ];
 
 export const InstrumentSourceApp: React.FC = () => {
+  // Generate stable window ID (only once)
+  const windowId = useMemo(() => {
+    // Use a more stable ID - could be from URL params or window.name in real app
+    return `instrument-source-${Math.random().toString(36).substr(2, 9)}`;
+  }, []);
+  
+  return (
+    <ChannelProvider windowId={windowId}>
+      <InstrumentSourceContent windowId={windowId} />
+    </ChannelProvider>
+  );
+};
+
+const InstrumentSourceContent: React.FC<{ windowId: string }> = ({ windowId }) => {
   const bus = useFdc3Bus();
   const logger = useLogger("InstrumentSourceApp");
   const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
+  const { activeChannelId, broadcast } = useChannels();
 
   const handleSelect = (instrument: string) => {
-    const ctx: SelectedInstrumentContext = {
+    console.log("[InstrumentSource] handleSelect called", {
+      windowId,
+      activeChannelId,
       instrument,
-      sourceAppId: "instrument-source"
-    };
-    bus.publishSelectedInstrument(ctx);
-    logger.info("Published selected instrument", ctx);
+    });
+
+    if (!activeChannelId) {
+      logger.warn("No channel selected - cannot broadcast instrument");
+      alert("Please select a channel first!");
+      setSelectedSymbol(null);
+      return;
+    }
+
+    // Broadcast on the active channel
+    console.log("[InstrumentSource] Broadcasting:", {
+      windowId,
+      channelId: activeChannelId,
+      instrument,
+    });
+
+    broadcast(activeChannelId, {
+      type: 'fdc3.instrument',
+      instrument,
+      sourceAppId: "instrument-source",
+      timestamp: new Date().toISOString(),
+    });
+    
+    console.log("[InstrumentSource] Broadcast complete");
+
+    logger.info("Published selected instrument on channel", { 
+      instrument, 
+      channelId: activeChannelId,
+      windowId
+    });
     setSelectedSymbol(instrument);
   };
 
@@ -37,24 +81,14 @@ export const InstrumentSourceApp: React.FC = () => {
       color: "var(--theme-text-primary)",
       fontFamily: "var(--theme-font-family)"
     }}>
+      {/* Title Bar with Channel Selector */}
+      <AppTitleBar
+        windowId={windowId}
+        title="Instrument Publisher"
+        subtitle="Select an instrument to broadcast via FDC3"
+      />
+      
       <div style={{ padding: "16px" }}>
-        <h1 style={{ 
-          margin: 0, 
-          fontSize: "var(--theme-font-size-xl)", 
-          fontWeight: "var(--theme-font-weight-bold)",
-          letterSpacing: "0.5px",
-          textTransform: "uppercase",
-          color: "var(--theme-primary)"
-        }}>
-          Instrument Publisher
-        </h1>
-        <p style={{ 
-          margin: "4px 0 0", 
-          color: "var(--theme-text-secondary)",
-          fontSize: "var(--theme-font-size-sm)"
-        }}>
-          Select an instrument to broadcast via FDC3
-        </p>
         
         {/* Notification Test Button */}
         <button

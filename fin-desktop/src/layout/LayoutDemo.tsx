@@ -273,11 +273,45 @@ export function LayoutDemo() {
               borderRadius: "4px",
               cursor: "pointer",
               fontSize: "16px",
+              marginRight: "10px",
             }}
           >
             ✨ Create Default Layout
           </button>
         )}
+        
+        <button 
+          onClick={async () => {
+            if (!confirm("This will delete ALL saved layouts and clear localStorage. Are you sure?")) return;
+            try {
+              const manager = LayoutManagerFactory.create();
+              const layouts = await manager.getAllLayouts();
+              for (const layout of layouts) {
+                await manager.deleteLayout(layout.id);
+              }
+              setAllLayouts([]);
+              setWindowState({
+                position: { x: 100, y: 100 },
+                size: { width: 800, height: 600 },
+                color: "#667eea",
+              });
+              alert("All layouts cleared!");
+            } catch (err) {
+              alert(`Error: ${err instanceof Error ? err.message : String(err)}`);
+            }
+          }}
+          style={{ 
+            padding: "10px 20px", 
+            background: "#e53e3e", 
+            color: "white", 
+            border: "none", 
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontSize: "16px",
+          }}
+        >
+          🗑️ Reset All Layouts
+        </button>
       </div>
 
       <div>

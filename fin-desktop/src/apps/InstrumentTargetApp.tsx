@@ -1,17 +1,65 @@
-import React, { useEffect } from "react";
-import { useSelectedInstrument } from "../fdc3/Fdc3Context";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLogger } from "../logging/useLogger";
+import { ChannelProvider, useChannelBroadcasts } from "../core/channels";
+import type { ChannelBroadcastEvent } from "../core/channels";
+import { AppTitleBar } from "../ui";
 
 export const InstrumentTargetApp: React.FC = () => {
-  const ctx = useSelectedInstrument();
+  // Generate stable window ID (only once)
+  const windowId = useMemo(() => {
+    // Use a more stable ID - could be from URL params or window.name in real app
+    return `instrument-target-${Math.random().toString(36).substr(2, 9)}`;
+  }, []);
+  
+  return (
+    <ChannelProvider windowId={windowId}>
+      <InstrumentTargetContent windowId={windowId} />
+    </ChannelProvider>
+  );
+};
+
+interface InstrumentContext {
+  instrument: string;
+  sourceAppId?: string;
+  timestamp?: string;
+}
+
+const InstrumentTargetContent: React.FC<{ windowId: string }> = ({ windowId }) => {
   const logger = useLogger("InstrumentTargetApp");
+  const [ctx, setCtx] = useState<InstrumentContext | undefined>(undefined);
 
   useEffect(() => {
-    if (ctx) {
-      logger.info("Received FDC3 selected instrument", ctx);
+    console.log("[InstrumentTarget] Component mounted with windowId:", windowId);
+  }, [windowId]);
+
+  // Listen for channel broadcasts
+  useChannelBroadcasts((event: ChannelBroadcastEvent) => {
+    console.log("[InstrumentTarget] Received broadcast event:", {
+      windowId,
+      targetWindowId: event.windowId,
+      channelId: event.channelId,
+      contextType: event.context.type,
+      fullContext: event.context,
+    });
+
+    // Only process fdc3.instrument contexts
+    if (event.context.type === 'fdc3.instrument') {
+      const instrumentCtx: InstrumentContext = {
+        instrument: event.context.instrument,
+        sourceAppId: event.context.sourceAppId,
+        timestamp: event.context.timestamp || new Date().toISOString(),
+      };
+      
+      console.log("[InstrumentTarget] Setting context:", instrumentCtx);
+      logger.info("Received FDC3 selected instrument via channel", {
+        ...instrumentCtx,
+        channelId: event.channelId,
+        windowId
+      });
+      
+      setCtx(instrumentCtx);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ctx]); // logger is stable
+  });
 
   const formatTimestamp = (timestamp?: string) => {
     if (!timestamp) return "";
@@ -33,25 +81,12 @@ export const InstrumentTargetApp: React.FC = () => {
       color: "var(--theme-text-primary)",
       fontFamily: "var(--theme-font-family)"
     }}>
-      <div style={{ padding: "16px" }}>
-        <h1 style={{ 
-          margin: 0, 
-          fontSize: "var(--theme-font-size-xl)", 
-          fontWeight: "var(--theme-font-weight-bold)",
-          letterSpacing: "0.5px",
-          textTransform: "uppercase",
-          color: "var(--theme-primary)"
-        }}>
-          Instrument Subscriber
-        </h1>
-        <p style={{ 
-          margin: "4px 0 0", 
-          color: "var(--theme-text-secondary)",
-          fontSize: "var(--theme-font-size-sm)"
-        }}>
-          Listening for FDC3 instrument broadcasts
-        </p>
-      </div>
+      {/* Title Bar with Channel Selector */}
+      <AppTitleBar
+        windowId={windowId}
+        title="Instrument Subscriber"
+        subtitle="Listening for FDC3 instrument broadcasts"
+      />
       
       <div style={{
         flex: 1,

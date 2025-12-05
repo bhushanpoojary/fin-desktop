@@ -16,3 +16,6 @@ export * from './components';
 
 // Default implementations
 export * from './defaults';
+
+// Channels API - Finsemble-style inter-app communication
+export * from './channels';

@@ -45,6 +45,29 @@ function WorkspaceApp() {
           </div>
           
           <div style={{ display: 'flex', gap: '10px' }}>
+            {(showLayoutDemo || showLogs) && (
+              <button
+                onClick={() => {
+                  setShowLayoutDemo(false);
+                  setShowLogs(false);
+                }}
+                style={{
+                  padding: '12px 24px',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  color: '#667eea',
+                  border: '2px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  backdropFilter: 'blur(10px)',
+                }}
+              >
+                🏠 Launcher
+              </button>
+            )}
+            
             <button
               onClick={() => {
                 setShowLayoutDemo(!showLayoutDemo);
@@ -73,7 +96,7 @@ function WorkspaceApp() {
                 }
               }}
             >
-              {showLayoutDemo ? '← Back to Launcher' : '🎨 Layout Demo'}
+              🎨 Layout Demo
             </button>
 
             <button
@@ -104,7 +127,7 @@ function WorkspaceApp() {
                 }
               }}
             >
-              {showLogs ? '← Back to Launcher' : '📋 View Logs'}
+              📋 View Logs
             </button>
           </div>
         </div>
@@ -130,7 +153,34 @@ function WorkspaceApp() {
             <LogsScreen />
           </div>
         ) : (
-          <Launcher onLaunch={handleLaunch} />
+          <>
+            {/* Info banner for channels testing */}
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.15)',
+              borderRadius: '12px',
+              padding: '20px',
+              marginBottom: '20px',
+              color: 'white',
+              border: '2px solid rgba(255, 255, 255, 0.2)',
+              backdropFilter: 'blur(10px)',
+            }}>
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', fontWeight: '600' }}>
+                🎯 Testing Channels (Finsemble-style)
+              </h3>
+              <ol style={{ margin: 0, paddingLeft: '20px', lineHeight: '1.8', fontSize: '15px' }}>
+                <li>Launch <strong>"Instrument Source"</strong> from the FDC3 category below</li>
+                <li>Launch <strong>"Instrument Target"</strong> (this opens a separate window)</li>
+                <li>In both windows, select the <strong>same channel</strong> (e.g., Group 4 - Red) from the dropdown in the title bar</li>
+                <li>Click an instrument in the Source window</li>
+                <li>It will appear in the Target window! ✨</li>
+              </ol>
+              <p style={{ margin: '10px 0 0 0', fontSize: '14px', opacity: 0.9 }}>
+                💡 <strong>Note:</strong> Apps must be in separate windows for channels to work. Don't use browser tabs/routes.
+              </p>
+            </div>
+            
+            <Launcher onLaunch={handleLaunch} />
+          </>
         )}
       </div>
     </div>

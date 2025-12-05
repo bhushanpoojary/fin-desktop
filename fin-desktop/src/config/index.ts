@@ -11,3 +11,12 @@ export type {
   ConfigProviderKind, 
   ConfigProviderFactoryOptions 
 } from './ConfigProviderFactory';
+
+// Channel configuration
+export { 
+  channelConfig, 
+  getChannelConfig, 
+  getChannelById,
+  validateChannelConfig 
+} from './channels.config';
+export type { ChannelConfig } from '../core/channels/ChannelTypes';

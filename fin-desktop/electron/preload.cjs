@@ -5,9 +5,13 @@ const subscribers = new Map();
 
 // Listen for bus messages from the main process
 ipcRenderer.on("bus-message", (event, topic, payload) => {
+  console.log(`[preload] Received bus-message:`, { topic, payload });
   const handlers = subscribers.get(topic);
   if (handlers) {
+    console.log(`[preload] Found ${handlers.length} handlers for topic ${topic}`);
     handlers.forEach(handler => handler(payload));
+  } else {
+    console.log(`[preload] No handlers registered for topic ${topic}`);
   }
 });
 
@@ -18,6 +22,7 @@ const api = {
   },
 
   publish(topic, payload) {
+    console.log(`[preload] Publishing:`, { topic, payload });
     ipcRenderer.send("bus-publish", { topic, payload });
   },
 
