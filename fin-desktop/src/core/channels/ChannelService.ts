@@ -237,7 +237,6 @@ export class ChannelService {
     );
 
     // Publish broadcast event for each target window
-    // The consuming app will filter by their windowId
     for (const windowId of targetWindowIds) {
       const event: ChannelBroadcastEvent = {
         channelId,
@@ -248,7 +247,37 @@ export class ChannelService {
       };
 
       console.log(`[ChannelService] Publishing to window ${windowId}:`, event);
+      
+      // 1. Send via IPC (for cross-window communication)
       this.desktopApi.publish(CHANNEL_EVENTS.CHANNEL_BROADCAST, event);
+      
+      // 2. Send via in-memory (for same-window tabs/components)
+      const subscribers = this.inMemorySubscribers.get(windowId);
+      if (subscribers && subscribers.size > 0) {
+        console.log(`[ChannelService] Notifying ${subscribers.size} in-memory subscribers for window ${windowId}`);
+        subscribers.forEach(handler => {
+          try {
+            handler(event);
+          } catch (error) {
+            console.error('[ChannelService] Error in in-memory subscriber:', error);
+          }
+        });
+      } else {
+        console.log(`[ChannelService] No in-memory subscribers for window ${windowId}`);
+      }
+      
+      // 3. Also notify ALL monitor subscribers (for logging/debugging tools)
+      this.inMemorySubscribers.forEach((monitorSubs, monitorId) => {
+        if (monitorId.startsWith('monitor-')) {
+          monitorSubs.forEach(handler => {
+            try {
+              handler(event);
+            } catch (error) {
+              console.error('[ChannelService] Error in monitor subscriber:', error);
+            }
+          });
+        }
+      });
     }
   }
 
@@ -300,6 +329,53 @@ export class ChannelService {
       // Unsubscribe from IPC
       unsubscribe();
       console.log(`[ChannelService] Window ${windowId} unsubscribed from broadcasts`);
+    };
+  }
+
+  /**
+   * Subscribe to ALL channel broadcasts (not filtered by windowId)
+   * 
+   * Useful for logging/monitoring tools that want to see all channel activity.
+   * 
+   * @param handler - Callback function for broadcast events
+   * @returns Unsubscribe function
+   */
+  subscribeToAllBroadcasts(
+    handler: (event: ChannelBroadcastEvent) => void
+  ): () => void {
+    console.log(`[ChannelService] Subscribing to ALL broadcasts (monitor mode)`);
+    
+    // Create a special "monitor" windowId to receive all broadcasts
+    const monitorWindowId = `monitor-${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Add to in-memory subscribers for all broadcasts
+    if (!this.inMemorySubscribers.has(monitorWindowId)) {
+      this.inMemorySubscribers.set(monitorWindowId, new Set());
+    }
+    this.inMemorySubscribers.get(monitorWindowId)!.add(handler);
+    
+    // Also subscribe to IPC broadcasts without filtering
+    const wrappedHandler = (event: any) => {
+      if (event) {
+        handler(event as ChannelBroadcastEvent);
+      }
+    };
+
+    const unsubscribe = this.desktopApi.subscribe(
+      CHANNEL_EVENTS.CHANNEL_BROADCAST,
+      wrappedHandler
+    );
+
+    return () => {
+      const subscribers = this.inMemorySubscribers.get(monitorWindowId);
+      if (subscribers) {
+        subscribers.delete(handler);
+        if (subscribers.size === 0) {
+          this.inMemorySubscribers.delete(monitorWindowId);
+        }
+      }
+      unsubscribe();
+      console.log(`[ChannelService] Unsubscribed from ALL broadcasts`);
     };
   }
 

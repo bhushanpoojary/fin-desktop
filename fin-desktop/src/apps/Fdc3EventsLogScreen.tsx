@@ -1,30 +1,81 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useFdc3Bus } from "../fdc3/Fdc3Context";
 import type { SelectedInstrumentContext } from "../fdc3/types";
 import { useLogger } from "../logging/useLogger";
+import { ChannelProvider, useChannelBroadcasts } from "../core/channels";
+import type { ChannelBroadcastEvent } from "../core/channels";
+import { getChannelService } from "../core/channels/ChannelService";
 
 interface LocalEvent {
   id: string;
   context: SelectedInstrumentContext;
+  source: 'fdc3-bus' | 'channels';
+  channelId?: string;
 }
 
-export const Fdc3EventsLogScreen: React.FC = () => {
+const Fdc3EventsLogContent: React.FC<{ windowId: string }> = ({ windowId }) => {
   const bus = useFdc3Bus();
   const [events, setEvents] = useState<LocalEvent[]>([]);
   const logger = useLogger("FDC3-Events");
 
   useEffect(() => {
+    console.log("[FDC3EventsLog] Component mounted with windowId:", windowId);
+    console.log("[FDC3EventsLog] Current events count:", events.length);
+  }, [windowId, events.length]);
+
+  // Listen to old FDC3 bus (for backward compatibility)
+  useEffect(() => {
+    console.log("[FDC3EventsLog] Setting up old FDC3 bus subscription");
     const unsubscribe = bus.subscribeSelectedInstrument(ctx => {
+      console.log("[FDC3EventsLog] Received old FDC3 bus event:", ctx);
       const event: LocalEvent = {
         id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-        context: ctx
+        context: ctx,
+        source: 'fdc3-bus',
       };
       setEvents(prev => [event, ...prev].slice(0, 100)); // keep last 100
-      logger.info("FDC3 selectedInstrument event", ctx);
+      logger.info("FDC3 selectedInstrument event (old bus)", ctx);
     });
     return unsubscribe;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bus]); // logger is stable and doesn't need to trigger re-subscription
+  }, [bus]);
+
+  // Listen to ALL channel broadcasts (monitoring mode - not filtered by windowId)
+  useEffect(() => {
+    console.log("[FDC3EventsLog] Setting up channel broadcast listener (ALL channels)");
+    const service = getChannelService();
+    
+    const unsubscribe = service.subscribeToAllBroadcasts((channelEvent: ChannelBroadcastEvent) => {
+      console.log("[FDC3EventsLog] Received channel broadcast:", channelEvent);
+      
+      if (channelEvent.context.type === 'fdc3.instrument') {
+        const event: LocalEvent = {
+          id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+          context: {
+            instrument: channelEvent.context.instrument,
+            sourceAppId: channelEvent.context.sourceAppId,
+            timestamp: channelEvent.timestamp ? new Date(channelEvent.timestamp).toISOString() : new Date().toISOString(),
+          },
+          source: 'channels',
+          channelId: channelEvent.channelId,
+        };
+        
+        console.log("[FDC3EventsLog] Adding event to list:", event);
+        setEvents(prev => {
+          const newEvents = [event, ...prev].slice(0, 100);
+          console.log("[FDC3EventsLog] Total events:", newEvents.length);
+          return newEvents;
+        });
+        
+        logger.info("FDC3 instrument event via channels", { channelId: channelEvent.channelId, instrument: channelEvent.context.instrument });
+      } else {
+        console.log("[FDC3EventsLog] Skipping non-instrument context type:", channelEvent.context.type);
+      }
+    });
+    
+    return unsubscribe;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logger]);
 
   const formatTime = (timestamp?: string) => {
     if (!timestamp) return "";
@@ -264,5 +315,18 @@ export const Fdc3EventsLogScreen: React.FC = () => {
         }
       `}</style>
     </div>
+  );
+};
+
+export const Fdc3EventsLogScreen: React.FC = () => {
+  // Generate stable window ID
+  const windowId = useMemo(() => {
+    return `fdc3-events-log-${Math.random().toString(36).substr(2, 9)}`;
+  }, []);
+  
+  return (
+    <ChannelProvider windowId={windowId}>
+      <Fdc3EventsLogContent windowId={windowId} />
+    </ChannelProvider>
   );
 };
