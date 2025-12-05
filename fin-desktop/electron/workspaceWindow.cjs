@@ -19,8 +19,9 @@ async function createWorkspaceWindow() {
   // To bypass splash and go directly to workspace, use: ?entry=workspace
   await win.loadURL(`${VITE_DEV_SERVER_URL}/`);
   
-  // Open DevTools for debugging
-  win.webContents.openDevTools();
+  // Open DevTools for debugging (only in development)
+  // Uncomment the line below if you want DevTools to open automatically:
+  // win.webContents.openDevTools();
   
   return win;
 }
