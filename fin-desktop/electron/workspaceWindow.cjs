@@ -15,7 +15,9 @@ async function createWorkspaceWindow() {
     }
   });
 
-  await win.loadURL(`${VITE_DEV_SERVER_URL}/?entry=workspace`);
+  // Load without parameters to show AppShell with splash screen
+  // To bypass splash and go directly to workspace, use: ?entry=workspace
+  await win.loadURL(`${VITE_DEV_SERVER_URL}/`);
   
   // Open DevTools for debugging
   win.webContents.openDevTools();

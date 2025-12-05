@@ -9,6 +9,8 @@ import WorkspaceDockTestApp from './workspace/WorkspaceDockTestApp'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
+import { AppShell } from './shell'
+import { DefaultBranding } from './core/defaults/DefaultBranding'
 
 // Read URL search parameters
 const params = new URLSearchParams(window.location.search)
@@ -30,7 +32,8 @@ if (test === 'ultra') {
 } else if (entry === 'app' && appId) {
   AppComponent = <AppHost appId={appId} />
 } else {
-  AppComponent = <UltraMinimalTest />
+  // Default: Show splash screen with AppShell
+  AppComponent = <AppShell branding={new DefaultBranding()} />
 }
 
 try {

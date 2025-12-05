@@ -1,0 +1,258 @@
+/**
+ * AppShell Component
+ * 
+ * Main application shell that orchestrates:
+ * - Splash screen display during initialization
+ * - Layout manager workspace loading
+ * - Desktop API / event bus initialization
+ * - Transition to the main desktop workspace
+ * 
+ * Architecture:
+ * The AppShell manages the app lifecycle and shows a splash screen while
+ * critical resources are loading. Once both the layout and desktop API are ready,
+ * it transitions to the main workspace UI.
+ * 
+ * Customization:
+ * Customers can override the splash behavior by:
+ * 1. Providing an ISplashProvider in /extensions
+ * 2. Passing a custom splash component via props
+ * 3. Modifying the initialization logic for custom workflows
+ * 
+ * NOTE: This is the default splash wiring.
+ * Customers can override the splash behavior via an ISplashProvider
+ * or by swapping SplashScreen in /extensions without modifying core shell logic.
+ */
+
+import React, { useState, useEffect, useRef } from 'react';
+import { SplashScreen } from './SplashScreen';
+import { WorkspaceShell } from '../workspace/WorkspaceShell';
+import { DefaultBranding } from '../core/defaults/DefaultBranding';
+import { LayoutManagerFactory } from '../layout/LayoutManagerFactory';
+import type { IProductBranding } from '../core/interfaces/IProductBranding';
+import type { ILayoutManager } from '../layout/ILayoutManager';
+
+export interface AppShellProps {
+  /**
+   * Product branding configuration
+   * @default DefaultBranding
+   */
+  branding?: IProductBranding;
+
+  /**
+   * Layout manager instance
+   * @default LayoutManagerFactory.create()
+   */
+  layoutManager?: ILayoutManager;
+
+  /**
+   * Custom splash screen component (for advanced customization)
+   */
+  splashComponent?: React.ComponentType<{ branding: IProductBranding; statusText?: string }>;
+
+  /**
+   * Callback fired when initialization is complete
+   */
+  onInitComplete?: () => void;
+
+  /**
+   * Callback fired when initialization fails
+   */
+  onInitError?: (error: Error) => void;
+}
+
+/**
+ * AppShell manages the application lifecycle and splash screen
+ */
+export const AppShell: React.FC<AppShellProps> = ({
+  branding = new DefaultBranding(),
+  layoutManager,
+  splashComponent: CustomSplash,
+  onInitComplete,
+  onInitError,
+}) => {
+  // Initialization state
+  const [isLayoutReady, setIsLayoutReady] = useState(false);
+  const [isDesktopApiReady, setIsDesktopApiReady] = useState(false);
+  const [currentStatusText, setCurrentStatusText] = useState('Initializing...');
+  const [initError, setInitError] = useState<Error | null>(null);
+
+  // Track if we've started fade-out to allow smooth transition
+  const [isFadingOut, setIsFadingOut] = useState(false);
+
+  // Use ref to prevent multiple initialization attempts
+  const hasInitialized = useRef(false);
+
+  // Derive loading state
+  const isLoading = !isLayoutReady || !isDesktopApiReady;
+
+  /**
+   * Initialize the layout manager
+   */
+  useEffect(() => {
+    if (hasInitialized.current) return;
+
+    const initLayout = async () => {
+      try {
+        console.log('🚀 [AppShell] Starting layout initialization...');
+        setCurrentStatusText('Loading workspace layout...');
+
+        // Add minimum display time for splash screen (1 second)
+        const minDisplayTime = new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Get or create layout manager
+        const manager = layoutManager || LayoutManagerFactory.create();
+
+        // Load the active layout (if any)
+        const activeLayout = await manager.getActiveLayout();
+        
+        if (activeLayout) {
+          console.log('✅ [AppShell] Loaded active layout:', activeLayout.name);
+        } else {
+          console.log('ℹ️ [AppShell] No active layout found, will use default');
+        }
+
+        // Wait for minimum display time
+        await minDisplayTime;
+        console.log('✅ [AppShell] Layout ready');
+        setIsLayoutReady(true);
+      } catch (error) {
+        const err = error instanceof Error ? error : new Error('Failed to load layout');
+        console.error('❌ [AppShell] Layout initialization failed:', err);
+        setInitError(err);
+        onInitError?.(err);
+      }
+    };
+
+    initLayout();
+  }, [layoutManager, onInitError]);
+
+  /**
+   * Initialize the desktop API / event bus
+   */
+  useEffect(() => {
+    if (hasInitialized.current) return;
+
+    const initDesktopApi = async () => {
+      try {
+        console.log('🚀 [AppShell] Starting desktop API initialization...');
+        setCurrentStatusText('Connecting to desktop bus...');
+
+        // Add minimum display time for splash screen (1 second)
+        const minDisplayTime = new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Check if desktopApi is available
+        if (!window.desktopApi) {
+          console.warn('⚠️ [AppShell] Desktop API not available. Running in browser mode.');
+        } else {
+          console.log('✅ [AppShell] Desktop API found');
+          // The desktop API is available via the preload script
+          // In a real implementation, you might have an async init method:
+          // await window.desktopApi.init();
+        }
+
+        // Wait for minimum display time
+        await minDisplayTime;
+        console.log('✅ [AppShell] Desktop API ready');
+        setIsDesktopApiReady(true);
+      } catch (error) {
+        const err = error instanceof Error ? error : new Error('Failed to initialize desktop API');
+        console.warn('⚠️ [AppShell] Desktop API initialization failed:', err.message);
+        
+        // In browser mode, we still allow the app to continue
+        // but without desktop features
+        setIsDesktopApiReady(true); // Allow fallback to browser mode
+      }
+    };
+
+    initDesktopApi();
+  }, [onInitError]);
+
+  /**
+   * Handle initialization complete
+   */
+  useEffect(() => {
+    if (!isLoading && !hasInitialized.current) {
+      hasInitialized.current = true;
+      console.log('🎉 [AppShell] Initialization complete! Starting fade-out...');
+      
+      // Start fade-out animation
+      setIsFadingOut(true);
+
+      // Wait for fade-out to complete, then stop fading and show workspace
+      const timer = setTimeout(() => {
+        console.log('✅ [AppShell] Fade-out complete, showing workspace');
+        setIsFadingOut(false); // Clear fade-out flag so workspace becomes visible
+        onInitComplete?.();
+      }, 600); // Match the CSS transition duration
+
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, onInitComplete]);
+
+  /**
+   * Update status text based on what's still loading
+   */
+  useEffect(() => {
+    if (!isLayoutReady && !isDesktopApiReady) {
+      setCurrentStatusText('Initializing application...');
+    } else if (!isLayoutReady) {
+      setCurrentStatusText('Loading workspace layout...');
+    } else if (!isDesktopApiReady) {
+      setCurrentStatusText('Connecting to desktop bus...');
+    } else {
+      setCurrentStatusText('Ready!');
+    }
+  }, [isLayoutReady, isDesktopApiReady]);
+
+  // Show error state if initialization failed critically
+  if (initError) {
+    return (
+      <div style={{ 
+        padding: '40px', 
+        fontFamily: 'Arial', 
+        color: '#d32f2f',
+        maxWidth: '600px',
+        margin: '40px auto',
+      }}>
+        <h1>Initialization Error</h1>
+        <p>{initError.message}</p>
+        <button 
+          onClick={() => window.location.reload()}
+          style={{
+            marginTop: '20px',
+            padding: '10px 20px',
+            fontSize: '14px',
+            cursor: 'pointer',
+          }}
+        >
+          Reload Application
+        </button>
+      </div>
+    );
+  }
+
+  // Render splash or workspace
+  const SplashComponent = CustomSplash || SplashScreen;
+
+  return (
+    <>
+      {/* Show splash while loading or during fade-out */}
+      {(isLoading || isFadingOut) && (
+        <SplashComponent
+          branding={branding}
+          statusText={currentStatusText}
+          isVisible={isLoading} // Controls fade-out
+        />
+      )}
+
+      {/* Render workspace when ready and fade-out is complete */}
+      {!isLoading && !isFadingOut && (
+        <div style={{ animation: 'fadeIn 0.5s ease-in' }}>
+          <WorkspaceShell />
+        </div>
+      )}
+    </>
+  );
+};
+
+export default AppShell;
