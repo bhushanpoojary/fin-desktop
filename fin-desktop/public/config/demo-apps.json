@@ -53,10 +53,10 @@
   },
   {
     "id": "instrument-source",
-    "title": "Instrument Source",
+    "title": "Instrument Source (Channel)",
     "iconUrl": "/icons/order-ticket.svg",
     "category": "FDC3",
-    "tags": ["fdc3", "instrument", "publisher", "demo"],
+    "tags": ["fdc3", "instrument", "publisher", "demo", "channel"],
     "launchUrl": "/apps/instrument-source",
     "windowOptions": {
       "width": 400,
@@ -66,10 +66,10 @@
   },
   {
     "id": "instrument-target",
-    "title": "Instrument Target",
+    "title": "Instrument Target (Channel)",
     "iconUrl": "/icons/market.svg",
     "category": "FDC3",
-    "tags": ["fdc3", "instrument", "subscriber", "demo"],
+    "tags": ["fdc3", "instrument", "subscriber", "demo", "channel"],
     "launchUrl": "/apps/instrument-target",
     "windowOptions": {
       "width": 500,
@@ -79,10 +79,10 @@
   },
   {
     "id": "fdc3-events-log",
-    "title": "FDC3 Events Log",
+    "title": "FDC3 Events Log (Channel)",
     "iconUrl": "/icons/news.svg",
     "category": "FDC3",
-    "tags": ["fdc3", "events", "log", "demo"],
+    "tags": ["fdc3", "events", "log", "demo", "channel"],
     "launchUrl": "/apps/fdc3-events-log",
     "windowOptions": {
       "width": 800,
@@ -94,8 +94,8 @@
     "id": "simple-instrument-source",
     "title": "Simple Instrument Source (FDC3)",
     "iconUrl": "/icons/order-ticket.svg",
-    "category": "FDC3 Phase 1",
-    "tags": ["fdc3", "instrument", "broadcast", "demo", "phase1"],
+    "category": "FDC3",
+    "tags": ["fdc3", "instrument", "broadcast", "demo"],
     "launchUrl": "/apps/simple-instrument-source",
     "windowOptions": {
       "width": 450,
@@ -107,8 +107,8 @@
     "id": "simple-instrument-target",
     "title": "Simple Instrument Target (FDC3)",
     "iconUrl": "/icons/market.svg",
-    "category": "FDC3 Phase 1",
-    "tags": ["fdc3", "instrument", "subscribe", "demo", "phase1"],
+    "category": "FDC3",
+    "tags": ["fdc3", "instrument", "subscribe", "demo"],
     "launchUrl": "/apps/simple-instrument-target",
     "windowOptions": {
       "width": 500,
@@ -118,10 +118,10 @@
   },
   {
     "id": "fdc3-event-log",
-    "title": "FDC3 Event Log (Phase 1)",
+    "title": "FDC3 Event Log (FDC3)",
     "iconUrl": "/icons/news.svg",
-    "category": "FDC3 Phase 1",
-    "tags": ["fdc3", "events", "log", "monitoring", "phase1"],
+    "category": "FDC3",
+    "tags": ["fdc3", "events", "log", "monitoring"],
     "launchUrl": "/apps/fdc3-event-log",
     "windowOptions": {
       "width": 700,
