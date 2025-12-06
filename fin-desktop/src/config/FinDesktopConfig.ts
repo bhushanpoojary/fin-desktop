@@ -50,6 +50,9 @@ import {
   CustomThemeProvider,
 } from '../extensions';
 
+// Import custom themes
+import { customThemes } from '../extensions/themes.config';
+
 // Import types
 import type { IAuthProvider } from '../core/interfaces/IAuthProvider';
 import type { INotificationProvider } from '../core/interfaces/INotificationProvider';
@@ -57,6 +60,7 @@ import type { IThemeProvider } from '../core/interfaces/IThemeProvider';
 import type { IChannelProvider } from '../core/interfaces/IChannelProvider';
 import type { IProductBranding } from '../core/interfaces/IProductBranding';
 import type { Notification, NotificationAction } from '../core/notifications/NotificationTypes';
+import type { ThemeRegistry } from '../core/theme/ThemeTypes';
 
 /**
  * Notification Action Handler
@@ -101,6 +105,7 @@ export interface FinDesktopConfig {
   branding: IProductBranding;
   notificationActions?: NotificationActionsMap;
   windowDocking?: WindowDockingConfig;
+  themes?: ThemeRegistry;
 }
 
 /**
@@ -146,6 +151,9 @@ export const finDesktopConfig: FinDesktopConfig = {
     dockingEnabled: true,
     edgeThreshold: 10,
   },
+
+  // Theme registry - custom themes from extensions
+  themes: customThemes,
 };
 
 /**

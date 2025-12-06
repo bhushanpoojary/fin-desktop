@@ -6,6 +6,7 @@ import WorkspaceApp from './main-workspace/App'
 import UltraMinimalTest from './workspace/UltraMinimalTest'
 import MinimalTest from './workspace/MinimalTest'
 import WorkspaceDockTestApp from './workspace/WorkspaceDockTestApp'
+import ThemeTestApp from './workspace/ThemeTestApp'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
@@ -22,7 +23,9 @@ const test = params.get('test') // Add test parameter
 // Determine which component to render
 let AppComponent
 
-if (test === 'ultra') {
+if (test === 'theme') {
+  AppComponent = <ThemeTestApp />  // Theme engine test page
+} else if (test === 'ultra') {
   AppComponent = <UltraMinimalTest />  // Ultra minimal - just React rendering
 } else if (test === 'minimal') {
   AppComponent = <WorkspaceApp />  // Clean launcher workspace
