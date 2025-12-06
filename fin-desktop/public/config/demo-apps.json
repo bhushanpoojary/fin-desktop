@@ -91,6 +91,45 @@
     }
   },
   {
+    "id": "simple-instrument-source",
+    "title": "Simple Instrument Source (FDC3)",
+    "iconUrl": "/icons/order-ticket.svg",
+    "category": "FDC3 Phase 1",
+    "tags": ["fdc3", "instrument", "broadcast", "demo", "phase1"],
+    "launchUrl": "/apps/simple-instrument-source",
+    "windowOptions": {
+      "width": 450,
+      "height": 500,
+      "resizable": true
+    }
+  },
+  {
+    "id": "simple-instrument-target",
+    "title": "Simple Instrument Target (FDC3)",
+    "iconUrl": "/icons/market.svg",
+    "category": "FDC3 Phase 1",
+    "tags": ["fdc3", "instrument", "subscribe", "demo", "phase1"],
+    "launchUrl": "/apps/simple-instrument-target",
+    "windowOptions": {
+      "width": 500,
+      "height": 450,
+      "resizable": true
+    }
+  },
+  {
+    "id": "fdc3-event-log",
+    "title": "FDC3 Event Log (Phase 1)",
+    "iconUrl": "/icons/news.svg",
+    "category": "FDC3 Phase 1",
+    "tags": ["fdc3", "events", "log", "monitoring", "phase1"],
+    "launchUrl": "/apps/fdc3-event-log",
+    "windowOptions": {
+      "width": 700,
+      "height": 600,
+      "resizable": true
+    }
+  },
+  {
     "id": "theme-customization",
     "title": "Theme Customization",
     "iconUrl": "/icons/news.svg",

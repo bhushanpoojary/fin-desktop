@@ -5,6 +5,7 @@ import { useActiveLayout } from "../layout/useActiveLayout";
 import { Launcher } from "../features/launcher/Launcher";
 import type { AppDefinition } from "../config/types";
 import type * as FlexLayout from "flexlayout-react";
+import { Fdc3Provider } from "../core/fdc3";
 
 export interface WorkspaceShellProps {
   /**
@@ -122,9 +123,10 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
   const initialModelJson = activeLayout?.data as FlexLayout.IJsonModel | undefined;
 
   return (
-    <div className="workspace-shell" style={{ position: "relative", height: "100vh", display: "flex", flexDirection: "column", backgroundColor: "var(--theme-bg-primary)" }}>
-      {/* Header with layout controls */}
-      <div
+    <Fdc3Provider>
+      <div className="workspace-shell" style={{ position: "relative", height: "100vh", display: "flex", flexDirection: "column", backgroundColor: "var(--theme-bg-primary)" }}>
+        {/* Header with layout controls */}
+        <div
         style={{
           display: "flex",
           alignItems: "center",
@@ -262,7 +264,8 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </Fdc3Provider>
   );
 };
 
