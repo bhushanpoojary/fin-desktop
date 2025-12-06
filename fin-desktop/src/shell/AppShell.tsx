@@ -37,7 +37,7 @@
  * or by swapping SplashScreen in /extensions without modifying core shell logic.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { SplashScreen } from './SplashScreen';
 import { LoginScreen } from './LoginScreen';
 import { WorkspaceShell } from '../workspace/WorkspaceShell';
@@ -89,14 +89,25 @@ export interface AppShellProps {
  */
 export const AppShell: React.FC<AppShellProps> = ({
   branding = new DefaultBranding(),
-  layoutManager,
+  layoutManager: layoutManagerProp,
   authProvider: authProviderProp,
   splashComponent: CustomSplash,
   onInitComplete,
   onInitError,
 }) => {
   // Resolve auth provider: use prop, then config, then default
-  const authProvider = authProviderProp ?? finDesktopConfig.authProvider ?? new DefaultAuthProvider();
+  // Use useMemo to prevent creating new instances on every render
+  const authProvider = useMemo(
+    () => authProviderProp ?? finDesktopConfig.authProvider ?? new DefaultAuthProvider(),
+    [authProviderProp]
+  );
+
+  // Resolve layout manager: use prop or create from factory
+  // Use useMemo to prevent creating new instances on every render
+  const layoutManager = useMemo(
+    () => layoutManagerProp ?? LayoutManagerFactory.create(),
+    [layoutManagerProp]
+  );
 
   // Authentication state
   // undefined = checking session, null = not authenticated, User = authenticated

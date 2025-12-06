@@ -18,7 +18,8 @@ export const Launcher: React.FC<LauncherProps> = ({ onLaunch }) => {
   // Log when the launcher mounts
   useEffect(() => {
     logger.info("Launcher mounted", { appCount: apps.length });
-  }, [logger, apps.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apps.length]);
 
   // Log when loading completes or fails
   useEffect(() => {
@@ -28,7 +29,8 @@ export const Launcher: React.FC<LauncherProps> = ({ onLaunch }) => {
     if (error) {
       logger.error("Failed to load apps catalog", { error });
     }
-  }, [isLoading, error, apps.length, logger]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, error, apps.length]);
 
   const filteredApps = useMemo(() => {
     const normalizedQuery = searchText.trim().toLowerCase();

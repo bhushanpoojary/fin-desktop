@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useLogStore } from "./LogStoreContext";
 import type { LogLevel } from "./types";
 
@@ -48,11 +48,15 @@ export function useLogger(source: string): Logger {
     [log]
   );
 
-  return {
-    debug,
-    info,
-    warn,
-    error,
-    log,
-  };
+  // Memoize the logger object to prevent infinite loops when used in useEffect
+  return useMemo(
+    () => ({
+      debug,
+      info,
+      warn,
+      error,
+      log,
+    }),
+    [debug, info, warn, error, log]
+  );
 }
