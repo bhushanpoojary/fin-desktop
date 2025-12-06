@@ -1,14 +1,19 @@
 /**
- * Theme Engine Test Page
+ * Theme Customization Page
  * 
- * A comprehensive test page to demonstrate and verify all theme engine features.
+ * A modern, professional theme customization interface with:
+ * - 2-column responsive layout
+ * - Interactive theme cards with hover effects
+ * - Live component preview
+ * - Full keyboard accessibility
+ * 
  * Access via: http://localhost:5173/?test=theme
  */
 
+import { useState } from 'react';
 import { ThemeProvider, useTheme } from '../core/theme/ThemeManager';
-import { ThemeSwitcher, CompactThemeSwitcher } from '../ui/ThemeSwitcher';
 import { finDesktopConfig } from '../config/FinDesktopConfig';
-import '../ui/ThemeSwitcher.css';
+import type { Theme } from '../core/theme/ThemeTypes';
 import './ThemeTest.css';
 
 export function ThemeTestApp() {
@@ -36,12 +41,12 @@ function ThemeTestContent() {
   const { theme, availableThemes, setTheme } = useTheme();
 
   return (
-    <div className="theme-test-app">
-      {/* Professional Header */}
-      <header className="theme-pro-header">
-        <div className="theme-pro-container">
-          <div className="theme-pro-title">
-            <div className="theme-icon-badge">
+    <div className="theme-page">
+      {/* Header */}
+      <header className="theme-header">
+        <div className="theme-header-content">
+          <div className="theme-header-title">
+            <div className="theme-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
               </svg>
@@ -52,385 +57,230 @@ function ThemeTestContent() {
             </div>
           </div>
           
-          <div className="theme-current-badge">
-            <span className="theme-badge-label">Active Theme</span>
+          <div className="theme-badge">
+            <span className="theme-badge-label">Active</span>
             <span className="theme-badge-value">{theme.displayName || theme.name}</span>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="theme-pro-content">
-        <div className="theme-pro-container">
-          
-          {/* Theme Gallery */}
-          <section className="theme-gallery-section">
-            <h2 className="section-title">Choose Your Theme</h2>
-            <p className="section-subtitle">Select a theme to instantly update your workspace appearance</p>
-            
-            <div className="theme-gallery">
-              {availableThemes.map((t) => (
-                <button
-                  key={t.name}
-                  className={`theme-card ${t.name === theme.name ? 'theme-card-active' : ''}`}
-                  onClick={() => setTheme(t.name)}
-                >
-                  <div className="theme-card-preview">
-                    <div className="preview-grid">
-                      <div className="preview-block" style={{ background: t.palette.background }} />
-                      <div className="preview-block" style={{ background: t.palette.surface }} />
-                      <div className="preview-block" style={{ background: t.palette.primary }} />
-                      <div className="preview-block" style={{ background: t.palette.accent }} />
-                    </div>
-                  </div>
-                  
-                  <div className="theme-card-content">
-                    <h3 className="theme-card-title">
-                      {t.displayName || t.name}
-                      {t.name === theme.name && (
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" className="check-icon">
-                          <path d="M7.629 14.566l-4.243-4.243 1.414-1.414 2.829 2.829 6.364-6.364 1.414 1.414z"/>
-                        </svg>
-                      )}
-                    </h3>
-                    {t.metadata?.description && (
-                      <p className="theme-card-desc">{t.metadata.description}</p>
-                    )}
-                    <div className="theme-card-meta">
-                      <span>{t.density.toUpperCase()}</span>
-                      <span>•</span>
-                      <span>{t.borderRadius}px radius</span>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </section>
+      {/* Main Content - 2 Column Layout */}
+      <main className="theme-main">
+        <div className="theme-container">
+          <div className="theme-layout">
+            {/* Left Column: Theme Selector */}
+            <section className="theme-selector-section">
+              <div className="section-header">
+                <h2 className="section-title">Choose Your Theme</h2>
+                <p className="section-subtitle">
+                  Select a theme to instantly transform your workspace
+                </p>
+              </div>
 
-          {/* Preview Sections */}
-          <section className="preview-section">
-            <h2 className="section-title">Preview</h2>
-            <p className="section-subtitle">See how UI components look with your selected theme</p>
-            
-            <div className="preview-grid-layout">
-              <ColorPaletteCompact />
-              <ComponentPreview />
-            </div>
-          </section>
+              <div className="theme-grid">
+                {availableThemes.map((t) => (
+                  <ThemeCard
+                    key={t.name}
+                    theme={t}
+                    isActive={t.name === theme.name}
+                    onSelect={() => setTheme(t.name)}
+                  />
+                ))}
+              </div>
+            </section>
 
+            {/* Right Column: Live Preview */}
+            <section className="theme-preview-section">
+              <div className="section-header">
+                <h2 className="section-title">Live Preview</h2>
+                <p className="section-subtitle">
+                  See how components look with the selected theme
+                </p>
+              </div>
+
+              <PreviewPanel />
+            </section>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
 
-function ColorPaletteCompact() {
-  const { theme } = useTheme();
+/**
+ * ThemeCard Component
+ * 
+ * Displays a theme option with:
+ * - Color swatches
+ * - Theme name and description
+ * - Metadata (density, border radius)
+ * - Active state indicator
+ * - Hover effects
+ * - Keyboard accessibility
+ */
+interface ThemeCardProps {
+  theme: Theme;
+  isActive: boolean;
+  onSelect: () => void;
+}
 
-  const colors = [
-    { name: 'Primary', value: theme.palette.primary },
-    { name: 'Accent', value: theme.palette.accent },
-    { name: 'Success', value: theme.palette.success },
-    { name: 'Danger', value: theme.palette.danger },
-    { name: 'Text', value: theme.palette.text },
-    { name: 'Surface', value: theme.palette.surface },
+function ThemeCard({ theme, isActive, onSelect }: ThemeCardProps) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onSelect();
+    }
+  };
+
+  return (
+    <button
+      className={`theme-card ${isActive ? 'theme-card-active' : ''}`}
+      onClick={onSelect}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      aria-label={`Select ${theme.displayName || theme.name} theme`}
+      aria-pressed={isActive}
+    >
+      {/* Color Swatches */}
+      <ThemeSwatch palette={theme.palette} />
+
+      {/* Theme Info */}
+      <div className="theme-card-body">
+        <div className="theme-card-header">
+          <h3 className="theme-card-title">{theme.displayName || theme.name}</h3>
+          {isActive && (
+            <svg 
+              width="20" 
+              height="20" 
+              viewBox="0 0 20 20" 
+              fill="currentColor" 
+              className="theme-check-icon"
+              aria-hidden="true"
+            >
+              <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+            </svg>
+          )}
+        </div>
+
+        {theme.metadata?.description && (
+          <p className="theme-card-description">{theme.metadata.description}</p>
+        )}
+
+        <div className="theme-card-meta">
+          <span className="meta-item">{theme.density.toUpperCase()}</span>
+          <span className="meta-divider">•</span>
+          <span className="meta-item">{theme.borderRadius}px radius</span>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+/**
+ * ThemeSwatch Component
+ * 
+ * Displays a grid of color swatches from the theme palette
+ */
+interface ThemeSwatchProps {
+  palette: Theme['palette'];
+}
+
+function ThemeSwatch({ palette }: ThemeSwatchProps) {
+  const swatchColors = [
+    palette.background,
+    palette.surface,
+    palette.primary,
+    palette.accent,
   ];
 
   return (
-    <div className="compact-palette">
-      <h3 className="compact-title">Color Palette</h3>
-      <div className="palette-grid">
-        {colors.map((color) => (
-          <div key={color.name} className="palette-item">
-            <div className="palette-swatch" style={{ background: color.value }} />
-            <span className="palette-name">{color.name}</span>
-            <code className="palette-value">{color.value}</code>
-          </div>
-        ))}
-      </div>
+    <div className="theme-swatch">
+      {swatchColors.map((color, index) => (
+        <div
+          key={index}
+          className="theme-swatch-color"
+          style={{ backgroundColor: color }}
+          aria-hidden="true"
+        />
+      ))}
     </div>
   );
 }
 
-function ComponentPreview() {
+/**
+ * PreviewPanel Component
+ * 
+ * Displays live preview of UI components using current theme:
+ * - Buttons (Primary, Secondary, Danger)
+ * - Input fields
+ * - Cards
+ * - Alerts
+ */
+function PreviewPanel() {
+  const [inputValue, setInputValue] = useState('Sample input text');
+
   return (
-    <div className="component-preview">
-      <h3 className="compact-title">Components</h3>
-      
-      <div className="preview-group">
+    <div className="preview-panel">
+      {/* Buttons Preview */}
+      <div className="preview-section">
         <label className="preview-label">Buttons</label>
-        <div className="button-row">
-          <button className="btn btn-primary">Primary</button>
-          <button className="btn btn-secondary">Secondary</button>
-          <button className="btn btn-danger">Delete</button>
+        <div className="preview-buttons">
+          <button className="preview-btn preview-btn-primary">Primary Button</button>
+          <button className="preview-btn preview-btn-secondary">Secondary</button>
+          <button className="preview-btn preview-btn-danger">Delete</button>
         </div>
       </div>
 
-      <div className="preview-group">
-        <label className="preview-label">Input Field</label>
-        <input 
-          type="text" 
-          className="input" 
+      {/* Input Field Preview */}
+      <div className="preview-section">
+        <label className="preview-label" htmlFor="preview-input">
+          Input Field
+        </label>
+        <input
+          id="preview-input"
+          type="text"
+          className="preview-input"
           placeholder="Enter text..."
-          defaultValue="Sample input"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
         />
       </div>
 
-      <div className="preview-group">
+      {/* Card Preview */}
+      <div className="preview-section">
         <label className="preview-label">Card Component</label>
         <div className="preview-card">
-          <h4>Card Title</h4>
-          <p>This card demonstrates how content containers look with the current theme.</p>
-          <button className="btn btn-sm btn-primary">Action</button>
+          <h4 className="preview-card-title">Sample Card</h4>
+          <p className="preview-card-text">
+            This card component demonstrates how content containers adapt to your selected theme.
+            All colors, spacing, and borders update dynamically.
+          </p>
+          <button className="preview-btn preview-btn-primary preview-btn-sm">
+            Card Action
+          </button>
         </div>
       </div>
 
-      <div className="preview-group">
-        <label className="preview-label">Alerts</label>
-        <div className="alert alert-success">Operation completed successfully</div>
-        <div className="alert alert-danger">An error occurred</div>
+      {/* Alerts Preview */}
+      <div className="preview-section">
+        <label className="preview-label">Alert Messages</label>
+        <div className="preview-alerts">
+          <div className="preview-alert preview-alert-success">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+            </svg>
+            <span>Operation completed successfully</span>
+          </div>
+          <div className="preview-alert preview-alert-error">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"/>
+            </svg>
+            <span>An error occurred during processing</span>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
 export default ThemeTestApp;
-
-// Unused legacy components below - kept for reference
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-function ColorPalette() {
-  const { theme } = useTheme();
-
-  const colors = [
-    { name: 'Background', value: theme.palette.background, var: '--fd-bg' },
-    { name: 'Surface', value: theme.palette.surface, var: '--fd-surface' },
-    { name: 'Primary', value: theme.palette.primary, var: '--fd-primary' },
-    { name: 'Accent', value: theme.palette.accent, var: '--fd-accent' },
-    { name: 'Text', value: theme.palette.text, var: '--fd-text' },
-    { name: 'Danger', value: theme.palette.danger, var: '--fd-danger' },
-    { name: 'Success', value: theme.palette.success, var: '--fd-success' },
-    { name: 'Border', value: theme.palette.border, var: '--fd-border' },
-  ];
-
-  return (
-    <section className="theme-test-section" id="colors">
-      <h2>Color Palette</h2>
-      <div className="color-grid">
-        {colors.map((color) => (
-          <div key={color.name} className="color-card">
-            <div 
-              className="color-swatch" 
-              style={{ backgroundColor: color.value }}
-            />
-            <div className="color-info">
-              <strong>{color.name}</strong>
-              <code>{color.value}</code>
-              <code className="color-var">{color.var}</code>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ComponentShowcase() {
-  return (
-    <section className="theme-test-section" id="components">
-      <h2>Component Showcase</h2>
-
-      {/* Buttons */}
-      <div className="showcase-group">
-        <h3>Buttons</h3>
-        <div className="button-group">
-          <button className="btn btn-primary">Primary</button>
-          <button className="btn btn-secondary">Secondary</button>
-          <button className="btn btn-danger">Danger</button>
-          <button className="btn btn-success">Success</button>
-        </div>
-      </div>
-
-      {/* Cards */}
-      <div className="showcase-group">
-        <h3>Cards</h3>
-        <div className="card-grid">
-          <div className="card">
-            <h4 className="card-title">Card Title</h4>
-            <p className="card-content">
-              This is a card component using CSS variables for theming.
-              It automatically adapts to theme changes.
-            </p>
-            <button className="btn btn-primary btn-sm">Action</button>
-          </div>
-          <div className="card card-accent">
-            <h4 className="card-title">Accent Card</h4>
-            <p className="card-content">
-              This card uses the accent color for highlighting.
-            </p>
-            <button className="btn btn-secondary btn-sm">Learn More</button>
-          </div>
-        </div>
-      </div>
-
-      {/* Inputs */}
-      <div className="showcase-group">
-        <h3>Form Controls</h3>
-        <div className="form-grid">
-          <div className="form-group">
-            <label>Text Input</label>
-            <input 
-              type="text" 
-              className="input" 
-              placeholder="Enter text..." 
-            />
-          </div>
-          <div className="form-group">
-            <label>Select</label>
-            <select className="input">
-              <option>Option 1</option>
-              <option>Option 2</option>
-              <option>Option 3</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      {/* Alerts */}
-      <div className="showcase-group">
-        <h3>Alerts</h3>
-        <div className="alert alert-info">
-          <strong>Info:</strong> This is an informational message.
-        </div>
-        <div className="alert alert-success">
-          <strong>Success:</strong> Operation completed successfully!
-        </div>
-        <div className="alert alert-warning">
-          <strong>Warning:</strong> Please review this action.
-        </div>
-        <div className="alert alert-danger">
-          <strong>Error:</strong> Something went wrong.
-        </div>
-      </div>
-
-      {/* Badges */}
-      <div className="showcase-group">
-        <h3>Badges</h3>
-        <div className="badge-group">
-          <span className="badge">Default</span>
-          <span className="badge badge-primary">Primary</span>
-          <span className="badge badge-success">Success</span>
-          <span className="badge badge-danger">Danger</span>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function DensityDemo() {
-  const { theme } = useTheme();
-  
-  return (
-    <section className="theme-test-section" id="density">
-      <h2>Density: {theme.density.toUpperCase()}</h2>
-      <p className="section-description">
-        Density controls spacing throughout the UI. Current multiplier: {
-          theme.density === 'sd' ? '0.75x (Compact)' :
-          theme.density === 'hd' ? '1.0x (Balanced)' :
-          '1.25x (Spacious)'
-        }
-      </p>
-
-      <div className="density-comparison">
-        <div className="density-card">
-          <h4>Compact (SD)</h4>
-          <div className="density-demo density-sd">
-            <div className="demo-item">Item 1</div>
-            <div className="demo-item">Item 2</div>
-            <div className="demo-item">Item 3</div>
-          </div>
-        </div>
-
-        <div className="density-card">
-          <h4>Balanced (HD)</h4>
-          <div className="density-demo density-hd">
-            <div className="demo-item">Item 1</div>
-            <div className="demo-item">Item 2</div>
-            <div className="demo-item">Item 3</div>
-          </div>
-        </div>
-
-        <div className="density-card">
-          <h4>Spacious (UHD)</h4>
-          <div className="density-demo density-uhd">
-            <div className="demo-item">Item 1</div>
-            <div className="demo-item">Item 2</div>
-            <div className="demo-item">Item 3</div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ThemeList({ themes }: { themes: any[] }) {
-  const { theme: currentTheme, setTheme } = useTheme();
-
-  return (
-    <section className="theme-test-section" id="themes">
-      <h2>Available Themes ({themes.length})</h2>
-      
-      <div className="theme-switcher-demo">
-        <h3>Switcher Variants</h3>
-        
-        <div className="switcher-variant">
-          <h4>Dropdown</h4>
-          <ThemeSwitcher variant="dropdown" />
-        </div>
-
-        <div className="switcher-variant">
-          <h4>Button Group</h4>
-          <ThemeSwitcher variant="buttons" />
-        </div>
-
-        <div className="switcher-variant">
-          <h4>Compact</h4>
-          <CompactThemeSwitcher />
-        </div>
-      </div>
-
-      <div className="theme-grid">
-        {themes.map((t) => (
-          <div 
-            key={t.name} 
-            className={`theme-preview-card ${t.name === currentTheme.name ? 'active' : ''}`}
-            onClick={() => setTheme(t.name)}
-          >
-            <div className="theme-preview-header">
-              <h4>{t.displayName || t.name}</h4>
-              {t.name === currentTheme.name && (
-                <span className="badge badge-primary">Active</span>
-              )}
-            </div>
-
-            <div className="theme-preview-colors">
-              <div className="preview-color" style={{ background: t.palette.background }} />
-              <div className="preview-color" style={{ background: t.palette.surface }} />
-              <div className="preview-color" style={{ background: t.palette.primary }} />
-              <div className="preview-color" style={{ background: t.palette.accent }} />
-            </div>
-
-            <div className="theme-preview-info">
-              <span>Density: {t.density.toUpperCase()}</span>
-              <span>Radius: {t.borderRadius}px</span>
-            </div>
-
-            {t.metadata?.description && (
-              <p className="theme-preview-desc">{t.metadata.description}</p>
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
