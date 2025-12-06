@@ -167,6 +167,7 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ dockRef: externa
               padding: "4px 12px",
               fontSize: "var(--theme-font-size-sm)",
               cursor: "pointer",
+              color: "var(--theme-text-primary)",
             }}
           >
             📍 Minimize to Tray
