@@ -273,11 +273,27 @@ export const AppShell: React.FC<AppShellProps> = ({
         // Check if desktopApi is available
         if (!window.desktopApi) {
           console.warn('⚠️ [AppShell] Desktop API not available. Running in browser mode.');
+          // Create mock API for browser testing
+          const { ensureDesktopApi } = await import('../shared/mockDesktopApi');
+          ensureDesktopApi();
         } else {
           console.log('✅ [AppShell] Desktop API found');
-          // The desktop API is available via the preload script
-          // In a real implementation, you might have an async init method:
-          // await window.desktopApi.init();
+        }
+
+        // Initialize FDC3 Intents System
+        try {
+          console.log('🔧 [AppShell] Initializing FDC3 Intent System...');
+          const { initializeFdc3Intents, createFdc3DesktopApi } = await import('../shared/fdc3DesktopApi');
+          const { appDirectory } = await import('../config/FinDesktopConfig');
+          
+          if (window.desktopApi) {
+            initializeFdc3Intents(appDirectory, window.desktopApi);
+            createFdc3DesktopApi(window.desktopApi); // Modifies window.desktopApi in place
+            console.log('✅ [AppShell] FDC3 Intent system initialized with', appDirectory.length, 'apps');
+            console.log('✅ [AppShell] window.desktopApi.raiseIntent:', typeof window.desktopApi.raiseIntent);
+          }
+        } catch (fdc3Error) {
+          console.error('❌ [AppShell] Failed to initialize FDC3 intents:', fdc3Error);
         }
 
         // Wait for minimum display time

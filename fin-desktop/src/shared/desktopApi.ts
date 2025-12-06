@@ -47,6 +47,12 @@ export interface DesktopApi {
    * @returns A promise that resolves to the intent resolution details
    */
   raiseIntent(intent: IntentName, context: IntentContext): Promise<IntentResolution>;
+
+  /**
+   * Sets the FDC3 raiseIntent implementation (internal use only)
+   * @internal
+   */
+  setFdc3RaiseIntent(impl: (intent: IntentName, context: IntentContext) => Promise<IntentResolution>): void;
 }
 
 declare global {

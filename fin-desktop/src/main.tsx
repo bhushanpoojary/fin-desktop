@@ -41,14 +41,11 @@ try {
   initializeFdc3Intents(appDirectory, desktopApi);
   console.log('✅ Step 5: Intent resolver initialized');
   
-  console.log('🔧 Step 6: Creating enhanced API with raiseIntent...');
-  const enhancedApi = createFdc3DesktopApi(desktopApi);
-  console.log('✅ Step 7: Enhanced API created, typeof enhancedApi:', typeof enhancedApi);
-  console.log('✅ Step 8: Enhanced API has raiseIntent:', typeof enhancedApi.raiseIntent);
-  
-  console.log('🔧 Step 9: Assigning to window.desktopApi...');
-  window.desktopApi = enhancedApi;
-  console.log('✅ Step 10: Assignment complete');
+  console.log('🔧 Step 6: Adding raiseIntent to DesktopApi...');
+  createFdc3DesktopApi(desktopApi); // Modifies desktopApi in place
+  console.log('✅ Step 7: raiseIntent added to API');
+  console.log('✅ Step 8: desktopApi has raiseIntent:', typeof desktopApi.raiseIntent);
+  console.log('✅ Step 9: window.desktopApi has raiseIntent:', typeof window.desktopApi?.raiseIntent);
   
   console.log('✅ Step 11: Verifying window.desktopApi.raiseIntent:', typeof window.desktopApi?.raiseIntent);
   console.log('✅ FDC3 Intent system fully initialized with', appDirectory.length, 'apps');

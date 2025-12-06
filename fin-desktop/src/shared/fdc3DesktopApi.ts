@@ -60,26 +60,27 @@ export function setMultipleResolveCallback(
 }
 
 /**
- * Create an enhanced DesktopApi with FDC3 intent support
+ * Add FDC3 intent support to existing DesktopApi
  * 
  * @param baseApi The base desktop API from the preload script
- * @returns Enhanced API with raiseIntent method
+ * @returns The same API object with raiseIntent method added
  */
 export function createFdc3DesktopApi(baseApi: DesktopApi): DesktopApi {
-  const enhancedApi = {
-    ...baseApi,
-    raiseIntent: async (intent: IntentName, context: IntentContext): Promise<IntentResolution> => {
-      if (!intentResolverInstance) {
-        console.error("❌ Intent resolver not initialized when raiseIntent was called");
-        throw new Error("FDC3 intent system not initialized. Call initializeFdc3Intents first.");
-      }
-      console.log(`📤 Raising intent: ${intent}`, context);
-      return intentResolverInstance.raiseIntent(intent, context);
-    },
-  };
+  console.log("🔧 Setting up raiseIntent implementation...");
   
-  console.log("✅ Enhanced DesktopApi created with raiseIntent support");
-  return enhancedApi;
+  // Use the setter method provided by the preload script
+  baseApi.setFdc3RaiseIntent(async (intent: IntentName, context: IntentContext): Promise<IntentResolution> => {
+    if (!intentResolverInstance) {
+      console.error("❌ Intent resolver not initialized when raiseIntent was called");
+      throw new Error("FDC3 intent system not initialized. Call initializeFdc3Intents first.");
+    }
+    console.log(`📤 Raising intent: ${intent}`, context);
+    return intentResolverInstance.raiseIntent(intent, context);
+  });
+  
+  console.log("✅ raiseIntent implementation set via setFdc3RaiseIntent");
+  console.log("✅ typeof baseApi.raiseIntent:", typeof baseApi.raiseIntent);
+  return baseApi;
 }
 
 /**

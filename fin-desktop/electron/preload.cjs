@@ -57,6 +57,22 @@ const api = {
     restoreFromTray() {
       ipcRenderer.send('tray-restore');
     },
+  },
+
+  // FDC3 Intent API
+  // The actual raiseIntent implementation will be provided by the renderer
+  _fdc3RaiseIntentImpl: null,
+  
+  raiseIntent(intent, context) {
+    if (!this._fdc3RaiseIntentImpl) {
+      throw new Error('FDC3 intent system not initialized. Call setFdc3RaiseIntent first.');
+    }
+    return this._fdc3RaiseIntentImpl(intent, context);
+  },
+
+  // Allow the renderer to set the implementation
+  setFdc3RaiseIntent(impl) {
+    this._fdc3RaiseIntentImpl = impl;
   }
 };
 

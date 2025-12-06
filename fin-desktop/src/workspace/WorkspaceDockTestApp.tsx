@@ -1,6 +1,7 @@
 import { WorkspaceProvider, useWorkspace, WorkspaceShell } from '../workspace';
 import { Launcher } from '../features/launcher';
 import type { AppDefinition } from '../config/types';
+import { useEffect } from 'react';
 
 /**
  * Demo workspace with integrated launcher and docking.
@@ -8,6 +9,38 @@ import type { AppDefinition } from '../config/types';
  */
 function WorkspaceDockDemo() {
   const { dockRef } = useWorkspace();
+
+  // Initialize FDC3 Intents when workspace loads
+  useEffect(() => {
+    const initFdc3 = async () => {
+      try {
+        console.log('🔧 [Workspace] Initializing FDC3 Intent System...');
+        
+        // Ensure DesktopApi exists
+        if (!window.desktopApi) {
+          const { ensureDesktopApi } = await import('../shared/mockDesktopApi');
+          ensureDesktopApi();
+        }
+        
+        // Initialize FDC3
+        const { initializeFdc3Intents, createFdc3DesktopApi } = await import('../shared/fdc3DesktopApi');
+        const { appDirectory } = await import('../config/FinDesktopConfig');
+        
+        if (window.desktopApi && !window.desktopApi.raiseIntent) {
+          initializeFdc3Intents(appDirectory, window.desktopApi);
+          createFdc3DesktopApi(window.desktopApi); // Modifies window.desktopApi in place
+          console.log('✅ [Workspace] FDC3 Intent system initialized');
+          console.log('✅ [Workspace] window.desktopApi.raiseIntent:', typeof window.desktopApi.raiseIntent);
+        } else {
+          console.log('ℹ️  [Workspace] FDC3 already initialized or desktopApi not available');
+        }
+      } catch (error) {
+        console.error('❌ [Workspace] Failed to initialize FDC3:', error);
+      }
+    };
+    
+    initFdc3();
+  }, []);
 
   const handleLaunch = (app: AppDefinition) => {
     console.log("🚀 Opening app in workspace dock:", app.id, app.title);
