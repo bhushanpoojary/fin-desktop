@@ -7,6 +7,8 @@
     "dev": "concurrently \"npm:dev:renderer\" \"npm:dev:electron\"",
     "dev:renderer": "vite",
     "dev:electron": "cross-env NODE_ENV=development VITE_DEV_SERVER_URL=http://localhost:5173 electron electron/main.cjs",
+    "dev:test-docking": "concurrently \"npm:dev:renderer\" \"npm:dev:electron:test-docking\"",
+    "dev:electron:test-docking": "cross-env NODE_ENV=development VITE_DEV_SERVER_URL=http://localhost:5173 electron electron/main-test-docking.cjs",
     "build": "vite build",
     "preview": "vite preview"
   },

@@ -75,6 +75,24 @@ export interface NotificationActionsMap {
   [actionId: string]: NotificationActionHandler;
 }
 
+/**
+ * Window Docking Configuration
+ * Controls OS-level window snapping behavior for FinDesktop windows
+ */
+export interface WindowDockingConfig {
+  /**
+   * Enable or disable window docking/snapping
+   * @default true
+   */
+  dockingEnabled: boolean;
+  
+  /**
+   * Distance in pixels from screen edge to trigger docking
+   * @default 10
+   */
+  edgeThreshold: number;
+}
+
 export interface FinDesktopConfig {
   authProvider: IAuthProvider;
   notificationProvider: INotificationProvider;
@@ -82,6 +100,7 @@ export interface FinDesktopConfig {
   channelProvider: IChannelProvider;
   branding: IProductBranding;
   notificationActions?: NotificationActionsMap;
+  windowDocking?: WindowDockingConfig;
 }
 
 /**
@@ -121,6 +140,12 @@ export const finDesktopConfig: FinDesktopConfig = {
 
   // Notification action handlers (can be overridden in extensions)
   notificationActions: DefaultNotificationActions,
+
+  // Window docking configuration
+  windowDocking: {
+    dockingEnabled: true,
+    edgeThreshold: 10,
+  },
 };
 
 /**
