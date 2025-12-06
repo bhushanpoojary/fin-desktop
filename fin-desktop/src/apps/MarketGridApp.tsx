@@ -97,8 +97,15 @@ export const MarketGridApp: React.FC<MarketGridAppProps> = ({ desktopApi }) => {
       console.log(`✅ Chart opened for ${symbol}:`, resolution);
       closeContextMenu();
     } catch (error) {
-      console.error("Failed to open chart:", error);
-      alert(`Failed to open chart: ${error instanceof Error ? error.message : String(error)}`);
+      const message = error instanceof Error ? error.message : String(error);
+      
+      // Don't show alert for user cancellation
+      if (message.includes("cancelled") || message.includes("canceled")) {
+        console.log(`ℹ️ User cancelled chart for ${symbol}`);
+      } else {
+        console.error("Failed to open chart:", error);
+        alert(`Failed to open chart: ${message}`);
+      }
     }
   };
 
@@ -122,8 +129,15 @@ export const MarketGridApp: React.FC<MarketGridAppProps> = ({ desktopApi }) => {
       console.log(`✅ News opened for ${symbol}:`, resolution);
       closeContextMenu();
     } catch (error) {
-      console.error("Failed to open news:", error);
-      alert(`Failed to open news: ${error instanceof Error ? error.message : String(error)}`);
+      const message = error instanceof Error ? error.message : String(error);
+      
+      // Don't show alert for user cancellation
+      if (message.includes("cancelled") || message.includes("canceled")) {
+        console.log(`ℹ️ User cancelled news for ${symbol}`);
+      } else {
+        console.error("Failed to open news:", error);
+        alert(`Failed to open news: ${message}`);
+      }
     }
   };
 
@@ -149,8 +163,15 @@ export const MarketGridApp: React.FC<MarketGridAppProps> = ({ desktopApi }) => {
       console.log(`Trade ticket opened for ${symbol}:`, resolution);
       closeContextMenu();
     } catch (error) {
-      console.error("Failed to open trade ticket:", error);
-      alert(`Failed to open trade ticket: ${error instanceof Error ? error.message : String(error)}`);
+      const message = error instanceof Error ? error.message : String(error);
+      
+      // Don't show alert for user cancellation
+      if (message.includes("cancelled") || message.includes("canceled")) {
+        console.log(`ℹ️ User cancelled trade for ${symbol}`);
+      } else {
+        console.error("Failed to open trade ticket:", error);
+        alert(`Failed to open trade ticket: ${message}`);
+      }
     }
   };
 

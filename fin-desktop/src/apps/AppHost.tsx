@@ -10,6 +10,7 @@ const registry = {
   "live-market": LiveMarketApp,
   "news": NewsApp,
   "order-ticket": OrderTicketApp,
+  "blotter": LiveMarketApp, // Trade Blotter uses LiveMarketApp
   "instrument-source": InstrumentSourceApp,
   "instrument-target": InstrumentTargetApp,
   "fdc3-events-log": Fdc3EventsLogScreen,

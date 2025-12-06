@@ -184,37 +184,31 @@ export function createCustomConfig(overrides: Partial<FinDesktopConfig>): FinDes
  */
 export const appDirectory: AppDefinition[] = [
   {
-    id: "chartApp",
-    title: "Price Chart",
-    componentId: "ChartApp",
+    id: "live-market",
+    title: "Live Market Data",
+    componentId: "LiveMarketApp",
     intents: ["ViewChart"],
     isDefaultForIntent: ["ViewChart"],
   },
   {
-    id: "newsApp",
+    id: "news",
     title: "Market News",
     componentId: "NewsApp",
     intents: ["ViewNews"],
     isDefaultForIntent: ["ViewNews"],
   },
   {
-    id: "tradeTicketApp",
-    title: "Trade Ticket",
-    componentId: "TradeTicketApp",
-    intents: ["Trade", "ViewChart"],
-    isDefaultForIntent: ["Trade"],
-  },
-  {
-    id: "liveMarketApp",
-    title: "Live Market Data",
-    componentId: "LiveMarketApp",
-    intents: ["ViewChart", "ViewNews"],
-  },
-  {
-    id: "orderTicketApp",
+    id: "order-ticket",
     title: "Order Ticket",
     componentId: "OrderTicketApp",
     intents: ["Trade"],
+    isDefaultForIntent: ["Trade"],
+  },
+  {
+    id: "blotter",
+    title: "Trade Blotter",
+    componentId: "LiveMarketApp",
+    intents: ["ViewChart", "ViewNews"],
   },
 ];
 
