@@ -141,5 +141,18 @@
       "height": 900,
       "resizable": true
     }
+  },
+  {
+    "id": "market-grid",
+    "title": "Market Grid (Intents Demo)",
+    "iconUrl": "/icons/market.svg",
+    "category": "FDC3",
+    "tags": ["fdc3", "intents", "market", "grid", "demo"],
+    "launchUrl": "/apps/market-grid",
+    "windowOptions": {
+      "width": 1200,
+      "height": 700,
+      "resizable": true
+    }
   }
 ]

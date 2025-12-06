@@ -61,6 +61,7 @@ import type { IChannelProvider } from '../core/interfaces/IChannelProvider';
 import type { IProductBranding } from '../core/interfaces/IProductBranding';
 import type { Notification, NotificationAction } from '../core/notifications/NotificationTypes';
 import type { ThemeRegistry } from '../core/theme/ThemeTypes';
+import type { AppDefinition } from '../core/fdc3/Fdc3AppDirectory';
 
 /**
  * Notification Action Handler
@@ -106,6 +107,7 @@ export interface FinDesktopConfig {
   notificationActions?: NotificationActionsMap;
   windowDocking?: WindowDockingConfig;
   themes?: ThemeRegistry;
+  appDirectory?: AppDefinition[];
 }
 
 /**
@@ -173,3 +175,48 @@ export function createCustomConfig(overrides: Partial<FinDesktopConfig>): FinDes
     ...overrides,
   };
 }
+
+/**
+ * FDC3 App Directory Configuration
+ * 
+ * Defines the applications that can handle FDC3 intents.
+ * Each app definition specifies which intents it can handle and whether it's the default handler.
+ */
+export const appDirectory: AppDefinition[] = [
+  {
+    id: "chartApp",
+    title: "Price Chart",
+    componentId: "ChartApp",
+    intents: ["ViewChart"],
+    isDefaultForIntent: ["ViewChart"],
+  },
+  {
+    id: "newsApp",
+    title: "Market News",
+    componentId: "NewsApp",
+    intents: ["ViewNews"],
+    isDefaultForIntent: ["ViewNews"],
+  },
+  {
+    id: "tradeTicketApp",
+    title: "Trade Ticket",
+    componentId: "TradeTicketApp",
+    intents: ["Trade", "ViewChart"],
+    isDefaultForIntent: ["Trade"],
+  },
+  {
+    id: "liveMarketApp",
+    title: "Live Market Data",
+    componentId: "LiveMarketApp",
+    intents: ["ViewChart", "ViewNews"],
+  },
+  {
+    id: "orderTicketApp",
+    title: "Order Ticket",
+    componentId: "OrderTicketApp",
+    intents: ["Trade"],
+  },
+];
+
+// Add app directory to the config
+finDesktopConfig.appDirectory = appDirectory;

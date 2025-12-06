@@ -1,3 +1,5 @@
+console.log('🚀 main.tsx is loading...');
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -13,6 +15,47 @@ import { Fdc3Provider } from './fdc3/Fdc3Context'
 import { AppShell } from './shell'
 import { DefaultBranding } from './core/defaults/DefaultBranding'
 import { NotificationTray } from './ui/NotificationTray'
+import { IntentResolverProvider } from './shared/providers/IntentResolverProvider'
+import { initializeFdc3Intents, createFdc3DesktopApi } from './shared/fdc3DesktopApi'
+import { ensureDesktopApi } from './shared/mockDesktopApi'
+import type { AppDefinition } from './core/fdc3/Fdc3AppDirectory'
+
+// Define app directory inline to avoid config import issues
+const appDirectory: AppDefinition[] = [
+  { id: "chartApp", title: "Price Chart", componentId: "ChartApp", intents: ["ViewChart"], isDefaultForIntent: ["ViewChart"] },
+  { id: "newsApp", title: "Market News", componentId: "NewsApp", intents: ["ViewNews"], isDefaultForIntent: ["ViewNews"] },
+  { id: "tradeTicketApp", title: "Trade Ticket", componentId: "TradeTicketApp", intents: ["Trade", "ViewChart"], isDefaultForIntent: ["Trade"] },
+  { id: "liveMarketApp", title: "Live Market Data", componentId: "LiveMarketApp", intents: ["ViewChart", "ViewNews"] },
+  { id: "orderTicketApp", title: "Order Ticket", componentId: "OrderTicketApp", intents: ["Trade"] },
+];
+
+// Initialize FDC3 Intent System FIRST - before creating any components
+console.log('🔧 Step 1: Starting FDC3 Intent System initialization...');
+
+try {
+  console.log('🔧 Step 2: Ensuring DesktopApi exists...');
+  const desktopApi = ensureDesktopApi();
+  console.log('✅ Step 3: DesktopApi obtained:', !!desktopApi, typeof desktopApi);
+  
+  console.log('🔧 Step 4: Calling initializeFdc3Intents with', appDirectory.length, 'apps...');
+  initializeFdc3Intents(appDirectory, desktopApi);
+  console.log('✅ Step 5: Intent resolver initialized');
+  
+  console.log('🔧 Step 6: Creating enhanced API with raiseIntent...');
+  const enhancedApi = createFdc3DesktopApi(desktopApi);
+  console.log('✅ Step 7: Enhanced API created, typeof enhancedApi:', typeof enhancedApi);
+  console.log('✅ Step 8: Enhanced API has raiseIntent:', typeof enhancedApi.raiseIntent);
+  
+  console.log('🔧 Step 9: Assigning to window.desktopApi...');
+  window.desktopApi = enhancedApi;
+  console.log('✅ Step 10: Assignment complete');
+  
+  console.log('✅ Step 11: Verifying window.desktopApi.raiseIntent:', typeof window.desktopApi?.raiseIntent);
+  console.log('✅ FDC3 Intent system fully initialized with', appDirectory.length, 'apps');
+} catch (error) {
+  console.error('❌ Failed to initialize FDC3 intents at some step:', error);
+  console.error('❌ Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+}
 
 // Read URL search parameters
 const params = new URLSearchParams(window.location.search)
@@ -20,7 +63,7 @@ const entry = params.get('entry')
 const appId = params.get('appId')
 const test = params.get('test') // Add test parameter
 
-// Determine which component to render
+// Determine which component to render (AFTER FDC3 initialization)
 let AppComponent
 
 if (test === 'theme') {
@@ -43,12 +86,14 @@ if (test === 'theme') {
 try {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
-      <Fdc3Provider>
-        <LogStoreProvider>
-          {AppComponent}
-          <NotificationTray />
-        </LogStoreProvider>
-      </Fdc3Provider>
+      <IntentResolverProvider>
+        <Fdc3Provider>
+          <LogStoreProvider>
+            {AppComponent}
+            <NotificationTray />
+          </LogStoreProvider>
+        </Fdc3Provider>
+      </IntentResolverProvider>
     </StrictMode>,
   );
 } catch (error) {

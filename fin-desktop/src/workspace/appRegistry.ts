@@ -9,6 +9,7 @@ import OrderTicketApp from "../apps/OrderTicketApp";
 import NewsApp from "../apps/NewsApp";
 import LiveMarketApp from "../apps/LiveMarketApp";
 import ThemeTestApp from "./ThemeTestApp";
+import { MarketGridApp } from "../apps/MarketGridApp";
 
 /**
  * Registry mapping app IDs to their React components.
@@ -33,4 +34,6 @@ export const defaultAppRegistry: AppComponentRegistry = {
   "simple-instrument-target": SimpleInstrumentTarget,
   "fdc3-event-log": Fdc3EventLogPanel,
   "theme-customization": ThemeTestApp,
+  // FDC3 Phase 2 - Intents Demo
+  "market-grid": MarketGridApp,
 };

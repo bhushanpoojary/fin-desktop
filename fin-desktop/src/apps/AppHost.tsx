@@ -4,6 +4,7 @@ import OrderTicketApp from './OrderTicketApp';
 import { InstrumentSourceApp } from './InstrumentSourceApp';
 import { InstrumentTargetApp } from './InstrumentTargetApp';
 import { Fdc3EventsLogScreen } from './Fdc3EventsLogScreen';
+import { MarketGridApp } from './MarketGridApp';
 
 const registry = {
   "live-market": LiveMarketApp,
@@ -12,6 +13,7 @@ const registry = {
   "instrument-source": InstrumentSourceApp,
   "instrument-target": InstrumentTargetApp,
   "fdc3-events-log": Fdc3EventsLogScreen,
+  "market-grid": MarketGridApp,
 };
 
 interface AppHostProps {

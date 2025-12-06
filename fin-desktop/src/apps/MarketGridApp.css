@@ -1,0 +1,171 @@
+/* Market Grid App Styles */
+
+.market-grid-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  background-color: var(--background-color, #1e1e1e);
+  color: var(--text-color, #ffffff);
+}
+
+.market-grid-header {
+  margin-bottom: 20px;
+  padding: 16px;
+  background-color: var(--secondary-background-color, #252525);
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #333);
+}
+
+.market-grid-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color, #ffffff);
+}
+
+.market-grid-subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary-color, #aaa);
+}
+
+.market-grid-container {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid var(--border-color, #333);
+  border-radius: 6px;
+}
+
+.market-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.market-grid-table thead {
+  position: sticky;
+  top: 0;
+  background-color: var(--secondary-background-color, #252525);
+  z-index: 1;
+}
+
+.market-grid-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color, #333);
+  white-space: nowrap;
+}
+
+.market-grid-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color, #2a2a2a);
+}
+
+.market-grid-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.market-grid-table tbody tr:hover {
+  background-color: var(--hover-background-color, #2a2a2a);
+}
+
+.market-grid-table tbody tr.selected {
+  background-color: var(--selected-background-color, #2d4a6d);
+}
+
+.symbol-cell {
+  font-weight: 600;
+  color: var(--primary-color, #4a9eff);
+}
+
+.positive {
+  color: #4caf50;
+}
+
+.negative {
+  color: #f44336;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.action-btn {
+  padding: 4px 8px;
+  border: 1px solid var(--border-color, #555);
+  border-radius: 4px;
+  background-color: var(--button-background, #333);
+  color: var(--text-color, #ffffff);
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background-color: var(--button-hover-background, #444);
+  border-color: var(--primary-color, #4a9eff);
+}
+
+.chart-btn,
+.news-btn {
+  font-size: 1rem;
+  padding: 4px 6px;
+}
+
+.buy-btn {
+  font-weight: 600;
+  color: #4caf50;
+  border-color: #4caf50;
+}
+
+.buy-btn:hover {
+  background-color: rgba(76, 175, 80, 0.2);
+}
+
+/* Context Menu */
+.market-grid-context-menu {
+  position: fixed;
+  background-color: var(--context-menu-background, #2a2a2a);
+  border: 1px solid var(--border-color, #444);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  min-width: 200px;
+  padding: 8px 0;
+}
+
+.context-menu-header {
+  padding: 8px 16px;
+  font-weight: 600;
+  color: var(--primary-color, #4a9eff);
+  border-bottom: 1px solid var(--border-color, #444);
+  margin-bottom: 4px;
+}
+
+.market-grid-context-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  color: var(--text-color, #ffffff);
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.15s;
+}
+
+.market-grid-context-menu button:hover {
+  background-color: var(--hover-background-color, #383838);
+}
+
+.context-menu-divider {
+  height: 1px;
+  background-color: var(--border-color, #444);
+  margin: 4px 0;
+}

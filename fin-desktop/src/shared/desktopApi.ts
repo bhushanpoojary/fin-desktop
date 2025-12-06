@@ -1,5 +1,7 @@
 // TypeScript definitions for the Electron preload desktopApi
 
+import type { IntentName, IntentContext, IntentResolution } from "../core/fdc3/Fdc3Intents";
+
 export interface DesktopApi {
   /**
    * Opens an application window by its ID
@@ -37,6 +39,14 @@ export interface DesktopApi {
      */
     restoreFromTray(): void;
   };
+
+  /**
+   * Raises an FDC3 intent with context
+   * @param intent - The intent to raise (e.g., "ViewChart", "ViewNews", "Trade")
+   * @param context - Context data to pass to the target application
+   * @returns A promise that resolves to the intent resolution details
+   */
+  raiseIntent(intent: IntentName, context: IntentContext): Promise<IntentResolution>;
 }
 
 declare global {
