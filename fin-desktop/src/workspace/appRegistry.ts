@@ -5,6 +5,7 @@ import { Fdc3EventsLogScreen } from "../apps/Fdc3EventsLogScreen";
 import OrderTicketApp from "../apps/OrderTicketApp";
 import NewsApp from "../apps/NewsApp";
 import LiveMarketApp from "../apps/LiveMarketApp";
+import ThemeTestApp from "./ThemeTestApp";
 
 /**
  * Registry mapping app IDs to their React components.
@@ -24,4 +25,5 @@ export const defaultAppRegistry: AppComponentRegistry = {
   "instrument-source": InstrumentSourceApp,
   "instrument-target": InstrumentTargetApp,
   "fdc3-events-log": Fdc3EventsLogScreen,
+  "theme-customization": ThemeTestApp,
 };

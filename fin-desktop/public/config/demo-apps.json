@@ -89,5 +89,18 @@
       "height": 600,
       "resizable": true
     }
+  },
+  {
+    "id": "theme-customization",
+    "title": "Theme Customization",
+    "iconUrl": "/icons/news.svg",
+    "category": "Settings",
+    "tags": ["theme", "appearance", "settings", "customization"],
+    "launchUrl": "/?test=theme",
+    "windowOptions": {
+      "width": 1400,
+      "height": 900,
+      "resizable": true
+    }
   }
 ]
