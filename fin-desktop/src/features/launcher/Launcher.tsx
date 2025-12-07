@@ -15,6 +15,14 @@ export const Launcher: React.FC<LauncherProps> = ({ onLaunch }) => {
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  // Helper to fix icon URLs with base path
+  const getIconUrl = (iconUrl: string | undefined) => {
+    if (!iconUrl) return undefined;
+    if (iconUrl.startsWith('http')) return iconUrl;
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    return iconUrl.startsWith('/') ? `${baseUrl}${iconUrl.slice(1)}` : iconUrl;
+  };
+
   // Log when the launcher mounts
   useEffect(() => {
     logger.info("Launcher mounted", { appCount: apps.length });
@@ -126,7 +134,7 @@ export const Launcher: React.FC<LauncherProps> = ({ onLaunch }) => {
             >
               <div className="launcher-app-icon">
                 {app.iconUrl ? (
-                  <img src={app.iconUrl} alt={app.title} />
+                  <img src={getIconUrl(app.iconUrl)} alt={app.title} />
                 ) : (
                   <div className="launcher-app-icon-placeholder">
                     {getAppInitial(app.title)}
