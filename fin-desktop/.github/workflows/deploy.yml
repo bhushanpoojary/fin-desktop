@@ -20,6 +20,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./fin-desktop
     
     steps:
       - name: Checkout
@@ -30,6 +33,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: './fin-desktop/package-lock.json'
       
       - name: Install dependencies
         run: npm ci
@@ -43,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './fin-desktop/dist'
   
   deploy:
     environment:
