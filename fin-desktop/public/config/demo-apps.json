@@ -154,5 +154,18 @@
       "height": 700,
       "resizable": true
     }
+  },
+  {
+    "id": "window-docking-demo",
+    "title": "Window Docking Demo",
+    "iconUrl": "/icons/order-ticket.svg",
+    "category": "Features",
+    "tags": ["docking", "snapping", "windows", "magnetic", "demo"],
+    "launchUrl": "/apps/window-docking-demo",
+    "windowOptions": {
+      "width": 1400,
+      "height": 900,
+      "resizable": true
+    }
   }
 ]

@@ -10,6 +10,7 @@ import NewsApp from "../apps/NewsApp";
 import LiveMarketApp from "../apps/LiveMarketApp";
 import ThemeTestApp from "./ThemeTestApp";
 import { MarketGridApp } from "../apps/MarketGridApp";
+import { WindowDockingDemo } from "./WindowDockingDemo";
 
 /**
  * Registry mapping app IDs to their React components.
@@ -36,4 +37,6 @@ export const defaultAppRegistry: AppComponentRegistry = {
   "theme-customization": ThemeTestApp,
   // FDC3 Phase 2 - Intents Demo
   "market-grid": MarketGridApp,
+  // Window Docking System Demo
+  "window-docking-demo": WindowDockingDemo,
 };

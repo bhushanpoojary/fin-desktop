@@ -19,3 +19,18 @@ export { WorkspaceProvider, useWorkspace } from "./WorkspaceContext";
 
 export { defaultAppRegistry } from "./appRegistry";
 export type { AppComponentRegistry } from "./appRegistry";
+
+// Window Docking System (custom windowing with snapping)
+export { Workspace, useWorkspaceWindows } from "./Workspace";
+export type { WorkspaceProps } from "./Workspace";
+
+export { DesktopWindow } from "./DesktopWindow";
+export type { DesktopWindowProps } from "./DesktopWindow";
+
+export { DockingOverlay } from "./DockingOverlay";
+export type { DockingOverlayProps } from "./DockingOverlay";
+
+export { computeDockingPreview } from "./DockingManager";
+export type { WindowLayout, DockingResult, WorkspaceRect } from "./DockingManager";
+
+export { WindowDockingDemo } from "./WindowDockingDemo";
