@@ -16,12 +16,14 @@ export class DefaultBranding implements IProductBranding {
 
   getLogoUrl(): string {
     // Using vite.svg as placeholder - replace with your actual logo
-    return '/vite.svg';
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    return `${baseUrl}vite.svg`;
   }
 
   getIconUrl(): string {
     // Using vite.svg as placeholder - replace with your actual icon
-    return '/vite.svg';
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    return `${baseUrl}vite.svg`;
   }
 
   getTagline(): string {

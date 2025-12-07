@@ -5,9 +5,10 @@ export class DemoConfigProvider implements IConfigProvider {
   private platformConfigPromise: Promise<PlatformConfig> | null = null;
 
   private async loadPlatformConfig(): Promise<PlatformConfig> {
+    const baseUrl = import.meta.env.BASE_URL || '/';
     const [appsRes, layoutsRes] = await Promise.all([
-      fetch("/config/demo-apps.json"),
-      fetch("/config/demo-layouts.json")
+      fetch(`${baseUrl}config/demo-apps.json`),
+      fetch(`${baseUrl}config/demo-layouts.json`)
     ]);
 
     if (!appsRes.ok) {
