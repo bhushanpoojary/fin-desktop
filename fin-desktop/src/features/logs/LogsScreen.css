@@ -1,0 +1,258 @@
+.logs-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.logs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f8f9fa;
+}
+
+.logs-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logs-title h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.logs-count {
+  font-size: 14px;
+  color: #666;
+  font-weight: normal;
+}
+
+.logs-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auto-scroll-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+
+.auto-scroll-toggle input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.clear-button {
+  padding: 6px 16px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.clear-button:hover {
+  background: #c82333;
+}
+
+.logs-filters {
+  display: flex;
+  gap: 16px;
+  padding: 12px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #fafafa;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+
+.filter-group select,
+.filter-group input[type="text"] {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background: white;
+}
+
+.search-group {
+  flex: 1;
+  min-width: 250px;
+}
+
+.search-group input[type="text"] {
+  flex: 1;
+  width: 100%;
+}
+
+.logs-container {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+}
+
+.logs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 13px;
+}
+
+.logs-table thead {
+  position: sticky;
+  top: 0;
+  background: #f1f3f5;
+  z-index: 10;
+}
+
+.logs-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.logs-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: top;
+}
+
+.log-row.even {
+  background: #ffffff;
+}
+
+.log-row.odd {
+  background: #f9f9f9;
+}
+
+.log-row:hover {
+  background: #e8f4ff;
+}
+
+.col-time {
+  width: 100px;
+  white-space: nowrap;
+  color: #666;
+}
+
+.col-level {
+  width: 80px;
+}
+
+.col-source {
+  width: 150px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.col-message {
+  min-width: 300px;
+}
+
+.col-expand {
+  width: 40px;
+  text-align: center;
+}
+
+.log-level-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.log-level-debug {
+  background: #6c757d;
+  color: white;
+}
+
+.log-level-info {
+  background: #0d6efd;
+  color: white;
+}
+
+.log-level-warn {
+  background: #fd7e14;
+  color: white;
+}
+
+.log-level-error {
+  background: #dc3545;
+  color: white;
+}
+
+.expand-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #666;
+  padding: 4px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.expand-button:hover {
+  background: #e0e0e0;
+}
+
+.log-details-row {
+  background: #f5f5f5 !important;
+}
+
+.log-details-row td {
+  padding: 12px;
+}
+
+.log-details {
+  margin: 0;
+  padding: 12px;
+  background: #2d2d2d;
+  color: #f8f8f2;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.no-logs {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-style: italic;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
