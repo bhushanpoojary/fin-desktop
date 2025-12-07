@@ -40,12 +40,17 @@ export const WindowDockingDemo: React.FC = () => {
     setWindows(prev => [...prev, { ...newWindow, isActive: false }]);
   };
 
-  const removeWindow = (id: string) => {
-    setWindows(prev => prev.filter(w => w.id !== id));
-  };
+  const removeWindow = React.useCallback((id: string) => {
+    console.log('Removing window:', id);
+    setWindows(prev => {
+      const filtered = prev.filter(w => w.id !== id);
+      console.log('Windows before:', prev.length, 'Windows after:', filtered.length);
+      return filtered;
+    });
+  }, []);
 
   // Add a new window at a random position
-  const handleAddWindow = () => {
+  const handleAddWindow = React.useCallback(() => {
     const id = `window-${Date.now()}`;
     const randomX = Math.floor(Math.random() * 300) + 100;
     const randomY = Math.floor(Math.random() * 200) + 100;
@@ -57,10 +62,10 @@ export const WindowDockingDemo: React.FC = () => {
       width: 320,
       height: 240,
     });
-  };
+  }, []);
 
   // Custom content renderer for demo windows
-  const renderWindowContent = (windowId: string) => {
+  const renderWindowContent = React.useCallback((windowId: string) => {
     const windowNumber = windowId.split('-')[1];
 
     return (
@@ -111,7 +116,11 @@ export const WindowDockingDemo: React.FC = () => {
           borderTop: '1px solid var(--theme-border-primary, #333)' 
         }}>
           <button
-            onClick={() => removeWindow(windowId)}
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log('Button clicked for window:', windowId);
+              removeWindow(windowId);
+            }}
             style={{
               padding: '6px 12px',
               backgroundColor: '#ef4444',
@@ -121,6 +130,8 @@ export const WindowDockingDemo: React.FC = () => {
               cursor: 'pointer',
               fontSize: '12px',
               fontWeight: '600',
+              position: 'relative',
+              zIndex: 10,
             }}
           >
             Close This Window
@@ -128,7 +139,7 @@ export const WindowDockingDemo: React.FC = () => {
         </div>
       </div>
     );
-  };
+  }, [removeWindow]);
 
   return (
     <div style={{ 
