@@ -34,3 +34,6 @@ export { computeDockingPreview } from "./DockingManager";
 export type { WindowLayout, DockingResult, WorkspaceRect } from "./DockingManager";
 
 export { WindowDockingDemo } from "./WindowDockingDemo";
+
+export { useDockedWindowsPersistence, extractDockedWindows, mergeDockedWindows } from "./useDockedWindowsPersistence";
+export type { ExtendedLayoutData, UseDockedWindowsPersistenceOptions } from "./useDockedWindowsPersistence";

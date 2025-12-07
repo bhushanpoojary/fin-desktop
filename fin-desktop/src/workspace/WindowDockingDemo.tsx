@@ -8,33 +8,66 @@
 import React from 'react';
 import { Workspace } from './Workspace';
 import type { WindowLayout } from './DockingManager';
+import { useDockedWindowsPersistence } from './useDockedWindowsPersistence';
 
 /**
  * Demo app showing window docking functionality
  */
+const STORAGE_KEY = 'findesktop-docked-windows';
+
 export const WindowDockingDemo: React.FC = () => {
-  // Set up initial windows
-  const initialWindows: WindowLayout[] = [
-    {
-      id: 'window-1',
-      x: 50,
-      y: 50,
-      width: 400,
-      height: 300,
-      isActive: true,
-    },
-    {
-      id: 'window-2',
-      x: 500,
-      y: 100,
-      width: 350,
-      height: 250,
-      isActive: false,
-    },
-  ];
+  // Load windows from localStorage or use defaults
+  const getInitialWindows = (): WindowLayout[] => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch (error) {
+      console.error('Failed to load windows from localStorage:', error);
+    }
+    
+    // Default windows
+    return [
+      {
+        id: 'window-1',
+        x: 50,
+        y: 50,
+        width: 400,
+        height: 300,
+        isActive: true,
+        title: 'Demo Window 1',
+      },
+      {
+        id: 'window-2',
+        x: 500,
+        y: 100,
+        width: 350,
+        height: 250,
+        isActive: false,
+        url: 'https://example.com',
+        title: 'Example Website',
+      },
+    ];
+  };
 
   // Manage windows state locally
-  const [windows, setWindows] = React.useState<WindowLayout[]>(initialWindows);
+  const [windows, setWindows] = React.useState<WindowLayout[]>(getInitialWindows);
+
+  // Persist windows to localStorage whenever they change
+  React.useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(windows));
+    } catch (error) {
+      console.error('Failed to save windows to localStorage:', error);
+    }
+  }, [windows]);
+
+  // Also persist to workspace layout system (auto-saves with 1s debounce)
+  const { saveDockedWindows, isSaving: isSavingToWorkspace } = useDockedWindowsPersistence(windows, {
+    autoSave: true,
+    debounceMs: 1000,
+  });
 
   const addWindow = (newWindow: WindowLayout) => {
     setWindows(prev => [...prev, { ...newWindow, isActive: false }]);
@@ -66,8 +99,32 @@ export const WindowDockingDemo: React.FC = () => {
 
   // Custom content renderer for demo windows
   const renderWindowContent = React.useCallback((windowId: string) => {
+    const window = windows.find(w => w.id === windowId);
     const windowNumber = windowId.split('-')[1];
 
+    // If window has a URL, render it in an iframe
+    if (window?.url) {
+      return (
+        <div style={{ 
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          <iframe 
+            src={window.url}
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              border: 'none',
+              backgroundColor: 'white',
+            }}
+            title={window.title || `Window ${windowNumber}`}
+          />
+        </div>
+      );
+    }
+
+    // Default content for demo windows
     return (
       <div style={{ 
         color: 'var(--theme-text-primary, #fff)',
@@ -76,7 +133,7 @@ export const WindowDockingDemo: React.FC = () => {
         flexDirection: 'column',
       }}>
         <h3 style={{ marginTop: 0, marginBottom: '16px', color: 'var(--theme-primary, #667eea)' }}>
-          Window {windowNumber}
+          {window?.title || `Window ${windowNumber}`}
         </h3>
         
         <div style={{ flex: 1, overflow: 'auto' }}>
@@ -139,7 +196,7 @@ export const WindowDockingDemo: React.FC = () => {
         </div>
       </div>
     );
-  }, [removeWindow]);
+  }, [windows, removeWindow]);
 
   return (
     <div style={{ 
@@ -220,6 +277,24 @@ export const WindowDockingDemo: React.FC = () => {
           >
             Clear All
           </button>
+
+          <button
+            onClick={() => saveDockedWindows(windows)}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#10b981',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '600',
+              opacity: isSavingToWorkspace ? 0.6 : 1,
+            }}
+            disabled={isSavingToWorkspace}
+          >
+            {isSavingToWorkspace ? '💾 Saving...' : '💾 Save to Workspace'}
+          </button>
         </div>
       </div>
 
@@ -247,6 +322,7 @@ export const WindowDockingDemo: React.FC = () => {
         <span>💡 <strong>Tip:</strong> Snap threshold is 16 pixels</span>
         <span>🎨 <strong>Colors:</strong> Blue (H/V edges) • Green (T/B edges) • Purple (center)</span>
         <span>📊 <strong>Windows:</strong> {windows.length} active</span>
+        <span>💾 <strong>Persistence:</strong> localStorage + {isSavingToWorkspace ? 'saving to workspace...' : 'workspace (auto)'}</span>
       </div>
     </div>
   );

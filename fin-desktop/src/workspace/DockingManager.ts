@@ -18,6 +18,9 @@ export interface WindowLayout {
   width: number;
   height: number;
   isActive?: boolean;
+  url?: string; // Optional URL to render in iframe
+  title?: string; // Optional custom title
+  appId?: string; // Optional app component ID
 }
 
 export interface DockingResult {
