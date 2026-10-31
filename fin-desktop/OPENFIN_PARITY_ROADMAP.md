@@ -176,10 +176,10 @@ OpenFin Workspace ships Home, Dock, Store, Notifications, Browser. Build OSS equ
 
 How apps get launched and how the platform is distributed.
 
-- [ ] **Application manifest** format (JSON) — declarative app/platform definition (OpenFin manifest parity)
-- [ ] Launch platform/app from a manifest URL
+- [x] **Application manifest** format (JSON) — declarative app/platform definition (OpenFin manifest parity) — typed `AppManifest`/`PlatformManifest` in `src/manifest/` (startup app, window options, runtime pin, declared permissions, platform snapshot) + `validateManifest` with path-tagged errors, tested
+- [~] Launch platform/app from a manifest URL — `loadManifest(url, fetch)` fetches + validates (tested); spawning the window/platform from it is pending runtime wiring
 - [ ] **Deep linking** — custom protocol (`findesktop://` / `fins://`-style) to launch apps/workspaces
-- [ ] Runtime Version Manager concept — pin/select platform runtime version per manifest
+- [~] Runtime Version Manager concept — pin/select platform runtime version per manifest — `runtime.version` modeled + validated; version selection/switching pending
 - [ ] **Auto-update** (electron-updater): background download, staged rollout, rollback
 - [ ] Installer generation per OS (NSIS/MSI, DMG, AppImage/deb/rpm)
 - [ ] Silent/enterprise install flags + MSI for group policy deployment
@@ -304,7 +304,7 @@ build the moat.
 | 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
 | 2 | FDC3 2.0 & interop | P0 | ◧ Core + transport + `window.fdc3` wired (demo `?test=fdc3`); full surface/conformance pending |
 | 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
-| 4 | Runtime, manifest, deploy | P0 | ☐ Not started |
+| 4 | Runtime, manifest, deploy | P0 | ◧ Manifest model + loader/validator done; launching/deep-links/auto-update pending |
 | 5 | Security & permissions | P0 | ◧ Policy core done (capabilities/domains/policy engine); prompts/CSP/secrets pending |
 | 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |
 | 7 | Enterprise telemetry | P1 | ☐ Partial (logging) |
