@@ -13,6 +13,7 @@ import { PlatformPlayground } from './examples/PlatformPlayground'
 import { PlatformControl } from './examples/PlatformControl'
 import { Fdc3Demo } from './examples/Fdc3Demo'
 import { Fdc3Inspector } from './examples/Fdc3Inspector'
+import { CommandPaletteDemo } from './examples/CommandPaletteDemo'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
@@ -103,6 +104,9 @@ if (test === 'theme') {
 } else if (test === 'fdc3-inspector') {
   console.log('📄 [main.tsx] Rendering: Fdc3Inspector');
   AppComponent = <Fdc3Inspector />  // Live FDC3 context/intent inspector
+} else if (test === 'palette') {
+  console.log('📄 [main.tsx] Rendering: CommandPaletteDemo');
+  AppComponent = <CommandPaletteDemo />  // Spotlight / command-palette launcher
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping

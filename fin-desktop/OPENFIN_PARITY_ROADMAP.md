@@ -138,11 +138,11 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 OpenFin Workspace ships Home, Dock, Store, Notifications, Browser. Build OSS equivalents.
 
 ### 3.1 Home / Launcher (search-first)
-- [ ] Global command palette / spotlight-style launcher (⌘/Ctrl+Space)
-- [ ] Fuzzy search across apps, workspaces, intents, and custom providers
-- [ ] Pluggable search providers (apps, docs, actions, external data)
+- [x] Global command palette / spotlight-style launcher (⌘/Ctrl+Space) — reusable `CommandPalette` (Ctrl/⌘+K) with keyboard nav + match highlighting; demo at `?test=palette`
+- [x] Fuzzy search across apps, workspaces, intents, and custom providers — `fuzzyMatch` (substring + word-boundary scoring) + `SearchRegistry` aggregating ranked results across providers, tested
+- [x] Pluggable search providers (apps, docs, actions, external data) — `SearchProvider` interface + `createListProvider`; registry aggregates/ranks all, tested
 - [ ] Recent + favorite apps
-- [ ] Keyboard-first navigation
+- [x] Keyboard-first navigation — ↑/↓ to move, ⏎ to run, esc to close, type to filter
 
 ### 3.2 Dock / App Bar
 - [ ] Configurable dock (pinned apps, groups, dropdown menus)
@@ -303,7 +303,7 @@ build the moat.
 | 0 | Foundations & hygiene | P0 | ☑ Mostly done (CI, tests, licensing, packaging scaffold) |
 | 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
 | 2 | FDC3 2.0 & interop | P0 | ◧ Core + transport + `window.fdc3` wired (demo `?test=fdc3`); full surface/conformance pending |
-| 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
+| 3 | Workspace components | P1 | ◧ Spotlight launcher + notifications/launcher done; dock/store/browser pending |
 | 4 | Runtime, manifest, deploy | P0 | ◧ Manifest model+load+launch + deep-link parser done; auto-update/installers/OS-protocol pending |
 | 5 | Security & permissions | P0 | ◧ Policy + domain enforcement + secure tokens/OAuth2-PKCE done; prompts/CSP-headers/code-signing pending |
 | 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |
