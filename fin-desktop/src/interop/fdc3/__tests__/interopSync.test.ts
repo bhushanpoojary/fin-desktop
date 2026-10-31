@@ -81,6 +81,25 @@ describe('cross-window interop (transport)', () => {
     a.broadcast(createInstrument('AMD'));
     expect(received).not.toHaveBeenCalled();
   });
+
+  it('replays the current channel context to a window that joins later', () => {
+    // Window A broadcasts before window B's broker is even connected.
+    const [t1, t2] = createMemoryTransportPair();
+    const broker1 = new InteropBroker({ transport: t1 });
+    const a = new DesktopAgent(broker1, { appId: 'A' });
+    a.joinUserChannel('red');
+    a.broadcast(createInstrument('AAPL'));
+
+    // Window B opens afterwards and joins the same channel.
+    const broker2 = new InteropBroker({ transport: t2 });
+    const b = new DesktopAgent(broker2, { appId: 'B' });
+    const received = vi.fn();
+    b.addContextListener(ContextTypes.Instrument, received);
+
+    b.joinUserChannel('red'); // request-state → broker1 replies with AAPL
+
+    expect(received).toHaveBeenCalledWith(expect.objectContaining({ id: { ticker: 'AAPL' } }));
+  });
 });
 
 describe('createMemoryTransportPair', () => {

@@ -10,7 +10,10 @@ import type { Context } from './context';
 
 export type InteropMessage =
   | { kind: 'broadcast'; channelId: string; context: Context; source?: { appId?: string } }
-  | { kind: 'intent'; intent: string; context: Context; source?: { appId?: string } };
+  | { kind: 'intent'; intent: string; context: Context; source?: { appId?: string } }
+  // State sync so a window joining a channel receives its current context (replay-on-join).
+  | { kind: 'request-state'; channelId: string; requesterId: string }
+  | { kind: 'state'; channelId: string; context: Context; requesterId: string };
 
 export interface Transport {
   send(message: InteropMessage): void;

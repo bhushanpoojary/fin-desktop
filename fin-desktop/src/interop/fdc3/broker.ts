@@ -52,6 +52,7 @@ export class InteropBroker {
   private readonly createId: () => string;
   private readonly transport?: Transport;
   private readonly disposeTransport?: () => void;
+  private readonly id = `broker-${Math.random().toString(36).slice(2, 10)}`;
   private privateSeq = 0;
 
   constructor(options: InteropBrokerOptions = {}) {
@@ -124,6 +125,11 @@ export class InteropBroker {
     this.disposeTransport?.();
   }
 
+  /** Ask peer brokers for the current context of a channel (replay-on-join). */
+  requestChannelState(channelId: string): void {
+    this.transport?.send({ kind: 'request-state', channelId, requesterId: this.id });
+  }
+
   private deliverIntent(intent: string, context: Context, source: { appId?: string }): number {
     const set = this.intentListeners.get(intent);
     let deliveredTo = 0;
@@ -138,10 +144,32 @@ export class InteropBroker {
 
   /** Apply a message received from another broker (no re-propagation, so no loops). */
   private applyRemote(message: InteropMessage): void {
-    if (message.kind === 'broadcast') {
-      this.getChannel(message.channelId)?.broadcast(message.context);
-    } else {
-      this.deliverIntent(message.intent, message.context, message.source ?? {});
+    switch (message.kind) {
+      case 'broadcast':
+        this.getChannel(message.channelId)?.broadcast(message.context);
+        break;
+      case 'intent':
+        this.deliverIntent(message.intent, message.context, message.source ?? {});
+        break;
+      case 'request-state': {
+        if (message.requesterId === this.id) break;
+        const context = this.getChannel(message.channelId)?.getCurrentContext();
+        if (context) {
+          this.transport?.send({
+            kind: 'state',
+            channelId: message.channelId,
+            context,
+            requesterId: message.requesterId,
+          });
+        }
+        break;
+      }
+      case 'state':
+        // Only the requester applies the replayed context.
+        if (message.requesterId === this.id) {
+          this.getChannel(message.channelId)?.broadcast(message.context);
+        }
+        break;
     }
   }
 }

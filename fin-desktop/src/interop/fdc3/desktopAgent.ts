@@ -129,5 +129,7 @@ export class DesktopAgent {
       entry.sub = channel ? channel.addContextListener(entry.type, entry.handler) : null;
     }
     this.current = channel;
+    // Pull the channel's current context from peer windows (replay-on-join).
+    if (channel) this.broker.requestChannelState(channel.id);
   }
 }

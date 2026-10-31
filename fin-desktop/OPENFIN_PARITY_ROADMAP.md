@@ -116,7 +116,7 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 - [x] App channels (`getOrCreateChannel`) — idempotent app channels, tested
 - [x] Private channels (`createPrivateChannel`) for 1:1 streaming — unique private channels, tested
 - [x] Channel `broadcast` / `addContextListener` / `getCurrentContext` fully spec-compliant — `ChannelImpl` with per-type caching + latest-context replay, tested
-- [x] Cross-window + cross-process channel propagation via the bus — `Transport` abstraction + broker sync (memory transport for tests, `createBusTransport` adapter for the Electron bus); two brokers interop with no echo loops, tested
+- [x] Cross-window + cross-process channel propagation via the bus — `Transport` abstraction + broker sync (memory transport for tests, `createBusTransport` adapter for the Electron bus); two brokers interop with no echo loops, and **replay-on-join** (a late-joining window pulls the channel's current context via a request/state handshake), all tested
 
 ### 2.3 Interop Broker (OpenFin Interop)
 - [x] Central interop broker in main process (routes context/intents between all entities) — `InteropBroker` + `DesktopAgent` facade; two agents interop exactly like separate FDC3 apps (tested). Cross-process transport pending
@@ -192,11 +192,11 @@ How apps get launched and how the platform is distributed.
 
 Enterprise adoption is impossible without a real security model.
 
-- [ ] **Permissions API** — per-app/per-domain capability grants (clipboard, notifications, filesystem, external process, etc.)
-- [ ] Manifest-declared permissions + runtime prompts
-- [ ] Content security: domain allow-lists, CSP enforcement for Views
+- [x] **Permissions API** — per-app/per-domain capability grants (clipboard, notifications, filesystem, external process, etc.) — `Capabilities` + `PermissionPolicy` (grant/deny/revoke, per-app scoped) in `src/security/` with tests
+- [~] Manifest-declared permissions + runtime prompts — `ManifestPermissions.request` + policy resolution (granted/denied/**prompt**) done; the runtime prompt UI is pending
+- [x] Content security: domain allow-lists, CSP enforcement for Views — `matchDomain`/`isUrlAllowed` (wildcards, deny-wins) + `PermissionPolicy.isDomainAllowed`, tested; wiring into `WebContentsView`/CSP pending
 - [ ] Secure context isolation audit (contextBridge only, no `nodeIntegration` in Views)
-- [ ] API security policy (which apps can call which platform APIs)
+- [x] API security policy (which apps can call which platform APIs) — `PermissionPolicy.resolve/can` gates capabilities by admin defaults + manifest + runtime grants (documented precedence), tested
 - [ ] Code signing + signature verification of manifests
 - [ ] Secrets handling — remove unencrypted credential storage from default auth (currently a known gap)
 - [ ] Production-grade auth provider examples (OAuth2/OIDC/PKCE, SAML, SSO)
@@ -305,7 +305,7 @@ build the moat.
 | 2 | FDC3 2.0 & interop | P0 | ◧ Core + transport + `window.fdc3` wired (demo `?test=fdc3`); full surface/conformance pending |
 | 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
 | 4 | Runtime, manifest, deploy | P0 | ☐ Not started |
-| 5 | Security & permissions | P0 | ☐ Not started |
+| 5 | Security & permissions | P0 | ◧ Policy core done (capabilities/domains/policy engine); prompts/CSP/secrets pending |
 | 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |
 | 7 | Enterprise telemetry | P1 | ☐ Partial (logging) |
 | 8 | Developer experience/SDK | P1 | ☐ Not started |
