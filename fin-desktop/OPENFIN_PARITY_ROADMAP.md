@@ -60,12 +60,12 @@ Make the repo credible as an OSS product before adding features.
 This is the heart of an OpenFin replacement. Move from iframe windows to a real platform.
 
 ### 1.1 Platform API (OpenFin `Platform` equivalent)
-- [ ] Define `Platform` provider concept (owns windows, views, layouts, snapshots)
-- [ ] Implement **Views** using Electron `WebContentsView` / `BrowserView` (not iframes) for isolation + performance
+- [x] Define `Platform` provider concept (owns windows, views, layouts, snapshots) — `Platform` / `PlatformWindow` in `src/platform/runtime/` driving an injectable `PlatformHost`
+- [~] Implement **Views** using Electron `WebContentsView` / `BrowserView` (not iframes) for isolation + performance — runtime brain + host boundary done; Electron `WebContentsView` adapter pending (GUI wiring)
 - [x] Implement **Layout engine** (tabbing + splitting) — pure immutable tree (`split`/`stack`) in `src/platform/layout/` with `computeLayout` bounds math + tests
-- [x] Window can host multiple tabbed/split Views — modeled by the layout tree (stacks = tab groups, splits = row/column)
-- [~] Programmatic API: `createView`, `closeView`, `reparentView`, `getLayout`, `applyLayout` — tree ops done (`addView`/`removeView`/`moveView`/`splitStack`); runtime API surface pending
-- [ ] Platform lifecycle events (`platform-api-ready`, `window-created`, `view-attached`)
+- [x] Window can host multiple tabbed/split Views — `PlatformWindow` positions each stack's active View and hides the rest (tabbing) + splits
+- [x] Programmatic API: `createView`, `closeView`, `reparentView`, `getLayout`, `applyLayout` — `addView`/`splitView`/`closeView`/`activateView`/`moveView`/`setBounds`/`applyLayout`/`getSnapshot`, fully unit-tested with a fake host
+- [x] Platform lifecycle events (`platform-api-ready`, `window-created`, `view-attached`) — typed emitter: `window-created`/`window-closed`/`view-created`/`view-closed`/`layout-changed`
 
 ### 1.2 Snap, Dock & Group (OpenFin Snap & Dock)
 - [x] Edge/snap-to-screen magnetism when dragging windows — `snapRect` + `detectDockZone`/`dockZoneBounds` in `src/platform/snap/` with tests
@@ -88,7 +88,7 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 
 ### 1.4 Snapshots & Session Persistence
 - [x] Snapshot = full serializable platform state (windows + views + layouts + bounds) — `PlatformSnapshot` model in `src/platform/snapshot/` with validated serialize/deserialize + tests
-- [~] Save / restore named snapshots (workspaces) — model + (de)serialization done; storage/restore wiring pending
+- [~] Save / restore named snapshots (workspaces) — `Platform.getSnapshot()` / `applySnapshot()` fully round-trip (tested); named storage/UI pending
 - [ ] Auto-restore last session on launch
 - [x] Export/import workspace as JSON file — `serializeSnapshot` / `deserializeSnapshot` (versioned, validated)
 - [ ] Pluggable persistence backend (localStorage → IndexedDB → remote REST) via `ILayoutManager`

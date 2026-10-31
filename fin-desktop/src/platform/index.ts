@@ -11,3 +11,8 @@ export * from './layout/layoutTree';
 export * from './snapshot/snapshot';
 export * from './snap/snapGeometry';
 export * from './window/placement';
+
+export type { PlatformHost } from './runtime/PlatformHost';
+export * from './runtime/events';
+export * from './runtime/PlatformWindow';
+export * from './runtime/Platform';
