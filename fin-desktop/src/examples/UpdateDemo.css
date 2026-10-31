@@ -1,0 +1,189 @@
+.upd {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 22px 26px 48px;
+}
+
+.upd-head h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.upd-head p {
+  color: #8d96ab;
+  font-size: 0.85rem;
+  margin: 4px 0 20px;
+}
+
+.upd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.upd-panel {
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.upd-panel h2 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  color: #cdd4e2;
+}
+
+.upd-panel h3 {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6f7890;
+  margin: 16px 0 8px;
+}
+
+.upd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: #8d96ab;
+  margin-bottom: 12px;
+}
+
+.upd-field select,
+.upd-field input[type='text'],
+.upd-field input:not([type]) {
+  background: #0b0e14;
+  border: 1px solid #2a3344;
+  border-radius: 7px;
+  color: #e6e9ef;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+}
+
+.upd-field input[type='range'] {
+  accent-color: #3a5bd0;
+}
+
+.upd-check {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  color: #aab2c5;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.upd-bucket {
+  font-size: 0.78rem;
+  color: #8d96ab;
+  background: #0d111a;
+  border: 1px solid #1c2230;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.upd-status {
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.upd-status.available {
+  background: #0f1d16;
+  border: 1px solid #244a34;
+  color: #6fd59b;
+}
+
+.upd-status.held {
+  background: #221c0d;
+  border: 1px solid #5a4420;
+  color: #f0cf6a;
+}
+
+.upd-status.current {
+  background: #0d111a;
+  border: 1px solid #1c2230;
+  color: #9aa4ba;
+}
+
+.upd-badge {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #3a1414;
+  color: #ff8a80;
+  border: 1px solid #5a2020;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.upd-notes {
+  font-size: 0.82rem;
+  color: #aeb7cc;
+  margin: 10px 0 0;
+}
+
+.upd-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.upd-btn {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+  color: #cdd4e2;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.upd-btn.primary {
+  background: #2f52c4;
+  border-color: #3a5bd0;
+  color: #fff;
+}
+
+.upd-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.upd-btn:not(:disabled):hover {
+  filter: brightness(1.15);
+}
+
+.upd-versions {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: #8d96ab;
+}
+
+.upd-log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.78rem;
+}
+
+.upd-log li {
+  padding: 5px 0;
+  border-bottom: 1px solid #141b27;
+  color: #b7c0d4;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.upd-log .muted {
+  color: #4a5164;
+}

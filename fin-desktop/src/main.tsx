@@ -22,6 +22,7 @@ import { MessagingDemo } from './examples/MessagingDemo'
 import { ExternalConnectionsDemo } from './examples/ExternalConnectionsDemo'
 import { IntegrationDemo } from './examples/IntegrationDemo'
 import { DragDropDemo } from './examples/DragDropDemo'
+import { UpdateDemo } from './examples/UpdateDemo'
 import { DemoGallery } from './examples/DemoGallery'
 import { DemoLauncher } from './examples/DemoLauncher'
 import AppHost from './apps/AppHost'
@@ -144,6 +145,9 @@ if (test === 'theme') {
 } else if (test === 'dragdrop') {
   console.log('📄 [main.tsx] Rendering: DragDropDemo');
   AppComponent = <DragDropDemo />  // Inter-app file/data drag-and-drop
+} else if (test === 'update') {
+  console.log('📄 [main.tsx] Rendering: UpdateDemo');
+  AppComponent = <UpdateDemo />  // Auto-update: channels + staged rollout
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping

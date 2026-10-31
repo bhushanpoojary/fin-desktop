@@ -36,6 +36,9 @@ export const DEMOS: DemoEntry[] = [
   { id: 'browser', title: 'Browser', description: 'Multi-tab container with split view + channels.', icon: '🗂️', category: 'Workspace Components' },
   { id: 'notifications', title: 'Notification Center', description: 'Grouped history, priority, DND, rich actions.', icon: '🔔', category: 'Workspace Components' },
 
+  // Deployment
+  { id: 'update', title: 'Auto-Update', description: 'Version channels + staged rollout + rollback.', icon: '⬆️', category: 'Deployment' },
+
   // Theming & shells
   { id: 'theme', title: 'Theme Engine', description: 'Live theme tokens and switching.', icon: '🎨', category: 'Theming & Shells' },
   { id: 'minimal', title: 'Launcher Workspace', description: 'Clean launcher workspace shell.', icon: '🚀', category: 'Theming & Shells' },
@@ -49,6 +52,7 @@ export const DEMO_CATEGORIES: string[] = [
   'Messaging',
   'Integration',
   'Workspace Components',
+  'Deployment',
   'Theming & Shells',
 ];
 

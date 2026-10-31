@@ -34,6 +34,12 @@ const DEMO_GROUPS = [
     ],
   },
   {
+    label: 'Deployment',
+    items: [
+      { id: 'update', label: 'Auto-Update' },
+    ],
+  },
+  {
     label: 'Workspace Components',
     items: [
       { id: 'palette', label: 'Command Palette' },

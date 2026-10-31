@@ -180,7 +180,7 @@ How apps get launched and how the platform is distributed.
 - [x] Launch platform/app from a manifest URL — `loadManifest(url, fetch)` + `launchManifest(platform, manifest)` spawns the window/startup view and **auto-derives the Platform `canOpenUrl` guard from the manifest's declared domains** (startup URL always allowed); restores a platform manifest's snapshot. Tested
 - [~] **Deep linking** — custom protocol (`findesktop://` / `fins://`-style) to launch apps/workspaces — `parseDeepLink`/`buildDeepLink`/`handleDeepLink` in `src/deeplink/` (launch-manifest / launch-app / raise-intent, round-trip + dispatch), tested; OS protocol registration + runtime wiring pending
 - [~] Runtime Version Manager concept — pin/select platform runtime version per manifest — `runtime.version` modeled + validated; version selection/switching pending
-- [ ] **Auto-update** (electron-updater): background download, staged rollout, rollback
+- [~] **Auto-update** (electron-updater): background download, staged rollout, rollback — pure update model in `src/update/`: semver parse/compare, `checkForUpdate` (version **channels** + **staged rollout** via deterministic per-machine bucket + mandatory override) and `UpdateController` (install + **rollback** over an injectable installer); demo at `?test=update`, tested. Remaining: electron-updater wiring + background download
 - [ ] Installer generation per OS (NSIS/MSI, DMG, AppImage/deb/rpm)
 - [ ] Silent/enterprise install flags + MSI for group policy deployment
 - [ ] Offline/air-gapped install support
