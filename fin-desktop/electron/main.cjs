@@ -1,9 +1,10 @@
-const { app, BrowserWindow, ipcMain, nativeTheme } = require('electron');
+const { app, BrowserWindow, ipcMain, nativeTheme, Menu } = require('electron');
 const path = require('node:path');
 const { createWorkspaceWindow } = require('./workspaceWindow.cjs');
 const { createAppWindow } = require('./appWindow.cjs');
 const { setupBusHandlers } = require('./bus.cjs');
 const { SimpleTrayManager } = require('./simpleTrayManager.cjs');
+const { buildAppMenu } = require('./demoMenu.cjs');
 
 // Global references
 let mainWindow = null;
@@ -15,6 +16,9 @@ async function createMain() {
   
   // Create the workspace window
   mainWindow = await createWorkspaceWindow();
+
+  // Install the application menu (adds a Demos menu to reach every demo page)
+  Menu.setApplicationMenu(buildAppMenu(() => mainWindow));
 
   // Initialize the global message bus
   setupBusHandlers();
