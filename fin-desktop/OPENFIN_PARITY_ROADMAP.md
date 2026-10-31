@@ -240,7 +240,7 @@ An OSS OpenFin replacement lives or dies by DX.
 
 - [~] Publish a versioned **`@findesktop/sdk`** npm package (typed client API) — public API surface built in `src/sdk/` (namespaced `fdc3`/`platform`/`manifest`/`deeplink`/`security` + `getFdc3`/`isInFinDesktop`), tested; npm package.json/publish wiring pending
 - [~] Publish **`@findesktop/fdc3`** FDC3 API shim for apps — the compliant agent is exported via the SDK (`fdc3` namespace) + `window.fdc3`; separate published package pending
-- [ ] CLI (`findesktop init`, `findesktop dev`, `findesktop package`) to scaffold apps
+- [~] CLI (`findesktop init`, `findesktop dev`, `findesktop package`) to scaffold apps — argument-parsing foundation in `src/cli/` (`parseCliArgs`: `--flag`, `--key=value`, `--key value`, `--no-flag`, short/clustered `-abc`, `--` passthrough, positionals; `hasFlag`/`getOption` helpers), tested; command scaffolding + bin wiring pending
 - [ ] App starter templates (React, Vue, Angular, vanilla)
 - [ ] Hot-reload dev server integration for third-party apps
 - [x] Interop/FDC3 **inspector devtool** (see contexts, intents, channels live) — `InteropBroker.observe` stream + `Fdc3Inspector` panel (`?test=fdc3-inspector`), local + remote events, tested
