@@ -20,3 +20,6 @@ export {
   validateChannelConfig 
 } from './channels.config';
 export type { ChannelConfig } from '../core/channels/ChannelTypes';
+
+// Remote config + feature flags
+export * from './remoteConfig';

@@ -46,6 +46,7 @@ const DEMO_GROUPS = [
     items: [
       { id: 'health', label: 'System Health' },
       { id: 'crash', label: 'Crash Reporting' },
+      { id: 'config', label: 'Remote Config & Flags' },
     ],
   },
   {

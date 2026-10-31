@@ -1,0 +1,201 @@
+.rc {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 22px 26px 48px;
+}
+
+.rc-head h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.rc-head p {
+  color: #8d96ab;
+  font-size: 0.85rem;
+  margin: 4px 0 20px;
+}
+
+.rc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 18px;
+}
+
+.rc-panel {
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.rc-panel h2 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  color: #cdd4e2;
+}
+
+.rc-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.rc-btn {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+  color: #cdd4e2;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.rc-btn.primary {
+  background: #2f52c4;
+  border-color: #3a5bd0;
+  color: #fff;
+}
+
+.rc-btn:hover {
+  filter: brightness(1.15);
+}
+
+.rc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.rc-table th {
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6f7890;
+  border-bottom: 1px solid #1c2230;
+}
+
+.rc-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #141b27;
+  color: #cdd4e2;
+}
+
+.rc-key {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #9fb4ff;
+}
+
+.rc-source {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+.rc-source.default {
+  background: #161d2b;
+  color: #8d96ab;
+}
+.rc-source.remote {
+  background: #10233a;
+  color: #6fb7ff;
+}
+.rc-source.override {
+  background: #231a0d;
+  color: #f0b65a;
+}
+
+.rc-mini {
+  background: transparent;
+  border: 1px solid #2a3344;
+  border-radius: 6px;
+  color: #9aa4ba;
+  padding: 3px 9px;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.rc-mini:hover {
+  background: #18202f;
+}
+
+.rc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: #8d96ab;
+  margin-bottom: 14px;
+  max-width: 200px;
+}
+
+.rc-field select {
+  background: #0b0e14;
+  border: 1px solid #2a3344;
+  border-radius: 7px;
+  color: #e6e9ef;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+}
+
+.rc-flags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rc-flags li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #1c2230;
+  border-radius: 9px;
+  margin-bottom: 7px;
+  background: #0d111a;
+}
+
+.rc-flag-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.rc-flag-dot.on {
+  background: #3fb27f;
+  box-shadow: 0 0 7px #3fb27f;
+}
+
+.rc-flag-dot.off {
+  background: #4a5164;
+}
+
+.rc-flag-key {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+}
+
+.rc-flag-meta {
+  flex: 1;
+  font-size: 0.7rem;
+  color: #6f7890;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.rc-flag-state {
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.rc-flag-state.on {
+  color: #6fd59b;
+}
+.rc-flag-state.off {
+  color: #7a8299;
+}

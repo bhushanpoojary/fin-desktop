@@ -27,6 +27,7 @@ import { LoggingDemo } from './examples/LoggingDemo'
 import { DiagnosticsDemo } from './examples/DiagnosticsDemo'
 import { HealthDemo } from './examples/HealthDemo'
 import { CrashReporterDemo } from './examples/CrashReporterDemo'
+import { RemoteConfigDemo } from './examples/RemoteConfigDemo'
 import { DemoGallery } from './examples/DemoGallery'
 import { DemoLauncher } from './examples/DemoLauncher'
 import AppHost from './apps/AppHost'
@@ -164,6 +165,9 @@ if (test === 'theme') {
 } else if (test === 'crash') {
   console.log('📄 [main.tsx] Rendering: CrashReporterDemo');
   AppComponent = <CrashReporterDemo />  // Crash reporting (opt-in upload + redaction)
+} else if (test === 'config') {
+  console.log('📄 [main.tsx] Rendering: RemoteConfigDemo');
+  AppComponent = <RemoteConfigDemo />  // Remote config + feature flags
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping

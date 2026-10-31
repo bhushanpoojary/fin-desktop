@@ -227,7 +227,7 @@ Enterprise adoption is impossible without a real security model.
 - [x] Usage analytics API (app launches, intent flows, errors) with pluggable sink — `Telemetry` (`trackAppLaunch`/`trackIntent`/`trackError`) over a `TelemetrySink` (memory/console/custom), buffering + batch auto-flush, tested
 - [x] Opt-in/opt-out telemetry + privacy controls — disabled-by-default no-op `track`, runtime `setEnabled`, recursive **PII redaction** of configured keys, tested
 - [x] System health dashboard (memory/CPU per window, process explorer) — `HealthMonitor` in `src/health/`: classifies per-process CPU/memory against thresholds (ok/warn/critical), rolls up totals + overall status, bounded history, `top(n)` consumers, over an injectable `ProcessSampler` (Electron `getAppMetrics` adapter plugs in); demo at `?test=health`, tested
-- [ ] Remote config / feature flags
+- [x] Remote config / feature flags — `ConfigStore` layers values (defaults < remote push < local override) with typed getters + source tracking; `FeatureFlags` evaluates flags with allow/deny targeting + deterministic staged rollout; demo at `?test=config`, tested
 - [ ] Group policy / centralized config management
 - [ ] Audit trail for compliance (who did what, when)
 - [ ] Admin console / management plane `P3`
