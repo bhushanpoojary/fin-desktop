@@ -11,6 +11,7 @@ import ThemeTestApp from './workspace/ThemeTestApp'
 import { WindowDockingDemo } from './workspace/WindowDockingDemo'
 import { PlatformPlayground } from './examples/PlatformPlayground'
 import { PlatformControl } from './examples/PlatformControl'
+import { Fdc3Demo } from './examples/Fdc3Demo'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
@@ -20,6 +21,8 @@ import { NotificationTray } from './ui/NotificationTray'
 import { IntentResolverProvider } from './shared/providers/IntentResolverProvider'
 import { initializeFdc3Intents, createFdc3DesktopApi } from './shared/fdc3DesktopApi'
 import { ensureDesktopApi } from './shared/mockDesktopApi'
+import { initializeFdc3 } from './interop/fdc3/bootstrap'
+import type { AppDirectoryApp } from './interop/fdc3'
 import type { AppDefinition } from './core/fdc3/Fdc3AppDirectory'
 
 // Define app directory inline to avoid config import issues
@@ -62,6 +65,23 @@ const entry = params.get('entry')
 const appId = params.get('appId')
 const test = params.get('test') // Add test parameter
 
+// Standards-compliant FDC3 2.0 app directory (for window.fdc3 discovery)
+const fdc3StandardApps: AppDirectoryApp[] = [
+  { appId: 'chart', name: 'Price Chart', interop: { intents: { listensFor: { ViewChart: { contexts: ['fdc3.instrument'] } } } } },
+  { appId: 'news', name: 'Market News', interop: { intents: { listensFor: { ViewNews: { contexts: ['fdc3.instrument', 'fdc3.organization'] } } } } },
+  { appId: 'contacts', name: 'Contacts', interop: { intents: { listensFor: { ViewContact: { contexts: ['fdc3.contact'] }, StartChat: { contexts: ['fdc3.contact'] } } } } },
+]
+
+// Install window.fdc3 (FDC3 2.0) backed by the desktop bus for cross-window interop
+try {
+  if (window.desktopApi) {
+    initializeFdc3(window.desktopApi, { appId: appId ?? entry ?? 'workspace', apps: fdc3StandardApps })
+    console.log('✅ window.fdc3 (FDC3 2.0) initialized')
+  }
+} catch (error) {
+  console.error('❌ Failed to initialize window.fdc3:', error)
+}
+
 // Determine which component to render (AFTER FDC3 initialization)
 let AppComponent
 
@@ -76,6 +96,9 @@ if (test === 'theme') {
 } else if (test === 'platform-control') {
   console.log('📄 [main.tsx] Rendering: PlatformControl');
   AppComponent = <PlatformControl />  // Controller for the real-windows Platform demo
+} else if (test === 'fdc3') {
+  console.log('📄 [main.tsx] Rendering: Fdc3Demo');
+  AppComponent = <Fdc3Demo />  // FDC3 2.0 window.fdc3 demo (channels + intents)
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping

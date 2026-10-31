@@ -103,8 +103,8 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-party apps work out of the box.
 
 ### 2.1 Standards Compliance
-- [ ] Implement the full `fdc3` global API surface (`window.fdc3`) per FDC3 2.0
-- [ ] `getInfo()`, `getAppMetadata()`, FDC3 version negotiation
+- [~] Implement the full `fdc3` global API surface (`window.fdc3`) per FDC3 2.0 — installed on `window.fdc3` via `bootstrap.ts` over the desktop bus (broadcast / addContextListener / raiseIntent / raiseIntentForContext / user channels / findIntent / getInfo); live demo at `?test=fdc3`. Full surface (`open`, `getAppMetadata`, result channels) pending
+- [~] `getInfo()`, `getAppMetadata()`, FDC3 version negotiation — `getInfo()` reports FDC3 2.0; `getAppMetadata` + version negotiation pending
 - [x] Standard context types (`fdc3.instrument`, `fdc3.contact`, `fdc3.organization`, `fdc3.country`, etc.) — typed model + factories + guards in `src/interop/fdc3/context.ts` with tests
 - [x] Standard intents (`ViewChart`, `ViewNews`, `ViewQuote`, `StartCall`, `StartChat`, `ViewContact`, etc.) — `Intents` constants + `isStandardIntent` in `src/interop/fdc3/intents.ts` with tests
 - [x] `raiseIntentForContext()` (resolve intents from a context) — `DesktopAgent.raiseIntentForContext` resolves via the App Directory, tested
@@ -302,7 +302,7 @@ build the moat.
 |------|-------|----------|--------|
 | 0 | Foundations & hygiene | P0 | ☑ Mostly done (CI, tests, licensing, packaging scaffold) |
 | 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
-| 2 | FDC3 2.0 & interop | P0 | ◧ Core + cross-window transport done (context/intents/AppD/channels/broker/agent/sync); `window.fdc3` wiring pending |
+| 2 | FDC3 2.0 & interop | P0 | ◧ Core + transport + `window.fdc3` wired (demo `?test=fdc3`); full surface/conformance pending |
 | 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
 | 4 | Runtime, manifest, deploy | P0 | ☐ Not started |
 | 5 | Security & permissions | P0 | ☐ Not started |

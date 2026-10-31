@@ -14,3 +14,4 @@ export * from './fdc3Transport';
 export * from './channel';
 export * from './broker';
 export * from './desktopAgent';
+export * from './bootstrap';
