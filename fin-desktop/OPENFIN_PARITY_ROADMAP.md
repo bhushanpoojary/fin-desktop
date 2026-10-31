@@ -105,8 +105,8 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 ### 2.1 Standards Compliance
 - [ ] Implement the full `fdc3` global API surface (`window.fdc3`) per FDC3 2.0
 - [ ] `getInfo()`, `getAppMetadata()`, FDC3 version negotiation
-- [ ] Standard context types (`fdc3.instrument`, `fdc3.contact`, `fdc3.organization`, `fdc3.country`, etc.)
-- [ ] Standard intents (`ViewChart`, `ViewNews`, `ViewQuote`, `StartCall`, `StartChat`, `ViewContact`, etc.)
+- [x] Standard context types (`fdc3.instrument`, `fdc3.contact`, `fdc3.organization`, `fdc3.country`, etc.) — typed model + factories + guards in `src/interop/fdc3/context.ts` with tests
+- [x] Standard intents (`ViewChart`, `ViewNews`, `ViewQuote`, `StartCall`, `StartChat`, `ViewContact`, etc.) — `Intents` constants + `isStandardIntent` in `src/interop/fdc3/intents.ts` with tests
 - [ ] `raiseIntentForContext()` (resolve intents from a context)
 - [ ] `addIntentListener` / `addContextListener` with result types (`IntentResult`, `Channel`)
 - [ ] Pass the official **FDC3 Conformance Test Suite**
@@ -125,10 +125,10 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 - [ ] Interop debugging/inspector panel (see every context + intent flowing)
 
 ### 2.4 App Directory (FDC3 spec)
-- [ ] FDC3-compliant App Directory data model (`AppD` records v2)
+- [x] FDC3-compliant App Directory data model (`AppD` records v2) — `AppDirectoryApp` + `AppDirectory` in `src/interop/fdc3/appDirectory.ts` with `findIntent` / `findIntentsByContext` / `findAppsByContext`, tested
 - [ ] Load app directory from a remote REST endpoint (not just in-code registry)
 - [ ] Support multiple app directories + merging
-- [ ] App metadata: icons, screenshots, intents, contexts, publisher, version
+- [~] App metadata: icons, screenshots, intents, contexts, publisher, version — core AppD fields (appId/name/title/description/icons/intents/contexts) modeled; publisher/screenshots/version pending
 - [ ] Local + remote hybrid directory with caching
 
 ---
@@ -302,7 +302,7 @@ build the moat.
 |------|-------|----------|--------|
 | 0 | Foundations & hygiene | P0 | ☑ Mostly done (CI, tests, licensing, packaging scaffold) |
 | 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
-| 2 | FDC3 2.0 & interop | P0 | ☐ Partial (Phase 1/2 custom) |
+| 2 | FDC3 2.0 & interop | P0 | ◧ Standards foundation started (context/intents/AppD v2 done) |
 | 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
 | 4 | Runtime, manifest, deploy | P0 | ☐ Not started |
 | 5 | Security & permissions | P0 | ☐ Not started |
