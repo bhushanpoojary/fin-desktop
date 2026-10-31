@@ -126,10 +126,10 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 
 ### 2.4 App Directory (FDC3 spec)
 - [x] FDC3-compliant App Directory data model (`AppD` records v2) — `AppDirectoryApp` + `AppDirectory` in `src/interop/fdc3/appDirectory.ts` with `findIntent` / `findIntentsByContext` / `findAppsByContext`, tested
-- [ ] Load app directory from a remote REST endpoint (not just in-code registry)
-- [ ] Support multiple app directories + merging
+- [x] Load app directory from a remote REST endpoint (not just in-code registry) — `loadAppDirectory` / `AppDirectoryLoader` (injected `fetch`, bare-array or `{ applications }` payloads), tested
+- [x] Support multiple app directories + merging — `mergeApps` + multi-source `AppDirectoryLoader` (dedupe by `appId`, later wins), tested
 - [~] App metadata: icons, screenshots, intents, contexts, publisher, version — core AppD fields (appId/name/title/description/icons/intents/contexts) modeled; publisher/screenshots/version pending
-- [ ] Local + remote hybrid directory with caching
+- [x] Local + remote hybrid directory with caching — TTL cache in `AppDirectoryLoader` (cached within TTL, `refresh()` forces reload), tested
 
 ---
 
