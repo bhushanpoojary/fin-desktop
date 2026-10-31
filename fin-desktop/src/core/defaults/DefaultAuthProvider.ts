@@ -19,30 +19,38 @@
  */
 
 import type { IAuthProvider, User, AuthResult } from '../interfaces/IAuthProvider';
+import { InMemoryTokenStore, type SecureTokenStore } from '../../security';
+
+const TOKEN_KEY = 'finDesktop.session';
+const USER_STORAGE_KEY = 'finDesktop.auth_user';
+
+export interface DefaultAuthProviderOptions {
+  /** Where to keep the session token. Defaults to in-memory (no plaintext persistence). */
+  tokenStore?: SecureTokenStore;
+}
 
 export class DefaultAuthProvider implements IAuthProvider {
   private currentUser: User | null = null;
   private token: string | null = null;
   private authChangedCallbacks: Array<(user: User | null) => void> = [];
+  private readonly tokenStore: SecureTokenStore;
+
+  constructor(options: DefaultAuthProviderOptions = {}) {
+    // Secure by default: the session token lives only in memory — no plaintext on disk.
+    // Inject an OS-keychain-backed SecureTokenStore to persist securely.
+    this.tokenStore = options.tokenStore ?? new InMemoryTokenStore();
+  }
 
   async initialize(): Promise<void> {
-    console.log('🔐 [DefaultAuthProvider] Initializing...');
-    // Check for stored session
-    const storedToken = localStorage.getItem('finDesktop.auth_token');
-    const storedUser = localStorage.getItem('finDesktop.auth_user');
-    
-    if (storedToken && storedUser) {
-      try {
-        this.token = storedToken;
-        this.currentUser = JSON.parse(storedUser);
-        console.log('✅ [DefaultAuthProvider] Restored session for:', this.currentUser?.displayName);
-      } catch (error) {
-        console.warn('⚠️ [DefaultAuthProvider] Failed to restore session:', error);
-        localStorage.removeItem('finDesktop.auth_token');
-        localStorage.removeItem('finDesktop.auth_user');
-      }
+    const stored = await this.tokenStore.load(TOKEN_KEY);
+    const user = stored ? this.loadStoredUser() : null;
+    if (stored && user) {
+      this.token = stored.accessToken;
+      this.currentUser = user;
     } else {
-      console.log('ℹ️ [DefaultAuthProvider] No stored session found');
+      // Nothing to restore (or a dangling half-session) — clear any stale profile.
+      await this.tokenStore.clear(TOKEN_KEY);
+      this.clearStoredUser();
     }
   }
 
@@ -112,9 +120,9 @@ export class DefaultAuthProvider implements IAuthProvider {
     this.currentUser = user;
     this.token = token;
 
-    // Persist session
-    localStorage.setItem('finDesktop.auth_token', token);
-    localStorage.setItem('finDesktop.auth_user', JSON.stringify(user));
+    // Persist the token via the secure store; the profile is a non-secret cache.
+    await this.tokenStore.save(TOKEN_KEY, { accessToken: token });
+    this.saveStoredUser(user);
 
     console.log('✅ [DefaultAuthProvider] Login successful for:', user.displayName);
 
@@ -133,8 +141,8 @@ export class DefaultAuthProvider implements IAuthProvider {
     
     this.currentUser = null;
     this.token = null;
-    localStorage.removeItem('finDesktop.auth_token');
-    localStorage.removeItem('finDesktop.auth_user');
+    await this.tokenStore.clear(TOKEN_KEY);
+    this.clearStoredUser();
     
     // Notify listeners
     this.notifyAuthChanged(null);
@@ -158,7 +166,7 @@ export class DefaultAuthProvider implements IAuthProvider {
     // Mock token refresh
     const newToken = `token-${Date.now()}-${Math.random().toString(36).substring(7)}`;
     this.token = newToken;
-    localStorage.setItem('finDesktop.auth_token', newToken);
+    await this.tokenStore.save(TOKEN_KEY, { accessToken: newToken });
     
     console.log('🔄 [DefaultAuthProvider] Token refreshed');
     return newToken;
@@ -167,5 +175,32 @@ export class DefaultAuthProvider implements IAuthProvider {
   async validateToken(token: string): Promise<boolean> {
     // Mock validation - in production, verify with auth server
     return token.startsWith('token-');
+  }
+
+  // --- Non-secret user profile cache (the secret token lives in the SecureTokenStore) ---
+
+  private loadStoredUser(): User | null {
+    try {
+      const raw = globalThis.localStorage?.getItem(USER_STORAGE_KEY);
+      return raw ? (JSON.parse(raw) as User) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private saveStoredUser(user: User): void {
+    try {
+      globalThis.localStorage?.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+    } catch {
+      /* profile cache is best-effort */
+    }
+  }
+
+  private clearStoredUser(): void {
+    try {
+      globalThis.localStorage?.removeItem(USER_STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
   }
 }

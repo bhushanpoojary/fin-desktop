@@ -198,7 +198,7 @@ Enterprise adoption is impossible without a real security model.
 - [ ] Secure context isolation audit (contextBridge only, no `nodeIntegration` in Views)
 - [x] API security policy (which apps can call which platform APIs) — `PermissionPolicy.resolve/can` gates capabilities by admin defaults + manifest + runtime grants (documented precedence), tested
 - [ ] Code signing + signature verification of manifests
-- [~] Secrets handling — remove unencrypted credential storage from default auth (currently a known gap) — `SecureTokenStore` interface + `TokenManager` in `src/security/auth/` provide the encrypted-store path (OS keychain in prod); refactoring the demo `DefaultAuthProvider` off plaintext `localStorage` is the remaining step
+- [x] Secrets handling — remove unencrypted credential storage from default auth (previously a known gap) — `DefaultAuthProvider` now keeps the session token in a pluggable `SecureTokenStore` (**in-memory by default — no plaintext on disk**; inject an OS-keychain store to persist); only the non-secret user profile is cached. Tested
 - [x] Production-grade auth provider examples (OAuth2/OIDC/PKCE, SAML, SSO) — OAuth 2.0 Authorization Code + **PKCE** helpers in `src/security/auth/oauth2.ts` (auth URL, callback parse, token/refresh bodies, PKCE S256 verified against the RFC 7636 vector), tested
 - [x] Token refresh + secure token storage (OS keychain/credential vault) — `TokenManager` auto-refreshes expiring tokens with **single-flight** de-duplication over a pluggable `SecureTokenStore`, tested
 - [ ] Entitlements / license enforcement hooks

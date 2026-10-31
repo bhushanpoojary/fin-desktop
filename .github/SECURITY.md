@@ -28,11 +28,13 @@ after triage.
 FinDesktop is a desktop container that runs web applications. Note the following during early
 development:
 
-- The **default authentication provider stores credentials in `localStorage` unencrypted** and
-  is for demos only — **do not use it in production**. A production OAuth2/OIDC provider is on
-  the [roadmap](../fin-desktop/OPENFIN_PARITY_ROADMAP.md) (Phase 5).
-- A full **permissions / content-security model** is planned (Phase 5). Until then, only load
-  applications and app directories you trust.
+- The **default authentication provider** is a demo (accepts any credentials) and is **not for
+  production**. It no longer persists the session token in plaintext — the token is held in a
+  pluggable `SecureTokenStore` (in-memory by default; inject an OS-keychain store to persist).
+  Production OAuth 2.0 / OIDC + PKCE helpers and a `TokenManager` ship in `src/security/auth/`.
+- A **permissions / content-security model** is implemented in `src/security/` (capability
+  policy + domain allow-lists, enforced by the Platform runtime). Still, only load applications
+  and app directories you trust.
 
 ## Disclosure
 
