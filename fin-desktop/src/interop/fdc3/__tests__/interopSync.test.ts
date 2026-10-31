@@ -100,6 +100,21 @@ describe('cross-window interop (transport)', () => {
 
     expect(received).toHaveBeenCalledWith(expect.objectContaining({ id: { ticker: 'AAPL' } }));
   });
+
+  it('observes remote-origin events on the receiving broker', () => {
+    const [t1, t2] = createMemoryTransportPair();
+    const broker1 = new InteropBroker({ transport: t1 });
+    const broker2 = new InteropBroker({ transport: t2 });
+    const a = new DesktopAgent(broker1, { appId: 'A' });
+
+    const observed: Array<{ origin: string; kind: string }> = [];
+    broker2.observe((e) => observed.push({ origin: e.origin, kind: e.kind }));
+
+    a.joinUserChannel('red');
+    a.broadcast(createInstrument('AAPL'));
+
+    expect(observed).toContainEqual({ origin: 'remote', kind: 'broadcast' });
+  });
 });
 
 describe('createMemoryTransportPair', () => {

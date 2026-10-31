@@ -122,6 +122,11 @@ export class DesktopAgent {
     };
   }
 
+  /** Observe every broadcast/intent flowing through this window's broker (inspector). */
+  observe(observer: Parameters<InteropBroker['observe']>[0]): () => void {
+    return this.broker.observe(observer);
+  }
+
   /** Move context listeners from the old channel to the new one (replaying cached context). */
   private setCurrent(channel: ChannelImpl | null): void {
     for (const entry of this.entries) {

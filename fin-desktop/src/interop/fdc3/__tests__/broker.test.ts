@@ -47,4 +47,22 @@ describe('InteropBroker', () => {
     const broker = new InteropBroker();
     expect(broker.raiseIntent('ViewNews', createInstrument('X')).deliveredTo).toBe(0);
   });
+
+  it('notifies observers of local broadcasts and intents', () => {
+    const broker = new InteropBroker({ now: () => 7 });
+    const events: unknown[] = [];
+    const off = broker.observe((e) => events.push(e));
+
+    broker.broadcast('red', createInstrument('AAPL'), { appId: 'A' });
+    broker.raiseIntent('ViewChart', createInstrument('AAPL'), { appId: 'A' });
+
+    expect(events).toEqual([
+      expect.objectContaining({ kind: 'broadcast', channelId: 'red', origin: 'local', timestamp: 7 }),
+      expect.objectContaining({ kind: 'intent', intent: 'ViewChart', deliveredTo: 0, origin: 'local' }),
+    ]);
+
+    off();
+    broker.broadcast('red', createInstrument('MSFT'));
+    expect(events).toHaveLength(2);
+  });
 });

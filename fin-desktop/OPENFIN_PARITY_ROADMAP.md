@@ -122,7 +122,7 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 - [x] Central interop broker in main process (routes context/intents between all entities) — `InteropBroker` + `DesktopAgent` facade; two agents interop exactly like separate FDC3 apps (tested). Cross-process transport pending
 - [x] Context linking between views by channel membership — `DesktopAgent` user-channel membership links context; joining replays cached context (tested)
 - [ ] Interop override API (customers can customize broker behavior)
-- [ ] Interop debugging/inspector panel (see every context + intent flowing)
+- [x] Interop debugging/inspector panel (see every context + intent flowing) — `InteropBroker.observe` / `DesktopAgent.observe` emit local + remote events; live `Fdc3Inspector` UI at `?test=fdc3-inspector`, tested
 
 ### 2.4 App Directory (FDC3 spec)
 - [x] FDC3-compliant App Directory data model (`AppD` records v2) — `AppDirectoryApp` + `AppDirectory` in `src/interop/fdc3/appDirectory.ts` with `findIntent` / `findIntentsByContext` / `findAppsByContext`, tested
@@ -243,7 +243,7 @@ An OSS OpenFin replacement lives or dies by DX.
 - [ ] CLI (`findesktop init`, `findesktop dev`, `findesktop package`) to scaffold apps
 - [ ] App starter templates (React, Vue, Angular, vanilla)
 - [ ] Hot-reload dev server integration for third-party apps
-- [ ] Interop/FDC3 **inspector devtool** (see contexts, intents, channels live)
+- [x] Interop/FDC3 **inspector devtool** (see contexts, intents, channels live) — `InteropBroker.observe` stream + `Fdc3Inspector` panel (`?test=fdc3-inspector`), local + remote events, tested
 - [x] Mock platform for unit testing apps outside the container — `createMockFdc3` / `createMockFdc3Pair` / `createMockPlatform` + inspectable `MemoryPlatformHost` in `src/sdk/testing.ts`, tested
 - [ ] Comprehensive API reference docs (TypeDoc) + guides + recipes
 - [ ] Interactive sandbox / playground site (tie into FinDesktop-Website)

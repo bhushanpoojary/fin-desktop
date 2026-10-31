@@ -35,12 +35,27 @@ interface IntentEntry {
   handler: IntentHandler;
 }
 
+/** An observed interop event, for the inspector / devtools. */
+export interface InteropObservedEvent {
+  kind: 'broadcast' | 'intent';
+  channelId?: string;
+  intent?: string;
+  context: Context;
+  source?: { appId?: string };
+  deliveredTo?: number;
+  origin: 'local' | 'remote';
+  timestamp: number;
+}
+
+export type InteropObserver = (event: InteropObservedEvent) => void;
+
 export interface InteropBrokerOptions {
   userChannels?: { id: string; displayMetadata?: DisplayMetadata }[];
   directory?: AppDirectory;
   createId?: () => string;
   /** Optional transport to sync broadcasts + intents with brokers in other windows. */
   transport?: Transport;
+  now?: () => number;
 }
 
 export class InteropBroker {
@@ -53,16 +68,29 @@ export class InteropBroker {
   private readonly transport?: Transport;
   private readonly disposeTransport?: () => void;
   private readonly id = `broker-${Math.random().toString(36).slice(2, 10)}`;
+  private readonly now: () => number;
+  private readonly observers = new Set<InteropObserver>();
   private privateSeq = 0;
 
   constructor(options: InteropBrokerOptions = {}) {
     this.directory = options.directory ?? new AppDirectory();
     this.createId = options.createId ?? (() => `private-${++this.privateSeq}`);
+    this.now = options.now ?? Date.now;
     const defs = options.userChannels ?? DEFAULT_USER_CHANNELS;
     this.userChannels = defs.map((d) => new ChannelImpl(d.id, 'user', d.displayMetadata));
     for (const ch of this.userChannels) this.byId.set(ch.id, ch);
     this.transport = options.transport;
     this.disposeTransport = options.transport?.subscribe((m) => this.applyRemote(m));
+  }
+
+  /** Observe every broadcast/intent flowing through this broker (for the inspector). */
+  observe(observer: InteropObserver): () => void {
+    this.observers.add(observer);
+    return () => this.observers.delete(observer);
+  }
+
+  private notify(event: InteropObservedEvent): void {
+    for (const observer of this.observers) observer(event);
   }
 
   getDirectory(): AppDirectory {
@@ -111,6 +139,7 @@ export class InteropBroker {
   raiseIntent(intent: string, context: Context, source: { appId?: string } = {}): IntentResolution {
     const deliveredTo = this.deliverIntent(intent, context, source);
     this.transport?.send({ kind: 'intent', intent, context, source });
+    this.notify({ kind: 'intent', intent, context, source, deliveredTo, origin: 'local', timestamp: this.now() });
     return { intent, source, deliveredTo };
   }
 
@@ -118,6 +147,7 @@ export class InteropBroker {
   broadcast(channelId: string, context: Context, source: { appId?: string } = {}): void {
     this.getChannel(channelId)?.broadcast(context);
     this.transport?.send({ kind: 'broadcast', channelId, context, source });
+    this.notify({ kind: 'broadcast', channelId, context, source, origin: 'local', timestamp: this.now() });
   }
 
   /** Stop listening to the transport. */
@@ -147,10 +177,28 @@ export class InteropBroker {
     switch (message.kind) {
       case 'broadcast':
         this.getChannel(message.channelId)?.broadcast(message.context);
+        this.notify({
+          kind: 'broadcast',
+          channelId: message.channelId,
+          context: message.context,
+          source: message.source,
+          origin: 'remote',
+          timestamp: this.now(),
+        });
         break;
-      case 'intent':
-        this.deliverIntent(message.intent, message.context, message.source ?? {});
+      case 'intent': {
+        const deliveredTo = this.deliverIntent(message.intent, message.context, message.source ?? {});
+        this.notify({
+          kind: 'intent',
+          intent: message.intent,
+          context: message.context,
+          source: message.source,
+          deliveredTo,
+          origin: 'remote',
+          timestamp: this.now(),
+        });
         break;
+      }
       case 'request-state': {
         if (message.requesterId === this.id) break;
         const context = this.getChannel(message.channelId)?.getCurrentContext();
