@@ -178,7 +178,7 @@ How apps get launched and how the platform is distributed.
 
 - [x] **Application manifest** format (JSON) — declarative app/platform definition (OpenFin manifest parity) — typed `AppManifest`/`PlatformManifest` in `src/manifest/` (startup app, window options, runtime pin, declared permissions, platform snapshot) + `validateManifest` with path-tagged errors, tested
 - [x] Launch platform/app from a manifest URL — `loadManifest(url, fetch)` + `launchManifest(platform, manifest)` spawns the window/startup view and **auto-derives the Platform `canOpenUrl` guard from the manifest's declared domains** (startup URL always allowed); restores a platform manifest's snapshot. Tested
-- [ ] **Deep linking** — custom protocol (`findesktop://` / `fins://`-style) to launch apps/workspaces
+- [~] **Deep linking** — custom protocol (`findesktop://` / `fins://`-style) to launch apps/workspaces — `parseDeepLink`/`buildDeepLink`/`handleDeepLink` in `src/deeplink/` (launch-manifest / launch-app / raise-intent, round-trip + dispatch), tested; OS protocol registration + runtime wiring pending
 - [~] Runtime Version Manager concept — pin/select platform runtime version per manifest — `runtime.version` modeled + validated; version selection/switching pending
 - [ ] **Auto-update** (electron-updater): background download, staged rollout, rollback
 - [ ] Installer generation per OS (NSIS/MSI, DMG, AppImage/deb/rpm)
@@ -304,7 +304,7 @@ build the moat.
 | 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
 | 2 | FDC3 2.0 & interop | P0 | ◧ Core + transport + `window.fdc3` wired (demo `?test=fdc3`); full surface/conformance pending |
 | 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
-| 4 | Runtime, manifest, deploy | P0 | ◧ Manifest model + loader/validator done; launching/deep-links/auto-update pending |
+| 4 | Runtime, manifest, deploy | P0 | ◧ Manifest model+load+launch + deep-link parser done; auto-update/installers/OS-protocol pending |
 | 5 | Security & permissions | P0 | ◧ Policy core + runtime domain enforcement done; prompts/CSP-headers/secrets pending |
 | 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |
 | 7 | Enterprise telemetry | P1 | ☐ Partial (logging) |
