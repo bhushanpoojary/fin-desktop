@@ -228,7 +228,7 @@ Enterprise adoption is impossible without a real security model.
 - [x] Opt-in/opt-out telemetry + privacy controls — disabled-by-default no-op `track`, runtime `setEnabled`, recursive **PII redaction** of configured keys, tested
 - [x] System health dashboard (memory/CPU per window, process explorer) — `HealthMonitor` in `src/health/`: classifies per-process CPU/memory against thresholds (ok/warn/critical), rolls up totals + overall status, bounded history, `top(n)` consumers, over an injectable `ProcessSampler` (Electron `getAppMetrics` adapter plugs in); demo at `?test=health`, tested
 - [x] Remote config / feature flags — `ConfigStore` layers values (defaults < remote push < local override) with typed getters + source tracking; `FeatureFlags` evaluates flags with allow/deny targeting + deterministic staged rollout; demo at `?test=config`, tested
-- [ ] Group policy / centralized config management
+- [x] Group policy / centralized config management — `PolicyStore` in `src/config/`: admin-locked keys enforced over user settings (`resolve` locked > user > default; `apply` merges defaults < user < locked), MDM/registry-style; tested
 - [x] Audit trail for compliance (who did what, when) — `AuditLog` in `src/audit/`: records actor/action/target/outcome entries in a **tamper-evident hash chain** (`verify()` detects any edit/reorder), with filtered `query`, and JSON/CSV export; injectable hash (FNV default; SHA-256 in prod); demo at `?test=audit`, tested
 - [ ] Admin console / management plane `P3`
 
