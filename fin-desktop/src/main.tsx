@@ -20,6 +20,8 @@ import { BrowserDemo } from './examples/BrowserDemo'
 import { NotificationCenterDemo } from './examples/NotificationCenterDemo'
 import { MessagingDemo } from './examples/MessagingDemo'
 import { ExternalConnectionsDemo } from './examples/ExternalConnectionsDemo'
+import { DemoGallery } from './examples/DemoGallery'
+import { DemoLauncher } from './examples/DemoLauncher'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
@@ -98,6 +100,9 @@ console.log('🔍 [main.tsx] URL params:', { test, entry, appId });
 if (test === 'theme') {
   console.log('📄 [main.tsx] Rendering: ThemeTestApp');
   AppComponent = <ThemeTestApp />  // Theme engine test page
+} else if (test === 'demos') {
+  console.log('📄 [main.tsx] Rendering: DemoGallery');
+  AppComponent = <DemoGallery />  // Full-page index of every demo
 } else if (test === 'platform') {
   console.log('📄 [main.tsx] Rendering: PlatformPlayground');
   AppComponent = <PlatformPlayground />  // Platform core: layout + drag-dock + snapshots
@@ -164,6 +169,7 @@ try {
           <LogStoreProvider>
             {AppComponent}
             <NotificationTray />
+            <DemoLauncher current={test} />
           </LogStoreProvider>
         </Fdc3Provider>
       </IntentResolverProvider>

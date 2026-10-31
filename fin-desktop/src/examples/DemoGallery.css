@@ -1,0 +1,107 @@
+.gallery {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 28px 32px 64px;
+}
+
+.gallery-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.gallery-head h1 {
+  margin: 0;
+  font-size: 1.7rem;
+}
+
+.gallery-head p {
+  color: #8d96ab;
+  font-size: 0.88rem;
+  margin: 6px 0 0;
+  max-width: 620px;
+}
+
+.gallery-home {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 9px;
+  color: #cdd4e2;
+  padding: 9px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.gallery-home:hover {
+  filter: brightness(1.15);
+}
+
+.gallery-section {
+  margin-bottom: 28px;
+}
+
+.gallery-section h2 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6f7890;
+  margin: 0 0 14px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.gallery-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.1s ease, background 0.15s ease;
+}
+
+.gallery-card:hover {
+  border-color: #3a5bd0;
+  background: #141c2e;
+  transform: translateY(-2px);
+}
+
+.gallery-card-icon {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.gallery-card-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.gallery-card-desc {
+  font-size: 0.8rem;
+  color: #9aa4ba;
+  flex: 1;
+}
+
+.gallery-card-route {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7rem;
+  color: #4f6796;
+  background: #0d1320;
+  border: 1px solid #1c2740;
+  border-radius: 6px;
+  padding: 2px 7px;
+  margin-top: 4px;
+}
