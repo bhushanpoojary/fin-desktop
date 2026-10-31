@@ -11,6 +11,8 @@ export * from './layout/layoutTree';
 export * from './snapshot/snapshot';
 export * from './snap/snapGeometry';
 export * from './window/placement';
+export * from './dock/dropZones';
+export * from './dock/windowGroup';
 
 export type { PlatformHost } from './runtime/PlatformHost';
 export * from './runtime/events';

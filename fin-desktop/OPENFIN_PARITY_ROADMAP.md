@@ -70,11 +70,11 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 ### 1.2 Snap, Dock & Group (OpenFin Snap & Dock)
 - [x] Edge/snap-to-screen magnetism when dragging windows — `snapRect` + `detectDockZone`/`dockZoneBounds` in `src/platform/snap/` with tests
 - [x] Window-to-window snapping (magnetic edges between app windows) — `snapRect` snaps to neighbour edges
-- [~] Window grouping (move/resize as a unit) — adjacency detection (`areAdjacent`) done; group move/resize wiring pending
-- [ ] Tab windows together (drag a window into another's tab strip)
-- [ ] Visual drop zones / dock preview overlays while dragging
-- [ ] Undock / tear-out a tab into its own window
-- [ ] Multi-monitor aware snapping (respect display boundaries + DPI)
+- [x] Window grouping (move/resize as a unit) — `moveGroup`/`groupBounds`/`unionBounds` in `src/platform/dock/` with tests
+- [~] Tab windows together (drag a window into another's tab strip) — `computeDropTarget` center region → tabify (`addView`); GUI drag wiring pending
+- [x] Visual drop zones / dock preview overlays while dragging — `computeDropTarget` returns region + preview rect (maps to `splitStack`/`addView`) with tests
+- [~] Undock / tear-out a tab into its own window — `tearOut` + layout `removeView`/`createRoot` support it; GUI drag wiring pending
+- [~] Multi-monitor aware snapping (respect display boundaries + DPI) — `pickMonitorForRect`/`pickMonitorForPoint` provide the monitor context; snap integration pending
 
 ### 1.3 Window Capabilities
 - [ ] Frameless windows with custom chrome (title bar, min/max/close, drag region)
