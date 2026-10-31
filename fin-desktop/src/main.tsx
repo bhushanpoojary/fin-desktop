@@ -25,6 +25,7 @@ import { DragDropDemo } from './examples/DragDropDemo'
 import { UpdateDemo } from './examples/UpdateDemo'
 import { LoggingDemo } from './examples/LoggingDemo'
 import { DiagnosticsDemo } from './examples/DiagnosticsDemo'
+import { HealthDemo } from './examples/HealthDemo'
 import { DemoGallery } from './examples/DemoGallery'
 import { DemoLauncher } from './examples/DemoLauncher'
 import AppHost from './apps/AppHost'
@@ -156,6 +157,9 @@ if (test === 'theme') {
 } else if (test === 'diagnostics') {
   console.log('📄 [main.tsx] Rendering: DiagnosticsDemo');
   AppComponent = <DiagnosticsDemo />  // Self-diagnostics / health check
+} else if (test === 'health') {
+  console.log('📄 [main.tsx] Rendering: HealthDemo');
+  AppComponent = <HealthDemo />  // System health / process explorer
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping

@@ -1,0 +1,209 @@
+.health {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 22px 26px 48px;
+}
+
+.health-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.health-head h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.health-head p {
+  color: #8d96ab;
+  font-size: 0.85rem;
+  margin: 4px 0 0;
+}
+
+.health-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.health-btn {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+  color: #cdd4e2;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.health-btn.primary {
+  background: #2f52c4;
+  border-color: #3a5bd0;
+  color: #fff;
+}
+
+.health-btn:hover {
+  filter: brightness(1.15);
+}
+
+.health-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #aab2c5;
+  cursor: pointer;
+}
+
+.health-empty {
+  color: #6f7890;
+  font-size: 0.9rem;
+}
+
+.health-totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.health-overall {
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 9px;
+}
+
+.health-overall.ok {
+  background: #0f1d16;
+  border: 1px solid #244a34;
+  color: #6fd59b;
+}
+.health-overall.warn {
+  background: #221c0d;
+  border: 1px solid #5a4420;
+  color: #f0cf6a;
+}
+.health-overall.critical {
+  background: #1d1111;
+  border: 1px solid #5a2020;
+  color: #ff8a80;
+}
+
+.health-total-item {
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 9px;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  color: #aeb7cc;
+}
+
+.health-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 0.85rem;
+}
+
+.health-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6f7890;
+  background: #0d111a;
+  border-bottom: 1px solid #1c2230;
+}
+
+.health-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #141b27;
+  color: #cdd4e2;
+}
+
+.health-kind {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  color: #8d96ab;
+}
+
+.health-bar {
+  position: relative;
+  background: #0b0e14;
+  border: 1px solid #222a3a;
+  border-radius: 6px;
+  height: 18px;
+  width: 120px;
+  overflow: hidden;
+}
+
+.health-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3a5bd0, #4f8cff);
+}
+
+.health-bar span {
+  position: absolute;
+  right: 5px;
+  top: 1px;
+  font-size: 0.68rem;
+  color: #cdd4e2;
+}
+
+.health-pill {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.health-pill.ok {
+  background: #0f1d16;
+  color: #6fd59b;
+}
+.health-pill.warn {
+  background: #221c0d;
+  color: #f0cf6a;
+}
+.health-pill.critical {
+  background: #1d1111;
+  color: #ff8a80;
+}
+
+.health-table tr.critical td {
+  background: rgba(90, 32, 32, 0.12);
+}
+
+.health-top {
+  margin-top: 20px;
+}
+
+.health-top h3 {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6f7890;
+  margin: 0 0 8px;
+}
+
+.health-top ol {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.85rem;
+  color: #aeb7cc;
+}
+
+.health-top li {
+  padding: 3px 0;
+}

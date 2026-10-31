@@ -41,6 +41,9 @@ export const DEMOS: DemoEntry[] = [
   { id: 'logging', title: 'Logging & Rotation', description: 'Structured logger with rotating file sink.', icon: '📜', category: 'Deployment' },
   { id: 'diagnostics', title: 'Self-Diagnostics', description: 'Health checks + --diagnostics report.', icon: '🩺', category: 'Deployment' },
 
+  // Enterprise
+  { id: 'health', title: 'System Health', description: 'Per-process CPU/memory process explorer.', icon: '💓', category: 'Enterprise' },
+
   // Theming & shells
   { id: 'theme', title: 'Theme Engine', description: 'Live theme tokens and switching.', icon: '🎨', category: 'Theming & Shells' },
   { id: 'minimal', title: 'Launcher Workspace', description: 'Clean launcher workspace shell.', icon: '🚀', category: 'Theming & Shells' },
@@ -55,6 +58,7 @@ export const DEMO_CATEGORIES: string[] = [
   'Integration',
   'Workspace Components',
   'Deployment',
+  'Enterprise',
   'Theming & Shells',
 ];
 

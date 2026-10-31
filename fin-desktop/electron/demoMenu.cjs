@@ -42,6 +42,12 @@ const DEMO_GROUPS = [
     ],
   },
   {
+    label: 'Enterprise',
+    items: [
+      { id: 'health', label: 'System Health' },
+    ],
+  },
+  {
     label: 'Workspace Components',
     items: [
       { id: 'palette', label: 'Command Palette' },
