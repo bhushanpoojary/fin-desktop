@@ -1,0 +1,45 @@
+# electron-builder configuration
+#
+# NOTE: Production packaging also requires main-process wiring to load the built renderer
+# (dist/index.html via file://) instead of the Vite dev server. The Vite `base` is currently
+# '/fin-desktop/' for GitHub Pages; packaging needs a build without that base. This is tracked
+# in the roadmap (Phase 4 — Runtime, Manifest & Deployment). This config is the scaffold.
+
+appId: com.findesktop.app
+productName: FinDesktop
+copyright: Copyright © 2026 FinDesktop contributors
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist/**/*
+  - electron/**/*
+  - package.json
+
+# --- Windows ---
+win:
+  target:
+    - nsis
+  # Code signing (provide via CI secrets / env, never commit certificates):
+  #   CSC_LINK / CSC_KEY_PASSWORD
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+
+# --- macOS ---
+mac:
+  target:
+    - dmg
+  category: public.app-category.finance
+  hardenedRuntime: true
+  # Notarization via env: APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID
+
+# --- Linux ---
+linux:
+  target:
+    - AppImage
+    - deb
+  category: Office

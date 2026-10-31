@@ -288,7 +288,7 @@ export function useChannels(): ChannelContextValue {
  */
 export function useChannelBroadcasts(
   handler: (event: ChannelBroadcastEvent) => void,
-  deps?: React.DependencyList
+  _deps?: React.DependencyList
 ): void {
   const { channelService, windowId } = useChannels();
   

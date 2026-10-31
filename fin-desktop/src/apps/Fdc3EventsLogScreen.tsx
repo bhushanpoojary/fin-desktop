@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useFdc3Bus } from "../fdc3/Fdc3Context";
 import type { SelectedInstrumentContext } from "../fdc3/types";
 import { useLogger } from "../logging/useLogger";
-import { ChannelProvider, useChannelBroadcasts } from "../core/channels";
+import { ChannelProvider } from "../core/channels";
 import type { ChannelBroadcastEvent } from "../core/channels";
 import { getChannelService } from "../core/channels/ChannelService";
 

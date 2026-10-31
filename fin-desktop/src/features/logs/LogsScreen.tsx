@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useLogStore } from "../../logging/LogStoreContext";
-import type { LogLevel, LogEntry } from "../../logging/types";
+import type { LogLevel } from "../../logging/types";
 import "./LogsScreen.css";
 
 export const LogsScreen: React.FC = () => {

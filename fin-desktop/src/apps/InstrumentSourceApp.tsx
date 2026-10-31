@@ -29,7 +29,7 @@ export const InstrumentSourceApp: React.FC = () => {
 };
 
 const InstrumentSourceContent: React.FC<{ windowId: string }> = ({ windowId }) => {
-  const bus = useFdc3Bus();
+  useFdc3Bus();
   const logger = useLogger("InstrumentSourceApp");
   const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
   const { activeChannelId, broadcast } = useChannels();

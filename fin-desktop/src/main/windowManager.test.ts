@@ -7,15 +7,16 @@
  * Consider using @electron/test or spectron for integration testing.
  */
 
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { BrowserWindow, screen } from 'electron';
 import { WindowManager, windowManager } from './windowManager';
 import type { FinDesktopConfig } from '../config/FinDesktopConfig';
 
 // Mock Electron modules for unit testing
-jest.mock('electron', () => ({
-  BrowserWindow: jest.fn(),
+vi.mock('electron', () => ({
+  BrowserWindow: vi.fn(),
   screen: {
-    getPrimaryDisplay: jest.fn(),
+    getPrimaryDisplay: vi.fn(),
   },
 }));
 
@@ -41,18 +42,18 @@ describe('WindowManager', () => {
     };
 
     // Mock screen API
-    (screen.getPrimaryDisplay as jest.Mock).mockReturnValue({
+    vi.mocked(screen.getPrimaryDisplay).mockReturnValue({
       workArea: {
         x: 0,
         y: 0,
         width: 1920,
         height: 1080,
       },
-    });
+    } as any);
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('Configuration', () => {
@@ -76,15 +77,15 @@ describe('WindowManager', () => {
     it('should create a window with default options', () => {
       const mockWin = {
         id: 1,
-        loadURL: jest.fn().mockResolvedValue(undefined),
-        once: jest.fn(),
-        on: jest.fn(),
-        getBounds: jest.fn().mockReturnValue({ x: 0, y: 0, width: 1024, height: 768 }),
-        isDestroyed: jest.fn().mockReturnValue(false),
-        isMaximized: jest.fn().mockReturnValue(false),
+        loadURL: vi.fn().mockResolvedValue(undefined),
+        once: vi.fn(),
+        on: vi.fn(),
+        getBounds: vi.fn().mockReturnValue({ x: 0, y: 0, width: 1024, height: 768 }),
+        isDestroyed: vi.fn().mockReturnValue(false),
+        isMaximized: vi.fn().mockReturnValue(false),
       };
 
-      (BrowserWindow as jest.MockedClass<typeof BrowserWindow>).mockImplementation(
+      vi.mocked(BrowserWindow).mockImplementation(
         () => mockWin as any
       );
 
@@ -99,15 +100,15 @@ describe('WindowManager', () => {
     it('should merge custom options with defaults', () => {
       const mockWin = {
         id: 1,
-        loadURL: jest.fn().mockResolvedValue(undefined),
-        once: jest.fn(),
-        on: jest.fn(),
-        getBounds: jest.fn().mockReturnValue({ x: 0, y: 0, width: 800, height: 600 }),
-        isDestroyed: jest.fn().mockReturnValue(false),
-        isMaximized: jest.fn().mockReturnValue(false),
+        loadURL: vi.fn().mockResolvedValue(undefined),
+        once: vi.fn(),
+        on: vi.fn(),
+        getBounds: vi.fn().mockReturnValue({ x: 0, y: 0, width: 800, height: 600 }),
+        isDestroyed: vi.fn().mockReturnValue(false),
+        isMaximized: vi.fn().mockReturnValue(false),
       };
 
-      (BrowserWindow as jest.MockedClass<typeof BrowserWindow>).mockImplementation(
+      vi.mocked(BrowserWindow).mockImplementation(
         () => mockWin as any
       );
 
@@ -117,7 +118,7 @@ describe('WindowManager', () => {
         height: 600,
       });
 
-      const callArgs = (BrowserWindow as jest.Mock).mock.calls[0][0];
+      const callArgs = (vi.mocked(BrowserWindow).mock.calls[0] as any)[0];
       expect(callArgs.width).toBe(800);
       expect(callArgs.height).toBe(600);
       expect(callArgs.show).toBe(false); // Default preserved
@@ -126,15 +127,15 @@ describe('WindowManager', () => {
     it('should track created windows', () => {
       const mockWin = {
         id: 1,
-        loadURL: jest.fn().mockResolvedValue(undefined),
-        once: jest.fn(),
-        on: jest.fn(),
-        getBounds: jest.fn().mockReturnValue({ x: 0, y: 0, width: 1024, height: 768 }),
-        isDestroyed: jest.fn().mockReturnValue(false),
-        isMaximized: jest.fn().mockReturnValue(false),
+        loadURL: vi.fn().mockResolvedValue(undefined),
+        once: vi.fn(),
+        on: vi.fn(),
+        getBounds: vi.fn().mockReturnValue({ x: 0, y: 0, width: 1024, height: 768 }),
+        isDestroyed: vi.fn().mockReturnValue(false),
+        isMaximized: vi.fn().mockReturnValue(false),
       };
 
-      (BrowserWindow as jest.MockedClass<typeof BrowserWindow>).mockImplementation(
+      vi.mocked(BrowserWindow).mockImplementation(
         () => mockWin as any
       );
 
@@ -151,26 +152,26 @@ describe('WindowManager', () => {
     beforeEach(() => {
       const mockWin1 = {
         id: 1,
-        loadURL: jest.fn().mockResolvedValue(undefined),
-        once: jest.fn(),
-        on: jest.fn(),
-        getBounds: jest.fn().mockReturnValue({ x: 0, y: 0, width: 1024, height: 768 }),
-        isDestroyed: jest.fn().mockReturnValue(false),
-        isMaximized: jest.fn().mockReturnValue(false),
+        loadURL: vi.fn().mockResolvedValue(undefined),
+        once: vi.fn(),
+        on: vi.fn(),
+        getBounds: vi.fn().mockReturnValue({ x: 0, y: 0, width: 1024, height: 768 }),
+        isDestroyed: vi.fn().mockReturnValue(false),
+        isMaximized: vi.fn().mockReturnValue(false),
       };
 
       const mockWin2 = {
         id: 2,
-        loadURL: jest.fn().mockResolvedValue(undefined),
-        once: jest.fn(),
-        on: jest.fn(),
-        getBounds: jest.fn().mockReturnValue({ x: 0, y: 0, width: 800, height: 600 }),
-        isDestroyed: jest.fn().mockReturnValue(false),
-        isMaximized: jest.fn().mockReturnValue(false),
+        loadURL: vi.fn().mockResolvedValue(undefined),
+        once: vi.fn(),
+        on: vi.fn(),
+        getBounds: vi.fn().mockReturnValue({ x: 0, y: 0, width: 800, height: 600 }),
+        isDestroyed: vi.fn().mockReturnValue(false),
+        isMaximized: vi.fn().mockReturnValue(false),
       };
 
       let callCount = 0;
-      (BrowserWindow as jest.MockedClass<typeof BrowserWindow>).mockImplementation(() => {
+      vi.mocked(BrowserWindow).mockImplementation(() => {
         callCount++;
         return (callCount === 1 ? mockWin1 : mockWin2) as any;
       });
@@ -207,16 +208,16 @@ describe('WindowManager', () => {
     it('should close window by app ID', () => {
       const mockWin = {
         id: 1,
-        loadURL: jest.fn().mockResolvedValue(undefined),
-        once: jest.fn(),
-        on: jest.fn(),
-        close: jest.fn(),
-        getBounds: jest.fn().mockReturnValue({ x: 0, y: 0, width: 1024, height: 768 }),
-        isDestroyed: jest.fn().mockReturnValue(false),
-        isMaximized: jest.fn().mockReturnValue(false),
+        loadURL: vi.fn().mockResolvedValue(undefined),
+        once: vi.fn(),
+        on: vi.fn(),
+        close: vi.fn(),
+        getBounds: vi.fn().mockReturnValue({ x: 0, y: 0, width: 1024, height: 768 }),
+        isDestroyed: vi.fn().mockReturnValue(false),
+        isMaximized: vi.fn().mockReturnValue(false),
       };
 
-      (BrowserWindow as jest.MockedClass<typeof BrowserWindow>).mockImplementation(
+      vi.mocked(BrowserWindow).mockImplementation(
         () => mockWin as any
       );
 
@@ -230,28 +231,28 @@ describe('WindowManager', () => {
     it('should close all windows', () => {
       const mockWin1 = {
         id: 1,
-        loadURL: jest.fn().mockResolvedValue(undefined),
-        once: jest.fn(),
-        on: jest.fn(),
-        close: jest.fn(),
-        getBounds: jest.fn().mockReturnValue({ x: 0, y: 0, width: 1024, height: 768 }),
-        isDestroyed: jest.fn().mockReturnValue(false),
-        isMaximized: jest.fn().mockReturnValue(false),
+        loadURL: vi.fn().mockResolvedValue(undefined),
+        once: vi.fn(),
+        on: vi.fn(),
+        close: vi.fn(),
+        getBounds: vi.fn().mockReturnValue({ x: 0, y: 0, width: 1024, height: 768 }),
+        isDestroyed: vi.fn().mockReturnValue(false),
+        isMaximized: vi.fn().mockReturnValue(false),
       };
 
       const mockWin2 = {
         id: 2,
-        loadURL: jest.fn().mockResolvedValue(undefined),
-        once: jest.fn(),
-        on: jest.fn(),
-        close: jest.fn(),
-        getBounds: jest.fn().mockReturnValue({ x: 0, y: 0, width: 800, height: 600 }),
-        isDestroyed: jest.fn().mockReturnValue(false),
-        isMaximized: jest.fn().mockReturnValue(false),
+        loadURL: vi.fn().mockResolvedValue(undefined),
+        once: vi.fn(),
+        on: vi.fn(),
+        close: vi.fn(),
+        getBounds: vi.fn().mockReturnValue({ x: 0, y: 0, width: 800, height: 600 }),
+        isDestroyed: vi.fn().mockReturnValue(false),
+        isMaximized: vi.fn().mockReturnValue(false),
       };
 
       let callCount = 0;
-      (BrowserWindow as jest.MockedClass<typeof BrowserWindow>).mockImplementation(() => {
+      vi.mocked(BrowserWindow).mockImplementation(() => {
         callCount++;
         return (callCount === 1 ? mockWin1 : mockWin2) as any;
       });

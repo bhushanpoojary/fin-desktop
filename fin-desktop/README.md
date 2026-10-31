@@ -1,73 +1,78 @@
-# React + TypeScript + Vite
+# FinDesktop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> The open-source desktop interop platform for financial & enterprise apps — an OpenFin /
+> Finsemble / Glue42 alternative built on Electron, React 19, TypeScript, and FDC3.
 
-Currently, two official plugins are available:
+FinDesktop lets you run multiple web apps together in a single desktop container with shared
+context (FDC3), colored channels, intents, docking, notifications, theming, and a pluggable
+"Core vs Customer" architecture.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+See the full build-out plan in [OPENFIN_PARITY_ROADMAP.md](./OPENFIN_PARITY_ROADMAP.md).
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **FDC3 interop** — context broadcasting, intents, app directory, intent resolver
+- **Finsemble-style channels** — colored user channels with a visual picker
+- **Multi-window workspace** — docking, layout persistence, system tray
+- **Notification center** — toasts with action handlers and history
+- **Pluggable providers** — auth, theme, branding, notifications, channels
+- **Theming** — CSS-variable driven, Bloomberg-inspired dark theme
 
-## Expanding the ESLint configuration
+## Quick start
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# from this folder (fin-desktop/fin-desktop)
+npm install
+npm run dev          # Vite renderer + Electron shell with HMR
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Other useful scripts:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build        # Production renderer build
+npm run lint         # ESLint
+npm run typecheck    # TypeScript type-check (no emit)
+npm run test         # Unit tests (Vitest)
+npm run test:watch   # Unit tests in watch mode
+npm run dev:test-docking   # Launch the window-docking test harness
 ```
+
+## Tech stack
+
+| Area      | Tech |
+|-----------|------|
+| UI        | React 19, TypeScript 5.9 |
+| Build     | Vite 7 |
+| Desktop   | Electron 39 |
+| Layout    | flexlayout-react |
+| Testing   | Vitest, Testing Library, Playwright (E2E) |
+
+## Project structure
+
+```
+src/
+├── core/         # Framework core (interfaces, defaults, fdc3, channels, notifications) — do not modify
+├── extensions/   # Your customizations (safe to modify)
+├── config/       # Wiring: choose default vs custom providers
+├── apps/         # Demo applications (trading blotter, news, market grid, …)
+├── workspace/    # Window docking + layout persistence
+├── shell/        # App shell, login, splash
+├── ui/           # Shared UI (channel picker, notifications, intent resolver)
+└── shared/       # Desktop API bridge + hooks
+
+electron/         # Main process: windows, IPC bus, tray, preload
+docs/             # Documentation index
+```
+
+Read [ARCHITECTURE.md](./ARCHITECTURE.md) for the Core vs Customer design, and
+[docs/README.md](./docs/README.md) for the full documentation index.
+
+## Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](../.github/CONTRIBUTING.md) and our
+[Code of Conduct](../.github/CODE_OF_CONDUCT.md). Security issues: see
+[SECURITY.md](../.github/SECURITY.md).
+
+## License
+
+[MIT](../LICENSE) © FinDesktop contributors

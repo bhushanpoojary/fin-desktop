@@ -1,0 +1,47 @@
+name: 💡 Feature request
+description: Suggest an idea or capability for FinDesktop
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What problem are you trying to solve? What is the use case?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe the feature or behavior you'd like.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - FDC3 / interop
+        - Window management / docking
+        - Workspace (Home / Dock / Store / Browser)
+        - Notifications
+        - Security / permissions
+        - Packaging / deployment
+        - Developer experience / SDK
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+  - type: checkboxes
+    id: roadmap
+    attributes:
+      label: Roadmap
+      options:
+        - label: I checked the OPENFIN_PARITY_ROADMAP and this isn't already planned
+          required: false

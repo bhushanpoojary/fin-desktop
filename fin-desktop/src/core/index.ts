@@ -19,3 +19,6 @@ export * from './defaults';
 
 // Channels API - Finsemble-style inter-app communication
 export * from './channels';
+
+// Disambiguate the `Channel` name exported by both ./interfaces and ./channels
+export type { Channel } from './channels';

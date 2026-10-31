@@ -93,4 +93,13 @@ export class CustomBranding implements IProductBranding {
       ],
     };
   }
+
+  getTrayIconPath(): string {
+    // TODO: Replace with your tray icon path
+    return '/custom-tray-icon.png';
+  }
+
+  getTrayTooltip(): string {
+    return `${this.getProductName()} - ${this.getTagline()}`;
+  }
 }

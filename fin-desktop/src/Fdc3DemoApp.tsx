@@ -9,7 +9,6 @@
  * 3. Or add a button in launcher that opens this component
  */
 
-import React from "react";
 import { DemoWorkspace } from "./shell/DemoWorkspace";
 
 export function Fdc3DemoApp() {

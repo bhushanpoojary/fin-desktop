@@ -149,6 +149,7 @@ describe('TrayManager', () => {
     });
 
     it('should restore minimized window', () => {
+      mockWindow.isVisible = vi.fn().mockReturnValue(false);
       mockWindow.isMinimized = vi.fn().mockReturnValue(true);
       
       trayManager.restoreFromTray();

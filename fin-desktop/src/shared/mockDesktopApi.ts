@@ -12,6 +12,7 @@ import type { DesktopApi } from "./desktopApi";
  */
 export function createMockDesktopApi(): DesktopApi {
   const subscribers = new Map<string, Set<(payload: any) => void>>();
+  let raiseIntentImpl: DesktopApi["raiseIntent"] | null = null;
 
   const mockApi: DesktopApi = {
     openApp: async (appId: string) => {
@@ -67,8 +68,15 @@ export function createMockDesktopApi(): DesktopApi {
     },
 
     // raiseIntent will be added by createFdc3DesktopApi
-    raiseIntent: async () => {
-      throw new Error("raiseIntent not initialized. Call createFdc3DesktopApi first.");
+    raiseIntent: async (intent, context) => {
+      if (!raiseIntentImpl) {
+        throw new Error("raiseIntent not initialized. Call createFdc3DesktopApi first.");
+      }
+      return raiseIntentImpl(intent, context);
+    },
+
+    setFdc3RaiseIntent: (impl) => {
+      raiseIntentImpl = impl;
     },
   };
 
