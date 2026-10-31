@@ -15,3 +15,4 @@ export * from './channel';
 export * from './broker';
 export * from './desktopAgent';
 export * from './bootstrap';
+export * from './versionNegotiation';
