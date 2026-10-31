@@ -397,6 +397,7 @@ export const AppShell: React.FC<AppShellProps> = ({
       <LoginScreen
         authProvider={authProvider}
         onLoginSuccess={handleLoginSuccess}
+        branding={branding}
       />
     );
   }

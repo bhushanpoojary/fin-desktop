@@ -79,12 +79,12 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 ### 1.3 Window Capabilities
 - [ ] Frameless windows with custom chrome (title bar, min/max/close, drag region)
 - [ ] Always-on-top toggle
-- [ ] Aspect-ratio lock + min/max size constraints
+- [~] Aspect-ratio lock + min/max size constraints — `applyAspectRatio` / `constrainSize` in `src/platform/window/` with tests; runtime wiring pending
 - [ ] Window animations (open/close/minimize transitions)
 - [ ] Window zoom controls + zoom persistence
 - [ ] Hotkeys per-window and global (register/unregister)
-- [ ] Monitor/display info API (`getMonitorInfo`, move to monitor N)
-- [ ] Smart window placement (cascade, center, remember last position)
+- [~] Monitor/display info API (`getMonitorInfo`, move to monitor N) — pure `pickMonitorForPoint` / `pickMonitorForRect` done; Electron `screen` wiring pending
+- [~] Smart window placement (cascade, center, remember last position) — `cascade` / `centerIn` / `clampToWorkArea` done; remember-last pending
 
 ### 1.4 Snapshots & Session Persistence
 - [x] Snapshot = full serializable platform state (windows + views + layouts + bounds) — `PlatformSnapshot` model in `src/platform/snapshot/` with validated serialize/deserialize + tests

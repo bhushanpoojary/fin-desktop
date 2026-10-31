@@ -63,17 +63,16 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   className = '',
   isVisible = true,
 }) => {
-  console.log('🎨 [SplashScreen] Rendering splash screen, isVisible:', isVisible, 'status:', statusText);
-  
   const brandColors = branding.getBrandColors();
   const logoUrl = branding.getLogoUrl();
   const productName = branding.getProductName();
   const tagline = branding.getTagline();
 
-  // Build dynamic styles using branding colors
-  const containerStyle: React.CSSProperties = {
-    background: `linear-gradient(135deg, ${brandColors.primary} 0%, ${brandColors.accent} 100%)`,
-  };
+  // Expose brand colors to CSS so glows/gradients can use them.
+  const containerStyle = {
+    ['--brand-primary']: brandColors.primary,
+    ['--brand-accent']: brandColors.accent,
+  } as React.CSSProperties;
 
   return (
     <div
@@ -83,27 +82,24 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
       aria-live="polite"
       aria-busy="true"
     >
+      <div className="splash-aurora" aria-hidden="true" />
+      <div className="splash-grid" aria-hidden="true" />
+
       <div className="splash-content">
-        {/* Logo */}
         <div className="splash-logo-container">
-          <img
-            src={logoUrl}
-            alt={`${productName} logo`}
-            className="splash-logo"
-          />
+          <span className="splash-logo-ring" aria-hidden="true" />
+          <span className="splash-logo-glow" aria-hidden="true" />
+          <img src={logoUrl} alt={`${productName} logo`} className="splash-logo" />
         </div>
 
-        {/* Product Name */}
         <h1 className="splash-product-name">{productName}</h1>
 
-        {/* Tagline (optional) */}
-        {tagline && (
-          <p className="splash-tagline">{tagline}</p>
-        )}
+        {tagline && <p className="splash-tagline">{tagline}</p>}
 
-        {/* Status Text */}
         <div className="splash-status">
-          <div className="splash-spinner" aria-hidden="true" />
+          <div className="splash-progress" aria-hidden="true">
+            <div className="splash-progress-bar" />
+          </div>
           <p className="splash-status-text">{statusText}</p>
         </div>
       </div>

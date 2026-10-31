@@ -10,3 +10,4 @@ export type { Rect, ViewId, WindowId, ViewState } from './types';
 export * from './layout/layoutTree';
 export * from './snapshot/snapshot';
 export * from './snap/snapGeometry';
+export * from './window/placement';
