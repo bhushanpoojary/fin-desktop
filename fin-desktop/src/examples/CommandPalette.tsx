@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import type { SearchRegistry, SearchResult } from '../search';
+import type { SearchRegistry, SearchResult, UsageTracker } from '../search';
 import './CommandPalette.css';
 
 export interface CommandPaletteProps {
@@ -14,6 +14,8 @@ export interface CommandPaletteProps {
   open: boolean;
   onClose: () => void;
   placeholder?: string;
+  /** Optional usage tracker: boosts recents/favorites and records picks. */
+  usage?: UsageTracker;
 }
 
 const Highlight: React.FC<{ text: string; positions?: number[] }> = ({ text, positions }) => {
@@ -33,6 +35,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   open,
   onClose,
   placeholder,
+  usage,
 }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -51,19 +54,20 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     let cancelled = false;
     void registry.search(query, { limit: 50 }).then((r) => {
       if (!cancelled) {
-        setResults(r);
+        setResults(usage ? usage.rank(r) : r);
         setActive(0);
       }
     });
     return () => {
       cancelled = true;
     };
-  }, [query, open, registry]);
+  }, [query, open, registry, usage]);
 
   if (!open) return null;
 
   const run = (result?: SearchResult) => {
     if (!result) return;
+    usage?.record(result.id);
     void result.run?.();
     onClose();
   };

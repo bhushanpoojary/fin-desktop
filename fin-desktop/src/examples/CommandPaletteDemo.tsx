@@ -4,12 +4,13 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { SearchRegistry, createListProvider } from '../search';
+import { SearchRegistry, createListProvider, UsageTracker } from '../search';
 import { CommandPalette } from './CommandPalette';
 
 export const CommandPaletteDemo: React.FC = () => {
   const [open, setOpen] = useState(true);
   const [last, setLast] = useState<string | null>(null);
+  const usage = useMemo(() => new UsageTracker(), []);
 
   const registry = useMemo(() => {
     const act = (name: string) => () => setLast(name);
@@ -57,13 +58,16 @@ export const CommandPaletteDemo: React.FC = () => {
             </>
           )}
         </div>
+        <div className="cpd-hint" style={{ marginTop: 8, fontSize: '0.8rem', opacity: 0.6 }}>
+          Items you pick float to the top next time (recents).
+        </div>
         {!open && (
           <button className="cpd-open" onClick={() => setOpen(true)}>
             Open palette (Ctrl+K)
           </button>
         )}
       </div>
-      <CommandPalette registry={registry} open={open} onClose={() => setOpen(false)} />
+      <CommandPalette registry={registry} open={open} onClose={() => setOpen(false)} usage={usage} />
     </div>
   );
 };

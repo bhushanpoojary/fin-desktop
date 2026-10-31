@@ -4,3 +4,4 @@
 
 export * from './fuzzy';
 export * from './searchRegistry';
+export * from './usage';

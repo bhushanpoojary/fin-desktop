@@ -141,7 +141,7 @@ OpenFin Workspace ships Home, Dock, Store, Notifications, Browser. Build OSS equ
 - [x] Global command palette / spotlight-style launcher (⌘/Ctrl+Space) — reusable `CommandPalette` (Ctrl/⌘+K) with keyboard nav + match highlighting; demo at `?test=palette`
 - [x] Fuzzy search across apps, workspaces, intents, and custom providers — `fuzzyMatch` (substring + word-boundary scoring) + `SearchRegistry` aggregating ranked results across providers, tested
 - [x] Pluggable search providers (apps, docs, actions, external data) — `SearchProvider` interface + `createListProvider`; registry aggregates/ranks all, tested
-- [ ] Recent + favorite apps
+- [x] Recent + favorite apps — `UsageTracker` records frequency + recency, supports favorites, and boosts search ranking (favorites float to top); wired into `CommandPalette`, tested
 - [x] Keyboard-first navigation — ↑/↓ to move, ⏎ to run, esc to close, type to filter
 
 ### 3.2 Dock / App Bar
