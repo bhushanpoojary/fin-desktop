@@ -1,0 +1,147 @@
+.msg {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 22px 26px 48px;
+}
+
+.msg-head h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.msg-head p {
+  color: #8d96ab;
+  font-size: 0.85rem;
+  margin: 4px 0 20px;
+}
+
+.msg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 18px;
+}
+
+.msg-panel {
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.msg-panel h2 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  color: #cdd4e2;
+}
+
+.msg-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.msg-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: #8d96ab;
+}
+
+.msg-row input,
+.msg-row select {
+  background: #0b0e14;
+  border: 1px solid #2a3344;
+  border-radius: 7px;
+  color: #e6e9ef;
+  padding: 7px 9px;
+  font-size: 0.82rem;
+  min-width: 90px;
+}
+
+.msg-row input:focus,
+.msg-row select:focus {
+  outline: none;
+  border-color: #3a5bd0;
+}
+
+.msg-btn {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+  color: #cdd4e2;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.msg-btn.primary {
+  background: #2f52c4;
+  border-color: #3a5bd0;
+  color: #fff;
+}
+
+.msg-btn:hover {
+  filter: brightness(1.15);
+}
+
+.msg-apps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.msg-app {
+  background: #0d111a;
+  border: 1px solid #1c2230;
+  border-radius: 10px;
+  padding: 10px;
+  min-height: 120px;
+}
+
+.msg-app-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #9fb4ff;
+  margin-bottom: 6px;
+}
+
+.msg-log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.72rem;
+}
+
+.msg-log li {
+  padding: 4px 0;
+  border-bottom: 1px solid #141b27;
+  color: #b7c0d4;
+}
+
+.msg-log .muted {
+  color: #4a5164;
+}
+
+.msg-log-from {
+  display: block;
+  color: #6f7890;
+  font-size: 0.64rem;
+}
+
+.msg-result {
+  background: #0d111a;
+  border: 1px solid #1c2230;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  color: #6fd59b;
+  margin-top: 6px;
+}

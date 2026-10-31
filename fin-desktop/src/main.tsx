@@ -18,6 +18,7 @@ import { DockDemo } from './examples/DockDemo'
 import { AppStoreDemo } from './examples/AppStoreDemo'
 import { BrowserDemo } from './examples/BrowserDemo'
 import { NotificationCenterDemo } from './examples/NotificationCenterDemo'
+import { MessagingDemo } from './examples/MessagingDemo'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
@@ -123,6 +124,9 @@ if (test === 'theme') {
 } else if (test === 'notifications') {
   console.log('📄 [main.tsx] Rendering: NotificationCenterDemo');
   AppComponent = <NotificationCenterDemo />  // Upgraded notification center
+} else if (test === 'messaging') {
+  console.log('📄 [main.tsx] Rendering: MessagingDemo');
+  AppComponent = <MessagingDemo />  // Inter-App Bus + Channels RPC
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping
