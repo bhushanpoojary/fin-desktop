@@ -8,3 +8,7 @@
 export * from './context';
 export * from './intents';
 export * from './appDirectory';
+export * from './types';
+export * from './channel';
+export * from './broker';
+export * from './desktopAgent';

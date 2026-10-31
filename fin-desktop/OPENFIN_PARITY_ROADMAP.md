@@ -107,20 +107,20 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 - [ ] `getInfo()`, `getAppMetadata()`, FDC3 version negotiation
 - [x] Standard context types (`fdc3.instrument`, `fdc3.contact`, `fdc3.organization`, `fdc3.country`, etc.) — typed model + factories + guards in `src/interop/fdc3/context.ts` with tests
 - [x] Standard intents (`ViewChart`, `ViewNews`, `ViewQuote`, `StartCall`, `StartChat`, `ViewContact`, etc.) — `Intents` constants + `isStandardIntent` in `src/interop/fdc3/intents.ts` with tests
-- [ ] `raiseIntentForContext()` (resolve intents from a context)
-- [ ] `addIntentListener` / `addContextListener` with result types (`IntentResult`, `Channel`)
+- [x] `raiseIntentForContext()` (resolve intents from a context) — `DesktopAgent.raiseIntentForContext` resolves via the App Directory, tested
+- [x] `addIntentListener` / `addContextListener` with result types (`IntentResult`, `Channel`) — listeners + `IntentResolution` done; typed `IntentResult`/`Channel` return values pending
 - [ ] Pass the official **FDC3 Conformance Test Suite**
 
 ### 2.2 Channels (standards-based)
-- [ ] User channels (the colored channels — map existing impl to FDC3 user channels)
-- [ ] App channels (`getOrCreateChannel`)
-- [ ] Private channels (`createPrivateChannel`) for 1:1 streaming
-- [ ] Channel `broadcast` / `addContextListener` / `getCurrentContext` fully spec-compliant
+- [x] User channels (the colored channels — map existing impl to FDC3 user channels) — 8 default colored user channels in `InteropBroker`
+- [x] App channels (`getOrCreateChannel`) — idempotent app channels, tested
+- [x] Private channels (`createPrivateChannel`) for 1:1 streaming — unique private channels, tested
+- [x] Channel `broadcast` / `addContextListener` / `getCurrentContext` fully spec-compliant — `ChannelImpl` with per-type caching + latest-context replay, tested
 - [ ] Cross-window + cross-process channel propagation via the bus
 
 ### 2.3 Interop Broker (OpenFin Interop)
-- [ ] Central interop broker in main process (routes context/intents between all entities)
-- [ ] Context linking between views by channel membership
+- [x] Central interop broker in main process (routes context/intents between all entities) — `InteropBroker` + `DesktopAgent` facade; two agents interop exactly like separate FDC3 apps (tested). Cross-process transport pending
+- [x] Context linking between views by channel membership — `DesktopAgent` user-channel membership links context; joining replays cached context (tested)
 - [ ] Interop override API (customers can customize broker behavior)
 - [ ] Interop debugging/inspector panel (see every context + intent flowing)
 
@@ -302,7 +302,7 @@ build the moat.
 |------|-------|----------|--------|
 | 0 | Foundations & hygiene | P0 | ☑ Mostly done (CI, tests, licensing, packaging scaffold) |
 | 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
-| 2 | FDC3 2.0 & interop | P0 | ◧ Standards foundation started (context/intents/AppD v2 done) |
+| 2 | FDC3 2.0 & interop | P0 | ◧ Core done (context/intents/AppD + channels/broker/agent); `window.fdc3` + transport pending |
 | 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
 | 4 | Runtime, manifest, deploy | P0 | ☐ Not started |
 | 5 | Security & permissions | P0 | ☐ Not started |
