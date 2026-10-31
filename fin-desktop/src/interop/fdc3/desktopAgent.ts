@@ -71,7 +71,7 @@ export class DesktopAgent {
   // ---- Context ----
 
   broadcast(context: Context): void {
-    this.current?.broadcast(context);
+    if (this.current) this.broker.broadcast(this.current.id, context, this.source);
   }
 
   addContextListener(contextType: string | null, handler: ContextHandler): Listener {

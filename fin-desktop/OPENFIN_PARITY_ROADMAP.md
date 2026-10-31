@@ -116,7 +116,7 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 - [x] App channels (`getOrCreateChannel`) — idempotent app channels, tested
 - [x] Private channels (`createPrivateChannel`) for 1:1 streaming — unique private channels, tested
 - [x] Channel `broadcast` / `addContextListener` / `getCurrentContext` fully spec-compliant — `ChannelImpl` with per-type caching + latest-context replay, tested
-- [ ] Cross-window + cross-process channel propagation via the bus
+- [x] Cross-window + cross-process channel propagation via the bus — `Transport` abstraction + broker sync (memory transport for tests, `createBusTransport` adapter for the Electron bus); two brokers interop with no echo loops, tested
 
 ### 2.3 Interop Broker (OpenFin Interop)
 - [x] Central interop broker in main process (routes context/intents between all entities) — `InteropBroker` + `DesktopAgent` facade; two agents interop exactly like separate FDC3 apps (tested). Cross-process transport pending
@@ -302,7 +302,7 @@ build the moat.
 |------|-------|----------|--------|
 | 0 | Foundations & hygiene | P0 | ☑ Mostly done (CI, tests, licensing, packaging scaffold) |
 | 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
-| 2 | FDC3 2.0 & interop | P0 | ◧ Core done (context/intents/AppD + channels/broker/agent); `window.fdc3` + transport pending |
+| 2 | FDC3 2.0 & interop | P0 | ◧ Core + cross-window transport done (context/intents/AppD/channels/broker/agent/sync); `window.fdc3` wiring pending |
 | 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
 | 4 | Runtime, manifest, deploy | P0 | ☐ Not started |
 | 5 | Security & permissions | P0 | ☐ Not started |

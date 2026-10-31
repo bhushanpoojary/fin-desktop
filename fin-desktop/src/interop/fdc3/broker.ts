@@ -9,6 +9,7 @@
 import { AppDirectory } from './appDirectory';
 import { ChannelImpl } from './channel';
 import type { Context } from './context';
+import type { Transport, InteropMessage } from './fdc3Transport';
 import type {
   Channel,
   DisplayMetadata,
@@ -38,6 +39,8 @@ export interface InteropBrokerOptions {
   userChannels?: { id: string; displayMetadata?: DisplayMetadata }[];
   directory?: AppDirectory;
   createId?: () => string;
+  /** Optional transport to sync broadcasts + intents with brokers in other windows. */
+  transport?: Transport;
 }
 
 export class InteropBroker {
@@ -47,6 +50,8 @@ export class InteropBroker {
   private readonly intentListeners = new Map<string, Set<IntentEntry>>();
   private readonly directory: AppDirectory;
   private readonly createId: () => string;
+  private readonly transport?: Transport;
+  private readonly disposeTransport?: () => void;
   private privateSeq = 0;
 
   constructor(options: InteropBrokerOptions = {}) {
@@ -55,6 +60,8 @@ export class InteropBroker {
     const defs = options.userChannels ?? DEFAULT_USER_CHANNELS;
     this.userChannels = defs.map((d) => new ChannelImpl(d.id, 'user', d.displayMetadata));
     for (const ch of this.userChannels) this.byId.set(ch.id, ch);
+    this.transport = options.transport;
+    this.disposeTransport = options.transport?.subscribe((m) => this.applyRemote(m));
   }
 
   getDirectory(): AppDirectory {
@@ -101,6 +108,23 @@ export class InteropBroker {
   }
 
   raiseIntent(intent: string, context: Context, source: { appId?: string } = {}): IntentResolution {
+    const deliveredTo = this.deliverIntent(intent, context, source);
+    this.transport?.send({ kind: 'intent', intent, context, source });
+    return { intent, source, deliveredTo };
+  }
+
+  /** Broadcast a context on a channel locally and propagate it over the transport. */
+  broadcast(channelId: string, context: Context, source: { appId?: string } = {}): void {
+    this.getChannel(channelId)?.broadcast(context);
+    this.transport?.send({ kind: 'broadcast', channelId, context, source });
+  }
+
+  /** Stop listening to the transport. */
+  dispose(): void {
+    this.disposeTransport?.();
+  }
+
+  private deliverIntent(intent: string, context: Context, source: { appId?: string }): number {
     const set = this.intentListeners.get(intent);
     let deliveredTo = 0;
     if (set) {
@@ -109,6 +133,15 @@ export class InteropBroker {
         deliveredTo += 1;
       }
     }
-    return { intent, source, deliveredTo };
+    return deliveredTo;
+  }
+
+  /** Apply a message received from another broker (no re-propagation, so no loops). */
+  private applyRemote(message: InteropMessage): void {
+    if (message.kind === 'broadcast') {
+      this.getChannel(message.channelId)?.broadcast(message.context);
+    } else {
+      this.deliverIntent(message.intent, message.context, message.source ?? {});
+    }
   }
 }

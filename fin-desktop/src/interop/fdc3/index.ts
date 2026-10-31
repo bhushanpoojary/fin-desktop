@@ -10,6 +10,7 @@ export * from './intents';
 export * from './appDirectory';
 export * from './appDirectoryLoader';
 export * from './types';
+export * from './fdc3Transport';
 export * from './channel';
 export * from './broker';
 export * from './desktopAgent';
