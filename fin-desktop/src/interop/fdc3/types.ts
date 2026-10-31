@@ -74,3 +74,18 @@ export interface ImplementationMetadata {
   providerVersion?: string;
   optionalFeatures?: Record<string, boolean>;
 }
+
+/**
+ * Customer-supplied broker customization (OpenFin InteropBroker override). Hooks run before the
+ * broker delivers a broadcast or intent, and may transform, redirect, or block it.
+ */
+export interface InteropOverride {
+  /** Transform a broadcast context, or return `null` to block it. */
+  onBeforeBroadcast?(context: Context, channelId: string, source: { appId?: string }): Context | null;
+  /** Transform/redirect a raised intent, or `block` it. Returning nothing leaves it unchanged. */
+  onBeforeRaiseIntent?(
+    intent: string,
+    context: Context,
+    source: { appId?: string },
+  ): { intent?: string; context?: Context; block?: boolean } | void;
+}

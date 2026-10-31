@@ -121,7 +121,7 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 ### 2.3 Interop Broker (OpenFin Interop)
 - [x] Central interop broker in main process (routes context/intents between all entities) — `InteropBroker` + `DesktopAgent` facade; two agents interop exactly like separate FDC3 apps (tested). Cross-process transport pending
 - [x] Context linking between views by channel membership — `DesktopAgent` user-channel membership links context; joining replays cached context (tested)
-- [ ] Interop override API (customers can customize broker behavior)
+- [x] Interop override API (customers can customize broker behavior) — `InteropOverride` hooks (`onBeforeBroadcast` / `onBeforeRaiseIntent`) let customers transform, redirect, or block broadcasts + intents before delivery; wired into the broker, tested
 - [x] Interop debugging/inspector panel (see every context + intent flowing) — `InteropBroker.observe` / `DesktopAgent.observe` emit local + remote events; live `Fdc3Inspector` UI at `?test=fdc3-inspector`, tested
 
 ### 2.4 App Directory (FDC3 spec)

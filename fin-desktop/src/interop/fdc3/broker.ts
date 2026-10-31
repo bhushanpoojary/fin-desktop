@@ -17,6 +17,7 @@ import type {
   IntentHandler,
   IntentResolution,
   IntentResult,
+  InteropOverride,
   Listener,
 } from './types';
 
@@ -60,6 +61,8 @@ export interface InteropBrokerOptions {
   now?: () => number;
   /** Launches an app and returns its instanceId (FDC3 `open`). */
   launcher?: (appId: string, context?: Context) => string;
+  /** Customer override to transform/redirect/block broadcasts + intents. */
+  override?: InteropOverride;
 }
 
 export class InteropBroker {
@@ -79,12 +82,14 @@ export class InteropBroker {
   private readonly instances = new Map<string, Set<string>>();
   private readonly openContexts = new Map<string, Context>();
   private readonly launcher?: (appId: string, context?: Context) => string;
+  private readonly override?: InteropOverride;
 
   constructor(options: InteropBrokerOptions = {}) {
     this.directory = options.directory ?? new AppDirectory();
     this.createId = options.createId ?? (() => `private-${++this.privateSeq}`);
     this.now = options.now ?? Date.now;
     this.launcher = options.launcher;
+    this.override = options.override;
     const defs = options.userChannels ?? DEFAULT_USER_CHANNELS;
     this.userChannels = defs.map((d) => new ChannelImpl(d.id, 'user', d.displayMetadata));
     for (const ch of this.userChannels) this.byId.set(ch.id, ch);
@@ -182,17 +187,32 @@ export class InteropBroker {
   }
 
   raiseIntent(intent: string, context: Context, source: { appId?: string } = {}, target?: AppIdentifier): IntentResolution {
-    const { deliveredTo, result } = this.deliverIntent(intent, context, source, target);
-    this.transport?.send({ kind: 'intent', intent, context, source });
-    this.notify({ kind: 'intent', intent, context, source, deliveredTo, origin: 'local', timestamp: this.now() });
-    return { intent, source: target ?? source, deliveredTo, getResult: () => result };
+    let effectiveIntent = intent;
+    let effectiveContext = context;
+    if (this.override?.onBeforeRaiseIntent) {
+      const decision = this.override.onBeforeRaiseIntent(intent, context, source);
+      if (decision?.block) {
+        return { intent, source: target ?? source, deliveredTo: 0, getResult: () => Promise.resolve(undefined) };
+      }
+      if (decision?.intent) effectiveIntent = decision.intent;
+      if (decision?.context) effectiveContext = decision.context;
+    }
+    const { deliveredTo, result } = this.deliverIntent(effectiveIntent, effectiveContext, source, target);
+    this.transport?.send({ kind: 'intent', intent: effectiveIntent, context: effectiveContext, source });
+    this.notify({ kind: 'intent', intent: effectiveIntent, context: effectiveContext, source, deliveredTo, origin: 'local', timestamp: this.now() });
+    return { intent: effectiveIntent, source: target ?? source, deliveredTo, getResult: () => result };
   }
 
   /** Broadcast a context on a channel locally and propagate it over the transport. */
   broadcast(channelId: string, context: Context, source: { appId?: string } = {}): void {
-    this.getChannel(channelId)?.broadcast(context);
-    this.transport?.send({ kind: 'broadcast', channelId, context, source });
-    this.notify({ kind: 'broadcast', channelId, context, source, origin: 'local', timestamp: this.now() });
+    let effectiveContext: Context | null = context;
+    if (this.override?.onBeforeBroadcast) {
+      effectiveContext = this.override.onBeforeBroadcast(context, channelId, source);
+      if (effectiveContext === null) return; // blocked by override
+    }
+    this.getChannel(channelId)?.broadcast(effectiveContext);
+    this.transport?.send({ kind: 'broadcast', channelId, context: effectiveContext, source });
+    this.notify({ kind: 'broadcast', channelId, context: effectiveContext, source, origin: 'local', timestamp: this.now() });
   }
 
   /** Stop listening to the transport. */
