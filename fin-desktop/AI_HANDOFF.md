@@ -56,12 +56,13 @@ node --check electron/<file>.cjs   # after editing any electron cjs file
 
 ## What's left (suggested next, roughly by value)
 1. **Phase 2 FDC3 conformance** — run/pass the official FDC3 2.0 conformance suite; result-channel
-   helpers; a real intent-resolver UI; `getAppMetadata`/version negotiation polish.
+   helpers; a real intent-resolver UI. *(Version negotiation done: `src/interop/fdc3/versionNegotiation.ts`.)*
 2. **Phase 4 deployment** — wire `electron-updater` to the pure update model; OS protocol registration
    for deep links; installer generation (NSIS/MSI, DMG, AppImage); silent/enterprise install flags.
 3. **Phase 8 DX** — publish `@findesktop/sdk` + `@findesktop/fdc3` npm packages (package.json/exports/
-   build); flesh out the CLI (`init`/`dev`/`package`) on top of `src/cli/args.ts`; starter templates;
-   API docs.
+   build); flesh out the CLI (`init`/`dev`/`package`) — arg parser + **command router** exist
+   (`src/cli/args.ts`, `src/cli/commands.ts`); still need bin wiring + scaffolding actions; starter
+   templates; API docs.
 4. **Phase 5 security** — runtime permission prompt UI; CSP headers on Views; context-isolation audit;
    manifest code-signing/verification.
 5. **Phase 6 P3** — native window embedding; Office/Excel bridge; language client stubs (.NET/Python/Java).
