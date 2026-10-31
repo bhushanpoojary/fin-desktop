@@ -238,13 +238,13 @@ Enterprise adoption is impossible without a real security model.
 
 An OSS OpenFin replacement lives or dies by DX.
 
-- [ ] Publish a versioned **`@findesktop/sdk`** npm package (typed client API)
-- [ ] Publish **`@findesktop/fdc3`** FDC3 API shim for apps
+- [~] Publish a versioned **`@findesktop/sdk`** npm package (typed client API) — public API surface built in `src/sdk/` (namespaced `fdc3`/`platform`/`manifest`/`deeplink`/`security` + `getFdc3`/`isInFinDesktop`), tested; npm package.json/publish wiring pending
+- [~] Publish **`@findesktop/fdc3`** FDC3 API shim for apps — the compliant agent is exported via the SDK (`fdc3` namespace) + `window.fdc3`; separate published package pending
 - [ ] CLI (`findesktop init`, `findesktop dev`, `findesktop package`) to scaffold apps
 - [ ] App starter templates (React, Vue, Angular, vanilla)
 - [ ] Hot-reload dev server integration for third-party apps
 - [ ] Interop/FDC3 **inspector devtool** (see contexts, intents, channels live)
-- [ ] Mock platform for unit testing apps outside the container
+- [x] Mock platform for unit testing apps outside the container — `createMockFdc3` / `createMockFdc3Pair` / `createMockPlatform` + inspectable `MemoryPlatformHost` in `src/sdk/testing.ts`, tested
 - [ ] Comprehensive API reference docs (TypeDoc) + guides + recipes
 - [ ] Interactive sandbox / playground site (tie into FinDesktop-Website)
 - [ ] Example gallery (trading blotter, chart, news, chat, OMS)
@@ -308,7 +308,7 @@ build the moat.
 | 5 | Security & permissions | P0 | ◧ Policy + domain enforcement + secure tokens/OAuth2-PKCE done; prompts/CSP-headers/code-signing pending |
 | 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |
 | 7 | Enterprise telemetry | P1 | ☐ Partial (logging) |
-| 8 | Developer experience/SDK | P1 | ☐ Not started |
+| 8 | Developer experience/SDK | P1 | ◧ SDK public surface + mock platform/fdc3 done; npm packaging/CLI/docs pending |
 | 9 | Website & community | P2 | ☐ Partial (website repo) |
 | 10 | Differentiators | P2/P3 | ☐ Not started |
 
