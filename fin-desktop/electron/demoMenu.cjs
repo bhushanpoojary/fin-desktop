@@ -37,6 +37,7 @@ const DEMO_GROUPS = [
     label: 'Deployment',
     items: [
       { id: 'update', label: 'Auto-Update' },
+      { id: 'logging', label: 'Logging & Rotation' },
     ],
   },
   {

@@ -222,7 +222,7 @@ Enterprise adoption is impossible without a real security model.
 
 ## 📈 Phase 7 — Enterprise: Telemetry, Logging & Management (`P1`)
 
-- [~] Structured logging to disk (rotating files) + log levels (extend existing `useLogger`) — `Logger` with levels, child/contextual loggers, and a pluggable `LogSink` in `src/telemetry/`; rotating-file sink pending
+- [x] Structured logging to disk (rotating files) + log levels (extend existing `useLogger`) — `Logger` with levels, child/contextual loggers, and a pluggable `LogSink` in `src/telemetry/`; **`RotatingFileSink`** rotates by size into bounded backups (`app.log`/`app.1.log`…) over an injectable `LogFileSystem` (in-memory for tests; Node `fs` adapter plugs in); demo at `?test=logging`, tested
 - [ ] Crash reporting / minidump collection (electron crashReporter)
 - [x] Usage analytics API (app launches, intent flows, errors) with pluggable sink — `Telemetry` (`trackAppLaunch`/`trackIntent`/`trackError`) over a `TelemetrySink` (memory/console/custom), buffering + batch auto-flush, tested
 - [x] Opt-in/opt-out telemetry + privacy controls — disabled-by-default no-op `track`, runtime `setEnabled`, recursive **PII redaction** of configured keys, tested

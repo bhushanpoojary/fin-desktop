@@ -8,3 +8,4 @@
 export * from './events';
 export * from './telemetry';
 export * from './logger';
+export * from './rotatingFileSink';

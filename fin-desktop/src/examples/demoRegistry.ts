@@ -38,6 +38,7 @@ export const DEMOS: DemoEntry[] = [
 
   // Deployment
   { id: 'update', title: 'Auto-Update', description: 'Version channels + staged rollout + rollback.', icon: '⬆️', category: 'Deployment' },
+  { id: 'logging', title: 'Logging & Rotation', description: 'Structured logger with rotating file sink.', icon: '📜', category: 'Deployment' },
 
   // Theming & shells
   { id: 'theme', title: 'Theme Engine', description: 'Live theme tokens and switching.', icon: '🎨', category: 'Theming & Shells' },
