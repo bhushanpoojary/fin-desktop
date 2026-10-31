@@ -62,15 +62,15 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 ### 1.1 Platform API (OpenFin `Platform` equivalent)
 - [ ] Define `Platform` provider concept (owns windows, views, layouts, snapshots)
 - [ ] Implement **Views** using Electron `WebContentsView` / `BrowserView` (not iframes) for isolation + performance
-- [ ] Implement **Layout engine** (tabbing + splitting, golden-layout / flexlayout-react driven)
-- [ ] Window can host multiple tabbed/split Views
-- [ ] Programmatic API: `createView`, `closeView`, `reparentView`, `getLayout`, `applyLayout`
+- [x] Implement **Layout engine** (tabbing + splitting) — pure immutable tree (`split`/`stack`) in `src/platform/layout/` with `computeLayout` bounds math + tests
+- [x] Window can host multiple tabbed/split Views — modeled by the layout tree (stacks = tab groups, splits = row/column)
+- [~] Programmatic API: `createView`, `closeView`, `reparentView`, `getLayout`, `applyLayout` — tree ops done (`addView`/`removeView`/`moveView`/`splitStack`); runtime API surface pending
 - [ ] Platform lifecycle events (`platform-api-ready`, `window-created`, `view-attached`)
 
 ### 1.2 Snap, Dock & Group (OpenFin Snap & Dock)
-- [ ] Edge/snap-to-screen magnetism when dragging windows
-- [ ] Window-to-window snapping (magnetic edges between app windows)
-- [ ] Window grouping (move/resize as a unit)
+- [x] Edge/snap-to-screen magnetism when dragging windows — `snapRect` + `detectDockZone`/`dockZoneBounds` in `src/platform/snap/` with tests
+- [x] Window-to-window snapping (magnetic edges between app windows) — `snapRect` snaps to neighbour edges
+- [~] Window grouping (move/resize as a unit) — adjacency detection (`areAdjacent`) done; group move/resize wiring pending
 - [ ] Tab windows together (drag a window into another's tab strip)
 - [ ] Visual drop zones / dock preview overlays while dragging
 - [ ] Undock / tear-out a tab into its own window
@@ -87,12 +87,14 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 - [ ] Smart window placement (cascade, center, remember last position)
 
 ### 1.4 Snapshots & Session Persistence
-- [ ] Snapshot = full serializable platform state (windows + views + layouts + bounds)
-- [ ] Save / restore named snapshots (workspaces)
+- [x] Snapshot = full serializable platform state (windows + views + layouts + bounds) — `PlatformSnapshot` model in `src/platform/snapshot/` with validated serialize/deserialize + tests
+- [~] Save / restore named snapshots (workspaces) — model + (de)serialization done; storage/restore wiring pending
 - [ ] Auto-restore last session on launch
-- [ ] Export/import workspace as JSON file
+- [x] Export/import workspace as JSON file — `serializeSnapshot` / `deserializeSnapshot` (versioned, validated)
 - [ ] Pluggable persistence backend (localStorage → IndexedDB → remote REST) via `ILayoutManager`
 - [ ] Per-user cloud sync of workspaces (optional provider)
+
+> **Phase 1 progress:** the framework-agnostic Platform core has landed in `src/platform/` — layout-tree engine, snapshot model, and snap/dock geometry — all pure and unit-tested (43 new tests, 84 total passing). Next: the Electron `WebContentsView` runtime that consumes these (real Views, programmatic API, drag/drop overlays, multi-monitor wiring).
 
 ---
 
@@ -299,7 +301,7 @@ build the moat.
 | Phase | Theme | Priority | Status |
 |------|-------|----------|--------|
 | 0 | Foundations & hygiene | P0 | ☑ Mostly done (CI, tests, licensing, packaging scaffold) |
-| 1 | Platform & window mgmt | P0 | ☐ Not started |
+| 1 | Platform & window mgmt | P0 | ☐ In progress (pure core: layout/snapshot/snap done) |
 | 2 | FDC3 2.0 & interop | P0 | ☐ Partial (Phase 1/2 custom) |
 | 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
 | 4 | Runtime, manifest, deploy | P0 | ☐ Not started |
