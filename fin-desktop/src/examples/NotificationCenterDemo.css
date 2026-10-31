@@ -1,0 +1,278 @@
+.nc {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 20px 24px 48px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.nc-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.nc-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nc-title h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.nc-badge {
+  background: #e2574c;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nc-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.nc-ctrl {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+  color: #cdd4e2;
+  padding: 7px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.nc-ctrl:hover {
+  filter: brightness(1.15);
+}
+
+.nc-dnd {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #aab2c5;
+  cursor: pointer;
+  padding: 6px 10px;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+}
+
+.nc-dnd.on {
+  border-color: #c9a227;
+  color: #f0cf6a;
+  background: #221c0d;
+}
+
+.nc-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.nc-search {
+  flex: 1;
+  background: #141925;
+  border: 1px solid #2a3344;
+  border-radius: 9px;
+  color: #e6e9ef;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
+.nc-search:focus {
+  outline: none;
+  border-color: #3a5bd0;
+}
+
+.nc-prio-select {
+  background: #141925;
+  border: 1px solid #2a3344;
+  border-radius: 9px;
+  color: #e6e9ef;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+}
+
+.nc-routed {
+  background: #0f1d16;
+  border: 1px solid #244a34;
+  color: #6fd59b;
+  border-radius: 9px;
+  padding: 8px 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  margin-bottom: 14px;
+}
+
+.nc-group {
+  margin-bottom: 18px;
+}
+
+.nc-group-title {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6f7890;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nc-group-count {
+  background: #161d2b;
+  border: 1px solid #263044;
+  border-radius: 8px;
+  padding: 0 6px;
+  font-size: 0.7rem;
+}
+
+.nc-card {
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-left: 3px solid #4f8cff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+
+.nc-card.read {
+  opacity: 0.62;
+}
+
+.nc-card-head {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.nc-card-image {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.nc-card-title-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.nc-card-title {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nc-unread-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4f8cff;
+  flex: none;
+}
+
+.nc-card-body {
+  font-size: 0.85rem;
+  color: #aeb7cc;
+  margin-top: 3px;
+}
+
+.nc-prio {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.nc-progress {
+  position: relative;
+  height: 8px;
+  background: #0b0e14;
+  border: 1px solid #222a3a;
+  border-radius: 6px;
+  margin: 10px 0 4px;
+  overflow: hidden;
+}
+
+.nc-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3a5bd0, #4f8cff);
+  transition: width 0.4s ease;
+}
+
+.nc-progress-label {
+  position: absolute;
+  right: 6px;
+  top: -18px;
+  font-size: 0.7rem;
+  color: #8d96ab;
+}
+
+.nc-input {
+  width: 100%;
+  margin-top: 10px;
+  background: #0b0e14;
+  border: 1px solid #222a3a;
+  border-radius: 7px;
+  color: #e6e9ef;
+  padding: 7px 10px;
+  font-size: 0.82rem;
+}
+
+.nc-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.nc-btn {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 7px;
+  color: #cdd4e2;
+  padding: 5px 11px;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.nc-btn.primary {
+  background: #2f52c4;
+  border-color: #3a5bd0;
+  color: #fff;
+}
+
+.nc-btn.ghost {
+  background: transparent;
+  color: #8d96ab;
+}
+
+.nc-btn:hover {
+  filter: brightness(1.15);
+}
+
+.nc-empty {
+  color: #6f7890;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 40px 0;
+}

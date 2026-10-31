@@ -163,12 +163,12 @@ OpenFin Workspace ships Home, Dock, Store, Notifications, Browser. Build OSS equ
 - [x] Address bar + navigation controls for arbitrary URLs — global/address bar `navigate` + back/forward with history truncation
 
 ### 3.5 Notifications Center (upgrade existing)
-- [ ] Dedicated notification center panel (history, grouped, filterable)
-- [ ] Priority levels + Do-Not-Disturb mode
-- [ ] Rich notifications (buttons, inputs, images, progress)
-- [ ] Notification routing to FDC3 intents/actions
-- [ ] Persistence + badge counts in tray/dock
-- [ ] OS-native notification fallback
+- [x] Dedicated notification center panel (history, grouped, filterable) — `NotificationStore` with newest-first history, `grouped()` by key, and filter by group/priority/unread/query; demo at `?test=notifications`
+- [x] Priority levels + Do-Not-Disturb mode — low/normal/high/critical; DND suppresses delivery except critical (still retained in history)
+- [x] Rich notifications (buttons, inputs, images, progress) — action buttons, reply inputs, image/emoji, and clamped `updateProgress`
+- [x] Notification routing to FDC3 intents/actions — `act()` returns an FDC3 route (intent + context) for the notification or a specific button
+- [x] Persistence + badge counts in tray/dock — `badgeCount()` (unread, non-dismissed) + `serialize()`/`deserialize()` round-trip
+- [x] OS-native notification fallback — injectable `OsNotificationSink` used when no in-app `onToast` renderer is attached
 
 ---
 
@@ -303,7 +303,7 @@ build the moat.
 | 0 | Foundations & hygiene | P0 | ☑ Mostly done (CI, tests, licensing, packaging scaffold) |
 | 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
 | 2 | FDC3 2.0 & interop | P0 | ◧ Core + transport + `window.fdc3` wired (demo `?test=fdc3`); full surface/conformance pending |
-| 3 | Workspace components | P1 | ◧ Launcher + dock + app-store + browser + notifications done; notifications-center upgrade pending |
+| 3 | Workspace components | P1 | ✓ Launcher + dock + app-store + browser + notifications-center all done |
 | 4 | Runtime, manifest, deploy | P0 | ◧ Manifest model+load+launch + deep-link parser done; auto-update/installers/OS-protocol pending |
 | 5 | Security & permissions | P0 | ◧ Policy + domain enforcement + secure tokens/OAuth2-PKCE done; prompts/CSP-headers/code-signing pending |
 | 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |

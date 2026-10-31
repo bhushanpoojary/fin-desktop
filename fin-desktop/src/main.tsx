@@ -17,6 +17,7 @@ import { CommandPaletteDemo } from './examples/CommandPaletteDemo'
 import { DockDemo } from './examples/DockDemo'
 import { AppStoreDemo } from './examples/AppStoreDemo'
 import { BrowserDemo } from './examples/BrowserDemo'
+import { NotificationCenterDemo } from './examples/NotificationCenterDemo'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
@@ -119,6 +120,9 @@ if (test === 'theme') {
 } else if (test === 'browser') {
   console.log('📄 [main.tsx] Rendering: BrowserDemo');
   AppComponent = <BrowserDemo />  // Multi-tab browser container
+} else if (test === 'notifications') {
+  console.log('📄 [main.tsx] Rendering: NotificationCenterDemo');
+  AppComponent = <NotificationCenterDemo />  // Upgraded notification center
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping
