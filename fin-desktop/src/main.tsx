@@ -10,6 +10,7 @@ import WorkspaceDockTestApp from './workspace/WorkspaceDockTestApp'
 import ThemeTestApp from './workspace/ThemeTestApp'
 import { WindowDockingDemo } from './workspace/WindowDockingDemo'
 import { PlatformPlayground } from './examples/PlatformPlayground'
+import { PlatformControl } from './examples/PlatformControl'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
@@ -72,6 +73,9 @@ if (test === 'theme') {
 } else if (test === 'platform') {
   console.log('📄 [main.tsx] Rendering: PlatformPlayground');
   AppComponent = <PlatformPlayground />  // Platform core: layout + drag-dock + snapshots
+} else if (test === 'platform-control') {
+  console.log('📄 [main.tsx] Rendering: PlatformControl');
+  AppComponent = <PlatformControl />  // Controller for the real-windows Platform demo
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping

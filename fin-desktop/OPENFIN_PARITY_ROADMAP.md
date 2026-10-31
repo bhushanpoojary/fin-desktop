@@ -61,7 +61,7 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 
 ### 1.1 Platform API (OpenFin `Platform` equivalent)
 - [x] Define `Platform` provider concept (owns windows, views, layouts, snapshots) — `Platform` / `PlatformWindow` in `src/platform/runtime/` driving an injectable `PlatformHost`
-- [x] Implement **Views** using Electron `WebContentsView` / `BrowserView` (not iframes) for isolation + performance — `WebContentsViewHost` adapter + `platformMain` demo (`npm run dev:platform`) drive real OS web views via the tested core (bundled with esbuild)
+- [x] Implement **Views** using Electron `WebContentsView` / `BrowserView` (not iframes) for isolation + performance — `WebContentsViewHost` adapter + interactive controller/stage demo (`npm run dev:platform`): drag app tiles in a React controller to split/tab **real OS web views** live via an IPC `window.platform` bridge
 - [x] Implement **Layout engine** (tabbing + splitting) — pure immutable tree (`split`/`stack`) in `src/platform/layout/` with `computeLayout` bounds math + tests
 - [x] Window can host multiple tabbed/split Views — `PlatformWindow` positions each stack's active View and hides the rest (tabbing) + splits
 - [x] Programmatic API: `createView`, `closeView`, `reparentView`, `getLayout`, `applyLayout` — `addView`/`splitView`/`closeView`/`activateView`/`moveView`/`setBounds`/`applyLayout`/`getSnapshot`, fully unit-tested with a fake host
@@ -71,9 +71,9 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 - [x] Edge/snap-to-screen magnetism when dragging windows — `snapRect` + `detectDockZone`/`dockZoneBounds` in `src/platform/snap/` with tests
 - [x] Window-to-window snapping (magnetic edges between app windows) — `snapRect` snaps to neighbour edges
 - [x] Window grouping (move/resize as a unit) — `moveGroup`/`groupBounds`/`unionBounds` in `src/platform/dock/` with tests
-- [~] Tab windows together (drag a window into another's tab strip) — `computeDropTarget` center region → tabify (`addView`); GUI drag wiring pending
-- [x] Visual drop zones / dock preview overlays while dragging — `computeDropTarget` returns region + preview rect (maps to `splitStack`/`addView`) with tests
-- [~] Undock / tear-out a tab into its own window — `tearOut` + layout `removeView`/`createRoot` support it; GUI drag wiring pending
+- [x] Tab windows together (drag a window into another's tab strip) — center-drop tabifies into a pane; wired end-to-end to real views in the controller/stage demo
+- [x] Visual drop zones / dock preview overlays while dragging — `computeDropTarget` region + preview rect, shown live in the Platform Playground and controller drag-dock
+- [~] Undock / tear-out a tab into its own window — `tearOut` + layout `removeView`/`createRoot` support it; multi-window tear-out GUI pending
 - [~] Multi-monitor aware snapping (respect display boundaries + DPI) — `pickMonitorForRect`/`pickMonitorForPoint` provide the monitor context; snap integration pending
 
 ### 1.3 Window Capabilities
@@ -88,13 +88,13 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 
 ### 1.4 Snapshots & Session Persistence
 - [x] Snapshot = full serializable platform state (windows + views + layouts + bounds) — `PlatformSnapshot` model in `src/platform/snapshot/` with validated serialize/deserialize + tests
-- [~] Save / restore named snapshots (workspaces) — `Platform.getSnapshot()` / `applySnapshot()` fully round-trip (tested); named storage/UI pending
+- [x] Save / restore named snapshots (workspaces) — `Platform.getSnapshot()` / `applySnapshot()` + `PlatformWindow.applyLayout()`; wired to Save/Restore buttons in the Playground and the real-windows controller
 - [ ] Auto-restore last session on launch
-- [x] Export/import workspace as JSON file — `serializeSnapshot` / `deserializeSnapshot` (versioned, validated)
+- [x] Export/import workspace as JSON file — `serializeSnapshot` / `deserializeSnapshot` (versioned, validated); exposed as editable JSON in both demos
 - [ ] Pluggable persistence backend (localStorage → IndexedDB → remote REST) via `ILayoutManager`
 - [ ] Per-user cloud sync of workspaces (optional provider)
 
-> **Phase 1 progress:** the framework-agnostic Platform core has landed in `src/platform/` — layout-tree engine, snapshot model, and snap/dock geometry — all pure and unit-tested (43 new tests, 84 total passing). Next: the Electron `WebContentsView` runtime that consumes these (real Views, programmatic API, drag/drop overlays, multi-monitor wiring).
+> **Phase 1 progress:** the framework-agnostic Platform core is complete and fully unit-tested in `src/platform/` (layout engine, snapshots, snap/dock geometry, window placement, runtime). It is now wired to real Electron `WebContentsView` windows via the `WebContentsViewHost` adapter + an IPC `window.platform` bridge, with two interactive demos: the renderer-only **Platform Playground** (`?test=platform`, launchable from the workspace Launcher) and the **controller/stage** real-windows demo (`npm run dev:platform`). Remaining: multi-window tear-out, frameless custom chrome, hotkeys/zoom, and Electron `screen`/placement runtime wiring.
 
 ---
 
@@ -301,7 +301,7 @@ build the moat.
 | Phase | Theme | Priority | Status |
 |------|-------|----------|--------|
 | 0 | Foundations & hygiene | P0 | ☑ Mostly done (CI, tests, licensing, packaging scaffold) |
-| 1 | Platform & window mgmt | P0 | ☐ In progress (pure core: layout/snapshot/snap done) |
+| 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
 | 2 | FDC3 2.0 & interop | P0 | ☐ Partial (Phase 1/2 custom) |
 | 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
 | 4 | Runtime, manifest, deploy | P0 | ☐ Not started |
