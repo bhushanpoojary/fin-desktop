@@ -4,3 +4,4 @@
 
 export * from './interAppBus';
 export * from './channels';
+export * from './external';

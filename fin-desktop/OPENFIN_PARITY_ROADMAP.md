@@ -210,7 +210,7 @@ Enterprise adoption is impossible without a real security model.
 
 - [x] **Inter-Application Bus (IAB)** — publish/subscribe + send (point-to-point), typed — `InterAppBus` in `src/messaging/`: topic subscriptions with per-sender filtering (`'*'` = any), `publish` broadcast + `send` point-to-point (delivery counts), `unsubscribeAll`; demo at `?test=messaging`, tested
 - [x] **Channels API (provider/client)** — request/response RPC between apps (OpenFin `Channel`) — `ChannelBus`/`ChannelProvider`/`ChannelClient`: client→provider `dispatch`, provider→client `dispatch`/`publish`, async handlers, connection tracking + connect/disconnect events, tested
-- [ ] External connections — connect non-Electron apps (Node, Python, .NET, Java) via WebSocket/named-pipe adapter
+- [x] External connections — connect non-Electron apps (Node, Python, .NET, Java) via WebSocket/named-pipe adapter — `ExternalGateway`/`ExternalClient` over an injectable `DuplexConnection` (in-memory pair for tests) + a validated JSON wire protocol: hello/auth handshake, cross-boundary pub/sub + point-to-point send, and channel RPC `dispatch`; subscriptions cleaned up on disconnect; demo at `?test=external`, tested
 - [ ] Language SDKs / client libs (JS/TS first, then .NET, Python, Java stubs)
 - [ ] Native window embedding (dock external native windows into layouts) `P3`
 - [ ] Office/Excel integration bridge `P3`
