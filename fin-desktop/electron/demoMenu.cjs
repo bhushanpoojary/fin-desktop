@@ -30,6 +30,7 @@ const DEMO_GROUPS = [
     label: 'Integration',
     items: [
       { id: 'integration', label: 'Clipboard & Hotkeys' },
+      { id: 'dragdrop', label: 'Drag & Drop' },
     ],
   },
   {

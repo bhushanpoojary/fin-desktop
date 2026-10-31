@@ -216,7 +216,7 @@ Enterprise adoption is impossible without a real security model.
 - [ ] Office/Excel integration bridge `P3`
 - [x] Clipboard API (read/write, formats) — `Clipboard` in `src/integration/` with multi-format write (`text/plain` + `text/html` + custom), `writeHtml` (derives plain text), change notifications, over an injectable `ClipboardBackend` (in-memory default; Electron/browser adapter plugs in); demo at `?test=integration`, tested
 - [x] Global hotkey registration API — `HotkeyRegistry` parses accelerators (`CmdOrCtrl+Shift+K`, platform-resolved), normalizes equivalent spellings + key aliases to one signature, and dispatches via `handleKeyEvent` (DOM keydown / Electron `globalShortcut` adapter), tested
-- [ ] File drag-and-drop between apps
+- [x] File drag-and-drop between apps — `DragManager` in `src/integration/`: typed drag payloads (items + files + source), format-aware drop targets (`'*'`/`'files'`/explicit), single active session, live accept/reject + hover state; bridges native drag events in the demo at `?test=dragdrop`, tested
 
 ---
 
@@ -306,7 +306,7 @@ build the moat.
 | 3 | Workspace components | P1 | ✓ Launcher + dock + app-store + browser + notifications-center all done |
 | 4 | Runtime, manifest, deploy | P0 | ◧ Manifest model+load+launch + deep-link parser done; auto-update/installers/OS-protocol pending |
 | 5 | Security & permissions | P0 | ◧ Policy + domain enforcement + secure tokens/OAuth2-PKCE done; prompts/CSP-headers/code-signing pending |
-| 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |
+| 6 | Messaging & integration | P1 | ◧ IAB + Channels + external-connections + clipboard/hotkeys/drag-drop done; native embedding/Office bridge (P3) pending |
 | 7 | Enterprise telemetry | P1 | ◧ Analytics + structured logger + opt-in/redaction done; file sink/crash/health pending |
 | 8 | Developer experience/SDK | P1 | ◧ SDK public surface + mock platform/fdc3 done; npm packaging/CLI/docs pending |
 | 9 | Website & community | P2 | ☐ Partial (website repo) |

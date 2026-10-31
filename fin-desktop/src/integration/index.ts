@@ -4,3 +4,4 @@
 
 export * from './clipboard';
 export * from './hotkeys';
+export * from './dragDrop';

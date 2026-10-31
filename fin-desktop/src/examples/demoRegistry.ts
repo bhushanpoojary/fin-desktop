@@ -27,6 +27,7 @@ export const DEMOS: DemoEntry[] = [
 
   // Integration
   { id: 'integration', title: 'Clipboard & Hotkeys', description: 'Multi-format clipboard + global hotkey registry.', icon: '⌨️', category: 'Integration' },
+  { id: 'dragdrop', title: 'Drag & Drop', description: 'Drag files and typed data between apps.', icon: '👆', category: 'Integration' },
 
   // Workspace components
   { id: 'palette', title: 'Command Palette', description: 'Spotlight launcher with fuzzy search + recents.', icon: '⌨️', category: 'Workspace Components' },

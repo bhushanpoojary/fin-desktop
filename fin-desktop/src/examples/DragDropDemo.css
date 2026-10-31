@@ -1,0 +1,129 @@
+.dd {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 22px 26px 48px;
+}
+
+.dd-head h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.dd-head p {
+  color: #8d96ab;
+  font-size: 0.85rem;
+  margin: 4px 0 20px;
+  max-width: 640px;
+}
+
+.dd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.dd-panel {
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.dd-panel h2 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  color: #cdd4e2;
+}
+
+.dd-accepts {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  color: #6f7890;
+  margin: 0 0 12px;
+}
+
+.dd-source {
+  margin-bottom: 16px;
+}
+
+.dd-source-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6f7890;
+  margin: 10px 0 8px;
+}
+
+.dd-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 9px;
+  padding: 9px 11px;
+  margin-bottom: 7px;
+  cursor: grab;
+  font-size: 0.85rem;
+  user-select: none;
+}
+
+.dd-chip:active {
+  cursor: grabbing;
+  filter: brightness(1.2);
+}
+
+.dd-chip-icon {
+  font-size: 1.1rem;
+}
+
+.dd-zone {
+  border: 2px dashed #2a3344;
+  border-radius: 12px;
+  padding: 18px;
+  min-height: 160px;
+  background: #0d111a;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.dd-zone.ok {
+  border-color: #3fb27f;
+  background: #0f1d16;
+}
+
+.dd-zone.reject {
+  border-color: #e2574c;
+  background: #1d1111;
+}
+
+.dd-zone-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.dd-zone-hint {
+  font-size: 0.78rem;
+  color: #6f7890;
+  margin-top: 2px;
+  margin-bottom: 12px;
+}
+
+.dd-zone-log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.76rem;
+}
+
+.dd-zone-log li {
+  padding: 5px 0;
+  border-bottom: 1px solid #141b27;
+  color: #b7c0d4;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.dd-zone-log .muted {
+  color: #4a5164;
+}
