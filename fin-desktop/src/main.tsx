@@ -14,6 +14,7 @@ import { PlatformControl } from './examples/PlatformControl'
 import { Fdc3Demo } from './examples/Fdc3Demo'
 import { Fdc3Inspector } from './examples/Fdc3Inspector'
 import { CommandPaletteDemo } from './examples/CommandPaletteDemo'
+import { DockDemo } from './examples/DockDemo'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
@@ -107,6 +108,9 @@ if (test === 'theme') {
 } else if (test === 'palette') {
   console.log('📄 [main.tsx] Rendering: CommandPaletteDemo');
   AppComponent = <CommandPaletteDemo />  // Spotlight / command-palette launcher
+} else if (test === 'dock') {
+  console.log('📄 [main.tsx] Rendering: DockDemo');
+  AppComponent = <DockDemo />  // Configurable Dock / App Bar
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping

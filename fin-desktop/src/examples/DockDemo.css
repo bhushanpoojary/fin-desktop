@@ -1,0 +1,256 @@
+.dockdemo {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+.dockdemo-head {
+  padding: 16px 20px;
+  border-bottom: 1px solid #1c2230;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.dockdemo-head h1 {
+  font-size: 1.1rem;
+  margin: 0;
+  margin-right: auto;
+}
+
+.dockdemo-controls,
+.dockdemo-pins {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dockdemo-controls label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #aab2c5;
+}
+
+.dockdemo-controls select {
+  background: #141925;
+  color: #e6e9ef;
+  border: 1px solid #2a3344;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.dockdemo-check {
+  cursor: pointer;
+}
+
+.pin-btn {
+  background: #141925;
+  color: #cdd4e2;
+  border: 1px solid #2a3344;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.pin-btn.is-pinned {
+  border-color: #3a5bd0;
+  color: #9fb4ff;
+}
+
+.dockdemo-stage {
+  position: relative;
+  flex: 1;
+  margin: 20px;
+  border: 1px solid #1c2230;
+  border-radius: 12px;
+  overflow: hidden;
+  background: radial-gradient(circle at 30% 20%, #131a28, #0b0e14 70%);
+}
+
+.dockdemo-desktop {
+  padding: 24px;
+  max-width: 520px;
+}
+
+.dockdemo-desktop p {
+  color: #8d96ab;
+  font-size: 0.9rem;
+}
+
+.dockdemo-log {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+}
+
+.dockdemo-log li {
+  padding: 4px 0;
+  border-bottom: 1px solid #161c28;
+  color: #b7c0d4;
+}
+
+.dockdemo-log .muted {
+  color: #5a6174;
+}
+
+/* ---- Dock itself ---- */
+.dock {
+  position: absolute;
+  display: flex;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.dock-inner {
+  pointer-events: auto;
+  display: flex;
+  gap: 6px;
+  padding: 8px;
+  background: rgba(20, 25, 37, 0.9);
+  border: 1px solid #2a3344;
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.dock-top {
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.dock-bottom {
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.dock-left {
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.dock-right {
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dock-left .dock-inner,
+.dock-right .dock-inner {
+  flex-direction: column;
+}
+
+.dock.is-autohide .dock-inner {
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+}
+.dock.is-autohide:hover .dock-inner {
+  opacity: 1;
+}
+
+.dock-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 54px;
+  padding: 8px 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: #cdd4e2;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dock-btn:hover {
+  background: #1b2233;
+  border-color: #33405a;
+}
+
+.dock-btn.is-running {
+  background: #16203a;
+}
+
+.dock-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.dock-label {
+  font-size: 0.65rem;
+  color: #9aa4ba;
+}
+
+.dock-dot {
+  position: absolute;
+  bottom: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #4f8cff;
+  box-shadow: 0 0 6px #4f8cff;
+}
+
+.dock-sep {
+  width: 1px;
+  align-self: stretch;
+  margin: 6px 2px;
+  background: #2a3344;
+}
+.dock-left .dock-sep,
+.dock-right .dock-sep {
+  width: auto;
+  height: 1px;
+  margin: 2px 6px;
+}
+
+.dock-group {
+  position: relative;
+}
+
+.dock-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  padding: 6px;
+  background: #141925;
+  border: 1px solid #2a3344;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.dock-menu.is-vertical {
+  bottom: auto;
+  top: 50%;
+  left: calc(100% + 8px);
+  transform: translateY(-50%);
+}
+
+.dock-menu-item {
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #cdd4e2;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.dock-menu-item:hover {
+  background: #1f2838;
+}

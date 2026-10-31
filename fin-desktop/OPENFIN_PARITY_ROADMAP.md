@@ -145,10 +145,10 @@ OpenFin Workspace ships Home, Dock, Store, Notifications, Browser. Build OSS equ
 - [x] Keyboard-first navigation — ↑/↓ to move, ⏎ to run, esc to close, type to filter
 
 ### 3.2 Dock / App Bar
-- [ ] Configurable dock (pinned apps, groups, dropdown menus)
-- [ ] Custom buttons + actions (raise intent, open workspace, run function)
-- [ ] Dock position (top/bottom/left/right), auto-hide
-- [ ] Per-user dock customization + persistence
+- [x] Configurable dock (pinned apps, groups, dropdown menus) — `DockModel` holds pinned buttons, nested dropdown groups, and separators; demo at `?test=dock`
+- [x] Custom buttons + actions (raise intent, open workspace, run function) — typed `DockAction` union (`launchApp`/`raiseIntent`/`openWorkspace`/`runFunction`/`openUrl`)
+- [x] Dock position (top/bottom/left/right), auto-hide — `setPosition`/`orientation` + `autoHide`, live in the demo
+- [x] Per-user dock customization + persistence — pin/unpin/reorder + running-app indicator (ephemeral); `serialize()`/`deserialize()` round-trip, tested
 
 ### 3.3 App Store / Catalog
 - [ ] Browsable catalog of apps from the app directory
@@ -303,7 +303,7 @@ build the moat.
 | 0 | Foundations & hygiene | P0 | ☑ Mostly done (CI, tests, licensing, packaging scaffold) |
 | 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
 | 2 | FDC3 2.0 & interop | P0 | ◧ Core + transport + `window.fdc3` wired (demo `?test=fdc3`); full surface/conformance pending |
-| 3 | Workspace components | P1 | ◧ Spotlight launcher + notifications/launcher done; dock/store/browser pending |
+| 3 | Workspace components | P1 | ◧ Spotlight launcher + dock/app-bar + notifications done; store/browser pending |
 | 4 | Runtime, manifest, deploy | P0 | ◧ Manifest model+load+launch + deep-link parser done; auto-update/installers/OS-protocol pending |
 | 5 | Security & permissions | P0 | ◧ Policy + domain enforcement + secure tokens/OAuth2-PKCE done; prompts/CSP-headers/code-signing pending |
 | 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |
