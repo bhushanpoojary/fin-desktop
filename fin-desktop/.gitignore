@@ -11,6 +11,10 @@ dist
 dist-ssr
 *.local
 
+# Generated platform runtime bundle (built by npm run build:platform)
+electron/platform/platform.bundle.cjs
+release
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

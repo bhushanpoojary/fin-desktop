@@ -1,5 +1,18 @@
 [
   {
+    "id": "platform-playground",
+    "title": "Platform Playground",
+    "iconUrl": "/icons/market.svg",
+    "category": "Platform",
+    "tags": ["platform", "layout", "docking", "snapshot", "demo"],
+    "launchUrl": "/apps/platform-playground",
+    "windowOptions": {
+      "width": 1200,
+      "height": 800,
+      "resizable": true
+    }
+  },
+  {
     "id": "order-ticket",
     "title": "Order Ticket",
     "iconUrl": "/icons/order-ticket.svg",

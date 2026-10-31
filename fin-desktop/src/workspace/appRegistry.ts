@@ -11,6 +11,7 @@ import LiveMarketApp from "../apps/LiveMarketApp";
 import ThemeTestApp from "./ThemeTestApp";
 import { MarketGridApp } from "../apps/MarketGridApp";
 import { WindowDockingDemo } from "./WindowDockingDemo";
+import { PlatformPlayground } from "../examples/PlatformPlayground";
 
 /**
  * Registry mapping app IDs to their React components.
@@ -39,4 +40,6 @@ export const defaultAppRegistry: AppComponentRegistry = {
   "market-grid": MarketGridApp,
   // Window Docking System Demo
   "window-docking-demo": WindowDockingDemo,
+  // Platform core demo (layout engine + drag-dock + snapshots)
+  "platform-playground": PlatformPlayground,
 };

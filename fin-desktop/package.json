@@ -16,7 +16,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "package": "npm run build && electron-builder"
+    "package": "npm run build && electron-builder",
+    "build:platform": "node electron/platform/build.mjs",
+    "dev:platform": "npm run build:platform && cross-env NODE_ENV=development electron electron/platform/platformMain.cjs"
   },
   "dependencies": {
     "flexlayout-react": "^0.8.17",
@@ -37,6 +39,7 @@
     "cross-env": "^10.1.0",
     "electron": "^39.2.5",
     "electron-builder": "^25.1.8",
+    "esbuild": "^0.25.0",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",

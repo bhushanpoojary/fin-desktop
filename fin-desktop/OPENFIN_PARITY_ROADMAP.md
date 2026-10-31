@@ -61,7 +61,7 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 
 ### 1.1 Platform API (OpenFin `Platform` equivalent)
 - [x] Define `Platform` provider concept (owns windows, views, layouts, snapshots) — `Platform` / `PlatformWindow` in `src/platform/runtime/` driving an injectable `PlatformHost`
-- [~] Implement **Views** using Electron `WebContentsView` / `BrowserView` (not iframes) for isolation + performance — runtime brain + host boundary done; Electron `WebContentsView` adapter pending (GUI wiring)
+- [x] Implement **Views** using Electron `WebContentsView` / `BrowserView` (not iframes) for isolation + performance — `WebContentsViewHost` adapter + `platformMain` demo (`npm run dev:platform`) drive real OS web views via the tested core (bundled with esbuild)
 - [x] Implement **Layout engine** (tabbing + splitting) — pure immutable tree (`split`/`stack`) in `src/platform/layout/` with `computeLayout` bounds math + tests
 - [x] Window can host multiple tabbed/split Views — `PlatformWindow` positions each stack's active View and hides the rest (tabbing) + splits
 - [x] Programmatic API: `createView`, `closeView`, `reparentView`, `getLayout`, `applyLayout` — `addView`/`splitView`/`closeView`/`activateView`/`moveView`/`setBounds`/`applyLayout`/`getSnapshot`, fully unit-tested with a fake host
