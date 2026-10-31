@@ -223,7 +223,7 @@ Enterprise adoption is impossible without a real security model.
 ## 📈 Phase 7 — Enterprise: Telemetry, Logging & Management (`P1`)
 
 - [x] Structured logging to disk (rotating files) + log levels (extend existing `useLogger`) — `Logger` with levels, child/contextual loggers, and a pluggable `LogSink` in `src/telemetry/`; **`RotatingFileSink`** rotates by size into bounded backups (`app.log`/`app.1.log`…) over an injectable `LogFileSystem` (in-memory for tests; Node `fs` adapter plugs in); demo at `?test=logging`, tested
-- [ ] Crash reporting / minidump collection (electron crashReporter)
+- [x] Crash reporting / minidump collection (electron crashReporter) — `CrashReporter` in `src/telemetry/`: captures reports locally (bounded ring buffer), **opt-in** upload via an injectable `CrashUploader`, and **redacts** configured metadata keys; demo at `?test=crash`, tested
 - [x] Usage analytics API (app launches, intent flows, errors) with pluggable sink — `Telemetry` (`trackAppLaunch`/`trackIntent`/`trackError`) over a `TelemetrySink` (memory/console/custom), buffering + batch auto-flush, tested
 - [x] Opt-in/opt-out telemetry + privacy controls — disabled-by-default no-op `track`, runtime `setEnabled`, recursive **PII redaction** of configured keys, tested
 - [x] System health dashboard (memory/CPU per window, process explorer) — `HealthMonitor` in `src/health/`: classifies per-process CPU/memory against thresholds (ok/warn/critical), rolls up totals + overall status, bounded history, `top(n)` consumers, over an injectable `ProcessSampler` (Electron `getAppMetrics` adapter plugs in); demo at `?test=health`, tested

@@ -45,6 +45,7 @@ const DEMO_GROUPS = [
     label: 'Enterprise',
     items: [
       { id: 'health', label: 'System Health' },
+      { id: 'crash', label: 'Crash Reporting' },
     ],
   },
   {

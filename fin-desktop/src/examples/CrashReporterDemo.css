@@ -1,0 +1,159 @@
+.crash {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 22px 26px 48px;
+}
+
+.crash-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.crash-head h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.crash-head p {
+  color: #8d96ab;
+  font-size: 0.85rem;
+  margin: 4px 0 0;
+}
+
+.crash-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.crash-btn {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+  color: #cdd4e2;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.crash-btn.primary {
+  background: #2f52c4;
+  border-color: #3a5bd0;
+  color: #fff;
+}
+
+.crash-btn:hover {
+  filter: brightness(1.15);
+}
+
+.crash-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #aab2c5;
+  cursor: pointer;
+}
+
+.crash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.crash-panel {
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.crash-panel h2 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  color: #cdd4e2;
+}
+
+.crash-empty {
+  color: #6f7890;
+  font-size: 0.9rem;
+}
+
+.crash-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.crash-list li {
+  padding: 10px 12px;
+  border: 1px solid #1c2230;
+  border-left: 3px solid #4a5164;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: #0d111a;
+}
+
+.crash-list li.fatal {
+  border-left-color: #e2574c;
+}
+
+.crash-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.crash-proc {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  color: #9fb4ff;
+  background: #0b1020;
+  border: 1px solid #1c2740;
+  border-radius: 5px;
+  padding: 1px 7px;
+}
+
+.crash-reason {
+  flex: 1;
+  font-size: 0.85rem;
+}
+
+.crash-badge {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  background: #3a1414;
+  color: #ff8a80;
+  border: 1px solid #5a2020;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.crash-meta {
+  margin-top: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7rem;
+  color: #6f7890;
+  word-break: break-all;
+}
+
+.crash-uploads {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+}
+
+.crash-uploads li {
+  padding: 6px 0;
+  border-bottom: 1px solid #141b27;
+  color: #6fd59b;
+}
