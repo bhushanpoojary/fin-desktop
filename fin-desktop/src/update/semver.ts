@@ -71,3 +71,17 @@ export function isNewer(candidate: string, current: string): boolean {
 export function isPrerelease(version: string): boolean {
   return (parseSemver(version)?.prerelease.length ?? 0) > 0;
 }
+
+/** True when `version` is >= `min` (both must be valid semver). */
+export function satisfiesMin(version: string, min: string): boolean {
+  if (!parseSemver(version) || !parseSemver(min)) return false;
+  return compareSemver(version, min) >= 0;
+}
+
+/** The highest version that is >= `min`, or null when none qualify. */
+export function maxSatisfying(versions: string[], min: string): string | null {
+  const eligible = versions.filter((v) => satisfiesMin(v, min));
+  if (eligible.length === 0) return null;
+  return eligible.reduce((best, v) => (compareSemver(v, best) > 0 ? v : best));
+}
+
