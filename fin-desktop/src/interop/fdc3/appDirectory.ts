@@ -8,6 +8,7 @@
  */
 
 import type { IntentName } from './intents';
+import type { AppMetadata } from './types';
 
 /** What an app listens for: an intent + the context types it accepts. */
 export interface AppIntentDefinition {
@@ -22,7 +23,10 @@ export interface AppDirectoryApp {
   name: string;
   title?: string;
   description?: string;
+  version?: string;
+  publisher?: string;
   icons?: { src: string }[];
+  screenshots?: { src: string }[];
   interop?: {
     intents?: {
       listensFor?: Record<string, AppIntentDefinition>;
@@ -54,6 +58,22 @@ export class AppDirectory {
 
   getApp(appId: string): AppDirectoryApp | undefined {
     return this.apps.get(appId);
+  }
+
+  /** FDC3 2.0 `getAppMetadata` — public metadata for an app (undefined if unknown). */
+  getAppMetadata(appId: string): AppMetadata | undefined {
+    const app = this.apps.get(appId);
+    if (!app) return undefined;
+    return {
+      appId: app.appId,
+      name: app.name,
+      title: app.title,
+      description: app.description,
+      version: app.version,
+      publisher: app.publisher,
+      icons: app.icons,
+      screenshots: app.screenshots,
+    };
   }
 
   add(app: AppDirectoryApp): void {

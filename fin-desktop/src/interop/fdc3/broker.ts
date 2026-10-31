@@ -15,6 +15,7 @@ import type {
   DisplayMetadata,
   IntentHandler,
   IntentResolution,
+  IntentResult,
   Listener,
 } from './types';
 
@@ -137,10 +138,10 @@ export class InteropBroker {
   }
 
   raiseIntent(intent: string, context: Context, source: { appId?: string } = {}): IntentResolution {
-    const deliveredTo = this.deliverIntent(intent, context, source);
+    const { deliveredTo, result } = this.deliverIntent(intent, context, source);
     this.transport?.send({ kind: 'intent', intent, context, source });
     this.notify({ kind: 'intent', intent, context, source, deliveredTo, origin: 'local', timestamp: this.now() });
-    return { intent, source, deliveredTo };
+    return { intent, source, deliveredTo, getResult: () => result };
   }
 
   /** Broadcast a context on a channel locally and propagate it over the transport. */
@@ -160,16 +161,19 @@ export class InteropBroker {
     this.transport?.send({ kind: 'request-state', channelId, requesterId: this.id });
   }
 
-  private deliverIntent(intent: string, context: Context, source: { appId?: string }): number {
+  private deliverIntent(intent: string, context: Context, source: { appId?: string }): { deliveredTo: number; result: Promise<IntentResult> } {
     const set = this.intentListeners.get(intent);
     let deliveredTo = 0;
+    // The result is taken from the first (resolved) handler, per FDC3's single-target model.
+    let result: Promise<IntentResult> = Promise.resolve(undefined);
     if (set) {
       for (const entry of set) {
-        entry.handler(context, { source });
+        const handlerResult = entry.handler(context, { source });
+        if (deliveredTo === 0) result = Promise.resolve(handlerResult);
         deliveredTo += 1;
       }
     }
-    return deliveredTo;
+    return { deliveredTo, result };
   }
 
   /** Apply a message received from another broker (no re-propagation, so no loops). */
@@ -187,7 +191,7 @@ export class InteropBroker {
         });
         break;
       case 'intent': {
-        const deliveredTo = this.deliverIntent(message.intent, message.context, message.source ?? {});
+        const { deliveredTo } = this.deliverIntent(message.intent, message.context, message.source ?? {});
         this.notify({
           kind: 'intent',
           intent: message.intent,

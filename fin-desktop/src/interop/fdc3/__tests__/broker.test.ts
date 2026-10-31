@@ -38,7 +38,7 @@ describe('InteropBroker', () => {
 
     const resolution = broker.raiseIntent('ViewChart', ctx, { appId: 'caller' });
 
-    expect(resolution).toEqual({ intent: 'ViewChart', source: { appId: 'caller' }, deliveredTo: 2 });
+    expect(resolution).toMatchObject({ intent: 'ViewChart', source: { appId: 'caller' }, deliveredTo: 2 });
     expect(h1).toHaveBeenCalledWith(ctx, { source: { appId: 'caller' } });
     expect(h2).toHaveBeenCalledTimes(1);
   });

@@ -11,6 +11,7 @@ import type { ChannelImpl } from './channel';
 import type { Context } from './context';
 import type { ResolvedAppIntent } from './appDirectory';
 import type {
+  AppMetadata,
   Channel,
   ContextHandler,
   ImplementationMetadata,
@@ -108,6 +109,13 @@ export class DesktopAgent {
 
   findIntentsByContext(context: Context): ResolvedAppIntent[] {
     return this.broker.getDirectory().findIntentsByContext(context.type);
+  }
+
+  /** FDC3 2.0 `getAppMetadata` — public metadata for an app from the directory. */
+  getAppMetadata(appId: string): AppMetadata {
+    const metadata = this.broker.getDirectory().getAppMetadata(appId);
+    if (!metadata) throw new Error(`No app '${appId}' in the directory`);
+    return metadata;
   }
 
   getInfo(): ImplementationMetadata {

@@ -16,7 +16,13 @@ export interface ContextMetadata {
 }
 
 export type ContextHandler = (context: Context, metadata?: ContextMetadata) => void;
-export type IntentHandler = (context: Context, metadata?: ContextMetadata) => void | Promise<void>;
+
+/**
+ * An intent handler may return a result (FDC3 2.0 "intents with results"): a `Context`, a
+ * `Channel` (for streaming results), or nothing.
+ */
+export type IntentResult = Context | Channel | void;
+export type IntentHandler = (context: Context, metadata?: ContextMetadata) => IntentResult | Promise<IntentResult>;
 
 export type ChannelType = 'user' | 'app' | 'private';
 
@@ -40,6 +46,20 @@ export interface IntentResolution {
   source: { appId?: string };
   /** How many registered intent listeners received the context. */
   deliveredTo: number;
+  /** Resolve the result returned by the handling app (FDC3 2.0 intents with results). */
+  getResult(): Promise<IntentResult>;
+}
+
+/** FDC3 2.0 application metadata (`fdc3.getAppMetadata`). */
+export interface AppMetadata {
+  appId: string;
+  name?: string;
+  title?: string;
+  description?: string;
+  version?: string;
+  publisher?: string;
+  icons?: { src: string }[];
+  screenshots?: { src: string }[];
 }
 
 export interface ImplementationMetadata {

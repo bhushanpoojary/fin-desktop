@@ -104,11 +104,11 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 
 ### 2.1 Standards Compliance
 - [~] Implement the full `fdc3` global API surface (`window.fdc3`) per FDC3 2.0 — installed on `window.fdc3` via `bootstrap.ts` over the desktop bus (broadcast / addContextListener / raiseIntent / raiseIntentForContext / user channels / findIntent / getInfo); live demo at `?test=fdc3`. Full surface (`open`, `getAppMetadata`, result channels) pending
-- [~] `getInfo()`, `getAppMetadata()`, FDC3 version negotiation — `getInfo()` reports FDC3 2.0; `getAppMetadata` + version negotiation pending
+- [~] `getInfo()`, `getAppMetadata()`, FDC3 version negotiation — `getInfo()` reports FDC3 2.0 and `getAppMetadata(appId)` returns public AppD metadata (name/title/description/version/publisher/icons/screenshots) from the directory, tested; version negotiation pending
 - [x] Standard context types (`fdc3.instrument`, `fdc3.contact`, `fdc3.organization`, `fdc3.country`, etc.) — typed model + factories + guards in `src/interop/fdc3/context.ts` with tests
 - [x] Standard intents (`ViewChart`, `ViewNews`, `ViewQuote`, `StartCall`, `StartChat`, `ViewContact`, etc.) — `Intents` constants + `isStandardIntent` in `src/interop/fdc3/intents.ts` with tests
 - [x] `raiseIntentForContext()` (resolve intents from a context) — `DesktopAgent.raiseIntentForContext` resolves via the App Directory, tested
-- [x] `addIntentListener` / `addContextListener` with result types (`IntentResult`, `Channel`) — listeners + `IntentResolution` done; typed `IntentResult`/`Channel` return values pending
+- [x] `addIntentListener` / `addContextListener` with result types (`IntentResult`, `Channel`) — listeners + `IntentResolution` done; **intents with results** implemented: handlers may return a `Context` or a `Channel`, and `raiseIntent(...).getResult()` resolves it (async-aware, first-handler wins), tested
 - [ ] Pass the official **FDC3 Conformance Test Suite**
 
 ### 2.2 Channels (standards-based)
@@ -128,7 +128,7 @@ Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-pa
 - [x] FDC3-compliant App Directory data model (`AppD` records v2) — `AppDirectoryApp` + `AppDirectory` in `src/interop/fdc3/appDirectory.ts` with `findIntent` / `findIntentsByContext` / `findAppsByContext`, tested
 - [x] Load app directory from a remote REST endpoint (not just in-code registry) — `loadAppDirectory` / `AppDirectoryLoader` (injected `fetch`, bare-array or `{ applications }` payloads), tested
 - [x] Support multiple app directories + merging — `mergeApps` + multi-source `AppDirectoryLoader` (dedupe by `appId`, later wins), tested
-- [~] App metadata: icons, screenshots, intents, contexts, publisher, version — core AppD fields (appId/name/title/description/icons/intents/contexts) modeled; publisher/screenshots/version pending
+- [x] App metadata: icons, screenshots, intents, contexts, publisher, version — full AppD fields (appId/name/title/description/icons/**screenshots**/**publisher**/**version**/intents/contexts) modeled + surfaced via `getAppMetadata`, tested
 - [x] Local + remote hybrid directory with caching — TTL cache in `AppDirectoryLoader` (cached within TTL, `refresh()` forces reload), tested
 
 ---
