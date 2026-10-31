@@ -63,8 +63,9 @@ node --check electron/<file>.cjs   # after editing any electron cjs file
    build); flesh out the CLI (`init`/`dev`/`package`) — arg parser + **command router** exist
    (`src/cli/args.ts`, `src/cli/commands.ts`); still need bin wiring + scaffolding actions; starter
    templates; API docs.
-4. **Phase 5 security** — runtime permission prompt UI; CSP headers on Views; context-isolation audit;
-   manifest code-signing/verification.
+4. **Phase 5 security** — runtime permission prompt UI; CSP headers on Views; context-isolation
+   audit. *(Manifest signature verification done: `src/security/manifestSignature.ts`; policy +
+   domain allow-list + secure tokens + OAuth2-PKCE already done.)*
 5. **Phase 6 P3** — native window embedding; Office/Excel bridge; language client stubs (.NET/Python/Java).
 6. **Phase 7 P3** — admin console / management plane.
 7. **Phase 9/10** — website & community polish; differentiators.
