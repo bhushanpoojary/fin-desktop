@@ -11,6 +11,7 @@ import type { ChannelImpl } from './channel';
 import type { Context } from './context';
 import type { ResolvedAppIntent } from './appDirectory';
 import type {
+  AppIdentifier,
   AppMetadata,
   Channel,
   ContextHandler,
@@ -31,10 +32,17 @@ export class DesktopAgent {
   private readonly entries = new Set<ContextEntry>();
   private readonly broker: InteropBroker;
   private readonly source: { appId?: string };
+  private readonly instanceId: string;
 
   constructor(broker: InteropBroker, source: { appId?: string } = {}) {
     this.broker = broker;
     this.source = source;
+    this.instanceId = broker.nextInstanceId();
+    if (source.appId) broker.registerInstance(source.appId, this.instanceId);
+  }
+
+  getInstanceId(): string {
+    return this.instanceId;
   }
 
   // ---- User channels ----
@@ -93,8 +101,8 @@ export class DesktopAgent {
     return this.broker.addIntentListener(intent, handler, this.source.appId);
   }
 
-  raiseIntent(intent: string, context: Context): IntentResolution {
-    return this.broker.raiseIntent(intent, context, this.source);
+  raiseIntent(intent: string, context: Context, target?: AppIdentifier): IntentResolution {
+    return this.broker.raiseIntent(intent, context, this.source, target);
   }
 
   raiseIntentForContext(context: Context): IntentResolution {
@@ -116,6 +124,16 @@ export class DesktopAgent {
     const metadata = this.broker.getDirectory().getAppMetadata(appId);
     if (!metadata) throw new Error(`No app '${appId}' in the directory`);
     return metadata;
+  }
+
+  /** FDC3 2.0 `open` — launch an app, optionally delivering a context on startup. */
+  open(appId: string, context?: Context): AppIdentifier {
+    return this.broker.open(appId, context);
+  }
+
+  /** FDC3 2.0 `findInstances` — running instances of an app. */
+  findInstances(appId: string): AppIdentifier[] {
+    return this.broker.findInstances(appId);
   }
 
   getInfo(): ImplementationMetadata {

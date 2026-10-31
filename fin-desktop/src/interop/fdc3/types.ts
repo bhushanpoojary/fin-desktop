@@ -15,6 +15,12 @@ export interface ContextMetadata {
   source?: { appId?: string };
 }
 
+/** Identifies an app (and optionally a specific running instance) — FDC3 2.0 `AppIdentifier`. */
+export interface AppIdentifier {
+  appId: string;
+  instanceId?: string;
+}
+
 export type ContextHandler = (context: Context, metadata?: ContextMetadata) => void;
 
 /**

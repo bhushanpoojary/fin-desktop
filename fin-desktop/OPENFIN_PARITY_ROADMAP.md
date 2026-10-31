@@ -103,7 +103,7 @@ This is the heart of an OpenFin replacement. Move from iframe windows to a real 
 Current impl is custom Phase 1/2. Align to the **FDC3 2.0 standard** so third-party apps work out of the box.
 
 ### 2.1 Standards Compliance
-- [~] Implement the full `fdc3` global API surface (`window.fdc3`) per FDC3 2.0 — installed on `window.fdc3` via `bootstrap.ts` over the desktop bus (broadcast / addContextListener / raiseIntent / raiseIntentForContext / user channels / findIntent / getInfo); live demo at `?test=fdc3`. Full surface (`open`, `getAppMetadata`, result channels) pending
+- [~] Implement the full `fdc3` global API surface (`window.fdc3`) per FDC3 2.0 — installed on `window.fdc3` via `bootstrap.ts` over the desktop bus (broadcast / addContextListener / raiseIntent (+ targeted + results) / raiseIntentForContext / user channels / findIntent / getInfo / getAppMetadata / open / findInstances); live demo at `?test=fdc3`. Remaining: result-channel helpers + full resolver UI
 - [~] `getInfo()`, `getAppMetadata()`, FDC3 version negotiation — `getInfo()` reports FDC3 2.0 and `getAppMetadata(appId)` returns public AppD metadata (name/title/description/version/publisher/icons/screenshots) from the directory, tested; version negotiation pending
 - [x] Standard context types (`fdc3.instrument`, `fdc3.contact`, `fdc3.organization`, `fdc3.country`, etc.) — typed model + factories + guards in `src/interop/fdc3/context.ts` with tests
 - [x] Standard intents (`ViewChart`, `ViewNews`, `ViewQuote`, `StartCall`, `StartChat`, `ViewContact`, etc.) — `Intents` constants + `isStandardIntent` in `src/interop/fdc3/intents.ts` with tests

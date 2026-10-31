@@ -11,6 +11,7 @@ import { ChannelImpl } from './channel';
 import type { Context } from './context';
 import type { Transport, InteropMessage } from './fdc3Transport';
 import type {
+  AppIdentifier,
   Channel,
   DisplayMetadata,
   IntentHandler,
@@ -57,6 +58,8 @@ export interface InteropBrokerOptions {
   /** Optional transport to sync broadcasts + intents with brokers in other windows. */
   transport?: Transport;
   now?: () => number;
+  /** Launches an app and returns its instanceId (FDC3 `open`). */
+  launcher?: (appId: string, context?: Context) => string;
 }
 
 export class InteropBroker {
@@ -72,11 +75,16 @@ export class InteropBroker {
   private readonly now: () => number;
   private readonly observers = new Set<InteropObserver>();
   private privateSeq = 0;
+  private instanceSeq = 0;
+  private readonly instances = new Map<string, Set<string>>();
+  private readonly openContexts = new Map<string, Context>();
+  private readonly launcher?: (appId: string, context?: Context) => string;
 
   constructor(options: InteropBrokerOptions = {}) {
     this.directory = options.directory ?? new AppDirectory();
     this.createId = options.createId ?? (() => `private-${++this.privateSeq}`);
     this.now = options.now ?? Date.now;
+    this.launcher = options.launcher;
     const defs = options.userChannels ?? DEFAULT_USER_CHANNELS;
     this.userChannels = defs.map((d) => new ChannelImpl(d.id, 'user', d.displayMetadata));
     for (const ch of this.userChannels) this.byId.set(ch.id, ch);
@@ -96,6 +104,42 @@ export class InteropBroker {
 
   getDirectory(): AppDirectory {
     return this.directory;
+  }
+
+  /** Register a running instance of an app (used for `findInstances`). */
+  registerInstance(appId: string, instanceId: string): void {
+    let set = this.instances.get(appId);
+    if (!set) {
+      set = new Set();
+      this.instances.set(appId, set);
+    }
+    set.add(instanceId);
+  }
+
+  /** FDC3 2.0 `findInstances` — running instances of an app. */
+  findInstances(appId: string): AppIdentifier[] {
+    return [...(this.instances.get(appId) ?? [])].map((instanceId) => ({ appId, instanceId }));
+  }
+
+  /** FDC3 2.0 `open` — launch an app (via the injected launcher), optionally with a context. */
+  open(appId: string, context?: Context): AppIdentifier {
+    if (!this.directory.getApp(appId)) throw new Error(`No app '${appId}' in the directory`);
+    if (!this.launcher) throw new Error('no launcher configured for fdc3.open');
+    const instanceId = this.launcher(appId, context);
+    this.registerInstance(appId, instanceId);
+    if (context) this.openContexts.set(instanceId, context);
+    return { appId, instanceId };
+  }
+
+  /** A freshly-opened app retrieves the context it was launched with (one-shot). */
+  consumeOpenContext(instanceId: string): Context | undefined {
+    const context = this.openContexts.get(instanceId);
+    this.openContexts.delete(instanceId);
+    return context;
+  }
+
+  nextInstanceId(): string {
+    return `inst-${++this.instanceSeq}`;
   }
 
   getUserChannels(): Channel[] {
@@ -137,11 +181,11 @@ export class InteropBroker {
     };
   }
 
-  raiseIntent(intent: string, context: Context, source: { appId?: string } = {}): IntentResolution {
-    const { deliveredTo, result } = this.deliverIntent(intent, context, source);
+  raiseIntent(intent: string, context: Context, source: { appId?: string } = {}, target?: AppIdentifier): IntentResolution {
+    const { deliveredTo, result } = this.deliverIntent(intent, context, source, target);
     this.transport?.send({ kind: 'intent', intent, context, source });
     this.notify({ kind: 'intent', intent, context, source, deliveredTo, origin: 'local', timestamp: this.now() });
-    return { intent, source, deliveredTo, getResult: () => result };
+    return { intent, source: target ?? source, deliveredTo, getResult: () => result };
   }
 
   /** Broadcast a context on a channel locally and propagate it over the transport. */
@@ -161,13 +205,14 @@ export class InteropBroker {
     this.transport?.send({ kind: 'request-state', channelId, requesterId: this.id });
   }
 
-  private deliverIntent(intent: string, context: Context, source: { appId?: string }): { deliveredTo: number; result: Promise<IntentResult> } {
+  private deliverIntent(intent: string, context: Context, source: { appId?: string }, target?: AppIdentifier): { deliveredTo: number; result: Promise<IntentResult> } {
     const set = this.intentListeners.get(intent);
     let deliveredTo = 0;
     // The result is taken from the first (resolved) handler, per FDC3's single-target model.
     let result: Promise<IntentResult> = Promise.resolve(undefined);
     if (set) {
       for (const entry of set) {
+        if (target?.appId && entry.appId !== target.appId) continue; // targeted delivery
         const handlerResult = entry.handler(context, { source });
         if (deliveredTo === 0) result = Promise.resolve(handlerResult);
         deliveredTo += 1;
