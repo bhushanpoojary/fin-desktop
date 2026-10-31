@@ -4,6 +4,16 @@
 > [OPENFIN_PARITY_ROADMAP.md](./OPENFIN_PARITY_ROADMAP.md) — this file summarizes conventions and
 > the remaining work so you can pick up quickly.
 
+## ⚠️ TOP PRIORITY — FDC3 conformance (claimed, NOT certified)
+We implement the FDC3 2.0 API surface, but have **not** run or passed the official
+[FINOS FDC3 Conformance Suite](https://github.com/finos/FDC3). Until we do:
+- **Do NOT describe the project as "FDC3 compliant/certified."** Use **"FDC3 2.0-aligned, conformance
+  in progress."** Fix this wording anywhere it appears (README, website, slides, roadmap).
+- **Action:** stand up the FINOS conformance harness against `window.fdc3`, record pass/fail per
+  test, and close gaps (result channels, resolver UI, `getAppMetadata`/version-negotiation edge
+  cases). Track results in the roadmap. This is the single highest-credibility item for any bank
+  (e.g. Mizuho) evaluation — certification is table-stakes, claims without it fail due diligence.
+
 ## Repo layout
 - **Git root:** `C:/repo/react/fin-desktop` (has `.github/`, `LICENSE`).
 - **Project:** `C:/repo/react/fin-desktop/fin-desktop` (run all `npm` commands here).
@@ -55,8 +65,10 @@ node --check electron/<file>.cjs   # after editing any electron cjs file
 - Cross-cutting: demo gallery + floating launcher + Electron Demos menu; `src/util/backoff.ts`.
 
 ## What's left (suggested next, roughly by value)
-1. **Phase 2 FDC3 conformance** — run/pass the official FDC3 2.0 conformance suite; result-channel
-   helpers; a real intent-resolver UI. *(Version negotiation done: `src/interop/fdc3/versionNegotiation.ts`.)*
+1. **Phase 2 FDC3 conformance** ⚠️ **(highest priority — see top of file)** — run/pass the official
+   FINOS FDC3 2.0 conformance suite; until certified, say "aligned, conformance in progress", never
+   "compliant". Also: result-channel helpers; a real intent-resolver UI. *(Version negotiation done:
+   `src/interop/fdc3/versionNegotiation.ts`.)*
 2. **Phase 4 deployment** — wire `electron-updater` to the pure update model; OS protocol registration
    for deep links; installer generation (NSIS/MSI, DMG, AppImage); silent/enterprise install flags.
 3. **Phase 8 DX** — publish `@findesktop/sdk` + `@findesktop/fdc3` npm packages (package.json/exports/
