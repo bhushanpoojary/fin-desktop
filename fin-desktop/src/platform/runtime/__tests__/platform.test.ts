@@ -179,3 +179,32 @@ describe('Platform runtime', () => {
     expect(host2.created.map((c) => c.url).sort()).toEqual(['https://a.test', 'https://b.test']);
   });
 });
+
+describe('Platform security guard (canOpenUrl)', () => {
+  it('blocks views whose URL is rejected and allows permitted ones', () => {
+    const host = new FakeHost();
+    const platform = new Platform(host, {
+      createId: seqIds(),
+      canOpenUrl: (url) => url.startsWith('https://ok'),
+    });
+    const win = platform.createWindow(WINDOW_BOUNDS);
+
+    expect(() => win.addView('https://evil.test')).toThrow(/Blocked by policy/);
+    expect(host.created).toHaveLength(0);
+    expect(win.getLayout()).toBeNull();
+
+    const id = win.addView('https://ok.test');
+    expect(host.created).toHaveLength(1);
+
+    expect(() => win.splitView(id, 'right', 'https://evil.test')).toThrow(/Blocked by policy/);
+    expect(host.created).toHaveLength(1);
+  });
+
+  it('can be overridden per window', () => {
+    const host = new FakeHost();
+    const platform = new Platform(host, { createId: seqIds(), canOpenUrl: () => false });
+    const win = platform.createWindow(WINDOW_BOUNDS, { canOpenUrl: () => true });
+    expect(() => win.addView('https://anything.test')).not.toThrow();
+    expect(host.created).toHaveLength(1);
+  });
+});

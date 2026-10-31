@@ -6,10 +6,9 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const root = resolve(here, '../..');
 
 await build({
-  entryPoints: [resolve(root, 'src/platform/index.ts')],
+  entryPoints: [resolve(here, 'bundle.entry.ts')],
   bundle: true,
   platform: 'node',
   format: 'cjs',

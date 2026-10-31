@@ -8,10 +8,15 @@
 
 const { app, BaseWindow, BrowserWindow, WebContentsView, ipcMain } = require('electron');
 const path = require('node:path');
-const { Platform, findStack, dropRegionToSplitDirection } = require('./platform.bundle.cjs');
+const { Platform, findStack, dropRegionToSplitDirection, isUrlAllowed } = require('./platform.bundle.cjs');
 const { createWebContentsViewHost } = require('./webContentsViewHost.cjs');
 
 const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL || 'http://localhost:5173';
+
+// Content-security allow-list: only these hosts may open as WebContentsViews.
+const ALLOWED_DOMAINS = {
+  allow: ['*.example.com', '*.wikipedia.org', 'news.ycombinator.com', '*.tradingview.com', 'httpbin.org'],
+};
 
 // Palette of demo apps → real URLs loaded as WebContentsViews.
 const APPS = {
@@ -46,52 +51,54 @@ function broadcast() {
 function handleCommand(cmd) {
   if (!pwin) return 'no-window';
 
-  switch (cmd.type) {
-    case 'drop': {
-      const appDef = APPS[cmd.label];
-      if (!appDef) break;
-      const layout = pwin.getLayout();
-      let viewId;
-      if (!layout) {
-        viewId = pwin.addView(appDef.url);
-      } else if (cmd.region === 'center') {
-        viewId = pwin.addView(appDef.url, cmd.targetStackId || undefined);
-      } else {
-        const direction = dropRegionToSplitDirection(cmd.region);
-        const stack = findStack(layout, cmd.targetStackId);
-        const targetView = stack && stack.activeViewId;
-        viewId =
-          direction && targetView
-            ? pwin.splitView(targetView, direction, appDef.url)
-            : pwin.addView(appDef.url, cmd.targetStackId || undefined);
+  try {
+    switch (cmd.type) {
+      case 'drop': {
+        const appDef = APPS[cmd.label];
+        if (!appDef) break;
+        const layout = pwin.getLayout();
+        let viewId;
+        if (!layout) {
+          viewId = pwin.addView(appDef.url);
+        } else if (cmd.region === 'center') {
+          viewId = pwin.addView(appDef.url, cmd.targetStackId || undefined);
+        } else {
+          const direction = dropRegionToSplitDirection(cmd.region);
+          const stack = findStack(layout, cmd.targetStackId);
+          const targetView = stack && stack.activeViewId;
+          viewId =
+            direction && targetView
+              ? pwin.splitView(targetView, direction, appDef.url)
+              : pwin.addView(appDef.url, cmd.targetStackId || undefined);
+        }
+        if (viewId) meta[viewId] = { label: cmd.label, color: appDef.color };
+        break;
       }
-      if (viewId) meta[viewId] = { label: cmd.label, color: appDef.color };
-      break;
-    }
-    case 'activate':
-      pwin.activateView(cmd.viewId);
-      break;
-    case 'close':
-      pwin.closeView(cmd.viewId);
-      delete meta[cmd.viewId];
-      break;
-    case 'reset':
-      for (const v of pwin.listViews()) pwin.closeView(v.id);
-      meta = {};
-      break;
-    case 'snapshot-save':
-      return JSON.stringify({ window: pwin.getSnapshot(), meta }, null, 2);
-    case 'snapshot-restore':
-      try {
+      case 'activate':
+        pwin.activateView(cmd.viewId);
+        break;
+      case 'close':
+        pwin.closeView(cmd.viewId);
+        delete meta[cmd.viewId];
+        break;
+      case 'reset':
+        for (const v of pwin.listViews()) pwin.closeView(v.id);
+        meta = {};
+        break;
+      case 'snapshot-save':
+        return JSON.stringify({ window: pwin.getSnapshot(), meta }, null, 2);
+      case 'snapshot-restore': {
         const parsed = JSON.parse(cmd.json);
         pwin.applyLayout(parsed.window.layout, parsed.window.views);
         meta = parsed.meta || {};
-      } catch (err) {
-        return `error: ${err.message}`;
+        break;
       }
-      break;
-    default:
-      break;
+      default:
+        break;
+    }
+  } catch (err) {
+    broadcast();
+    return `error: ${err.message}`;
   }
 
   broadcast();
@@ -104,7 +111,7 @@ async function start() {
     WebContentsView,
     windowOptions: { title: 'FinDesktop Stage' },
   });
-  platform = new Platform(host);
+  platform = new Platform(host, { canOpenUrl: (url) => isUrlAllowed(url, ALLOWED_DOMAINS) });
   pwin = platform.createWindow({ x: 960, y: 80, width: 920, height: 840 });
   stageWin = host.getWindow(pwin.id);
 

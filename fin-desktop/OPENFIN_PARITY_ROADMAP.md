@@ -194,7 +194,7 @@ Enterprise adoption is impossible without a real security model.
 
 - [x] **Permissions API** — per-app/per-domain capability grants (clipboard, notifications, filesystem, external process, etc.) — `Capabilities` + `PermissionPolicy` (grant/deny/revoke, per-app scoped) in `src/security/` with tests
 - [~] Manifest-declared permissions + runtime prompts — `ManifestPermissions.request` + policy resolution (granted/denied/**prompt**) done; the runtime prompt UI is pending
-- [x] Content security: domain allow-lists, CSP enforcement for Views — `matchDomain`/`isUrlAllowed` (wildcards, deny-wins) + `PermissionPolicy.isDomainAllowed`, tested; wiring into `WebContentsView`/CSP pending
+- [x] Content security: domain allow-lists, CSP enforcement for Views — `matchDomain`/`isUrlAllowed` + `PermissionPolicy.isDomainAllowed`, **enforced in the Platform runtime** via an injectable `canOpenUrl` guard (blocked views throw; wired to the allow-list in the real `WebContentsView` demo), tested
 - [ ] Secure context isolation audit (contextBridge only, no `nodeIntegration` in Views)
 - [x] API security policy (which apps can call which platform APIs) — `PermissionPolicy.resolve/can` gates capabilities by admin defaults + manifest + runtime grants (documented precedence), tested
 - [ ] Code signing + signature verification of manifests
@@ -305,7 +305,7 @@ build the moat.
 | 2 | FDC3 2.0 & interop | P0 | ◧ Core + transport + `window.fdc3` wired (demo `?test=fdc3`); full surface/conformance pending |
 | 3 | Workspace components | P1 | ☐ Partial (notifications/launcher) |
 | 4 | Runtime, manifest, deploy | P0 | ◧ Manifest model + loader/validator done; launching/deep-links/auto-update pending |
-| 5 | Security & permissions | P0 | ◧ Policy core done (capabilities/domains/policy engine); prompts/CSP/secrets pending |
+| 5 | Security & permissions | P0 | ◧ Policy core + runtime domain enforcement done; prompts/CSP-headers/secrets pending |
 | 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |
 | 7 | Enterprise telemetry | P1 | ☐ Partial (logging) |
 | 8 | Developer experience/SDK | P1 | ☐ Not started |

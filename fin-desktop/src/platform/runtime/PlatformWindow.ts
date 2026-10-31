@@ -53,6 +53,8 @@ export interface PlatformWindowOptions {
   gap?: number;
   /** Reserved space inside the window (e.g. for a tab strip). */
   contentInset?: Partial<ContentInset>;
+  /** Security guard: return false to block opening a View for a URL. */
+  canOpenUrl?: (url: string) => boolean;
 }
 
 export class PlatformWindow {
@@ -68,6 +70,7 @@ export class PlatformWindow {
   private readonly emit: EmitFn;
   private readonly gap: number;
   private readonly inset: ContentInset;
+  private readonly canOpenUrl?: (url: string) => boolean;
 
   constructor(options: PlatformWindowOptions) {
     this.id = options.id;
@@ -77,10 +80,12 @@ export class PlatformWindow {
     this.emit = options.emit;
     this.gap = options.gap ?? 0;
     this.inset = { ...NO_INSET, ...options.contentInset };
+    this.canOpenUrl = options.canOpenUrl;
   }
 
   /** Add a View, tabbed into the active (or specified) stack. Returns the new view id. */
   addView(url: string, targetStackId?: string): ViewId {
+    this.assertUrlAllowed(url);
     const viewId = this.createId('view');
     this.views.set(viewId, { id: viewId, url });
 
@@ -111,6 +116,7 @@ export class PlatformWindow {
     if (!this.layout) throw new Error('cannot split an empty window');
     const stack = findStackOfView(this.layout, targetViewId);
     if (!stack) throw new Error(`view ${targetViewId} not found`);
+    this.assertUrlAllowed(url);
 
     const viewId = this.createId('view');
     const stackId = this.createId('stack');
@@ -210,6 +216,12 @@ export class PlatformWindow {
     this.views.clear();
     this.layout = null;
     this.activeStackId = null;
+  }
+
+  private assertUrlAllowed(url: string): void {
+    if (this.canOpenUrl && !this.canOpenUrl(url)) {
+      throw new Error(`Blocked by policy: ${url}`);
+    }
   }
 
   private contentRect(): Rect {

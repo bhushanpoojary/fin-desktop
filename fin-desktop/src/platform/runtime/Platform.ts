@@ -24,12 +24,15 @@ export interface CreateWindowOptions {
   id?: WindowId;
   gap?: number;
   contentInset?: Partial<ContentInset>;
+  canOpenUrl?: (url: string) => boolean;
 }
 
 export interface PlatformOptions {
   createId?: IdFactory;
   gap?: number;
   contentInset?: Partial<ContentInset>;
+  /** Security guard applied to every View URL in every window (overridable per window). */
+  canOpenUrl?: (url: string) => boolean;
 }
 
 export class Platform {
@@ -38,12 +41,12 @@ export class Platform {
 
   private readonly host: PlatformHost;
   private readonly createId: IdFactory;
-  private readonly defaults: Pick<PlatformOptions, 'gap' | 'contentInset'>;
+  private readonly defaults: Pick<PlatformOptions, 'gap' | 'contentInset' | 'canOpenUrl'>;
 
   constructor(host: PlatformHost, options: PlatformOptions = {}) {
     this.host = host;
     this.createId = options.createId ?? createCounterIdFactory();
-    this.defaults = { gap: options.gap, contentInset: options.contentInset };
+    this.defaults = { gap: options.gap, contentInset: options.contentInset, canOpenUrl: options.canOpenUrl };
   }
 
   on<K extends keyof PlatformEventMap>(
@@ -65,6 +68,7 @@ export class Platform {
       emit: this.emitter.emit.bind(this.emitter) as EmitFn,
       gap: options.gap ?? this.defaults.gap,
       contentInset: options.contentInset ?? this.defaults.contentInset,
+      canOpenUrl: options.canOpenUrl ?? this.defaults.canOpenUrl,
     });
 
     this.windows.set(id, window);
