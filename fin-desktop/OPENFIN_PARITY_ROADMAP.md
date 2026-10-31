@@ -184,7 +184,7 @@ How apps get launched and how the platform is distributed.
 - [ ] Installer generation per OS (NSIS/MSI, DMG, AppImage/deb/rpm)
 - [ ] Silent/enterprise install flags + MSI for group policy deployment
 - [ ] Offline/air-gapped install support
-- [ ] Health check / self-diagnostic command (`--diagnostics`)
+- [x] Health check / self-diagnostic command (`--diagnostics`) — `DiagnosticsRunner` in `src/diagnostics/` runs named checks (runtime-version / permission / connectivity builders), aggregates a worst-status report (thrown checks → fail), and `formatReport` renders CLI text; demo at `?test=diagnostics`, tested
 
 ---
 

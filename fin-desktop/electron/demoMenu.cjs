@@ -38,6 +38,7 @@ const DEMO_GROUPS = [
     items: [
       { id: 'update', label: 'Auto-Update' },
       { id: 'logging', label: 'Logging & Rotation' },
+      { id: 'diagnostics', label: 'Self-Diagnostics' },
     ],
   },
   {

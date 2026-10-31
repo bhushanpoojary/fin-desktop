@@ -24,6 +24,7 @@ import { IntegrationDemo } from './examples/IntegrationDemo'
 import { DragDropDemo } from './examples/DragDropDemo'
 import { UpdateDemo } from './examples/UpdateDemo'
 import { LoggingDemo } from './examples/LoggingDemo'
+import { DiagnosticsDemo } from './examples/DiagnosticsDemo'
 import { DemoGallery } from './examples/DemoGallery'
 import { DemoLauncher } from './examples/DemoLauncher'
 import AppHost from './apps/AppHost'
@@ -152,6 +153,9 @@ if (test === 'theme') {
 } else if (test === 'logging') {
   console.log('📄 [main.tsx] Rendering: LoggingDemo');
   AppComponent = <LoggingDemo />  // Structured logging + file rotation
+} else if (test === 'diagnostics') {
+  console.log('📄 [main.tsx] Rendering: DiagnosticsDemo');
+  AppComponent = <DiagnosticsDemo />  // Self-diagnostics / health check
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping
