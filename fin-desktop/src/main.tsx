@@ -28,6 +28,7 @@ import { DiagnosticsDemo } from './examples/DiagnosticsDemo'
 import { HealthDemo } from './examples/HealthDemo'
 import { CrashReporterDemo } from './examples/CrashReporterDemo'
 import { RemoteConfigDemo } from './examples/RemoteConfigDemo'
+import { AuditTrailDemo } from './examples/AuditTrailDemo'
 import { DemoGallery } from './examples/DemoGallery'
 import { DemoLauncher } from './examples/DemoLauncher'
 import AppHost from './apps/AppHost'
@@ -168,6 +169,9 @@ if (test === 'theme') {
 } else if (test === 'config') {
   console.log('📄 [main.tsx] Rendering: RemoteConfigDemo');
   AppComponent = <RemoteConfigDemo />  // Remote config + feature flags
+} else if (test === 'audit') {
+  console.log('📄 [main.tsx] Rendering: AuditTrailDemo');
+  AppComponent = <AuditTrailDemo />  // Tamper-evident audit trail
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping

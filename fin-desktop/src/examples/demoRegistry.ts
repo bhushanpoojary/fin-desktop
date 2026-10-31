@@ -45,6 +45,7 @@ export const DEMOS: DemoEntry[] = [
   { id: 'health', title: 'System Health', description: 'Per-process CPU/memory process explorer.', icon: '💓', category: 'Enterprise' },
   { id: 'crash', title: 'Crash Reporting', description: 'Capture crashes, opt-in upload, redaction.', icon: '💥', category: 'Enterprise' },
   { id: 'config', title: 'Remote Config & Flags', description: 'Layered config + feature-flag targeting.', icon: '🎛️', category: 'Enterprise' },
+  { id: 'audit', title: 'Audit Trail', description: 'Tamper-evident compliance log (hash chain).', icon: '📑', category: 'Enterprise' },
 
   // Theming & shells
   { id: 'theme', title: 'Theme Engine', description: 'Live theme tokens and switching.', icon: '🎨', category: 'Theming & Shells' },

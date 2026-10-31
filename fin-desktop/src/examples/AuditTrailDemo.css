@@ -1,0 +1,174 @@
+.audit {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 22px 26px 48px;
+}
+
+.audit-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.audit-head h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.audit-head p {
+  color: #8d96ab;
+  font-size: 0.85rem;
+  margin: 4px 0 0;
+}
+
+.audit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.audit-btn {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+  color: #cdd4e2;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.audit-btn.primary {
+  background: #2f52c4;
+  border-color: #3a5bd0;
+  color: #fff;
+}
+
+.audit-btn.danger {
+  border-color: #5a2020;
+  color: #ff8a80;
+}
+
+.audit-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.audit-btn:not(:disabled):hover {
+  filter: brightness(1.15);
+}
+
+.audit-integrity {
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.audit-integrity.ok {
+  background: #0f1d16;
+  border: 1px solid #244a34;
+  color: #6fd59b;
+}
+
+.audit-integrity.broken {
+  background: #1d1111;
+  border: 1px solid #5a2020;
+  color: #ff8a80;
+}
+
+.audit-filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.audit-filters select,
+.audit-filters input {
+  background: #141925;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+  color: #e6e9ef;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+}
+
+.audit-filters input {
+  flex: 1;
+  max-width: 280px;
+}
+
+.audit-count {
+  font-size: 0.78rem;
+  color: #6f7890;
+}
+
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 0.83rem;
+}
+
+.audit-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6f7890;
+  background: #0d111a;
+  border-bottom: 1px solid #1c2230;
+}
+
+.audit-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #141b27;
+  color: #cdd4e2;
+}
+
+.audit-action {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #9fb4ff;
+}
+
+.audit-outcome {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.audit-outcome.ok {
+  background: #0f1d16;
+  color: #6fd59b;
+}
+.audit-outcome.warn {
+  background: #221c0d;
+  color: #f0cf6a;
+}
+.audit-outcome.fail {
+  background: #1d1111;
+  color: #ff8a80;
+}
+
+.audit-hash {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  color: #5f6881;
+}
+
+.audit-empty {
+  text-align: center;
+  color: #6f7890;
+  padding: 24px 0;
+}
