@@ -222,10 +222,10 @@ Enterprise adoption is impossible without a real security model.
 
 ## 📈 Phase 7 — Enterprise: Telemetry, Logging & Management (`P1`)
 
-- [ ] Structured logging to disk (rotating files) + log levels (extend existing `useLogger`)
+- [~] Structured logging to disk (rotating files) + log levels (extend existing `useLogger`) — `Logger` with levels, child/contextual loggers, and a pluggable `LogSink` in `src/telemetry/`; rotating-file sink pending
 - [ ] Crash reporting / minidump collection (electron crashReporter)
-- [ ] Usage analytics API (app launches, intent flows, errors) with pluggable sink
-- [ ] Opt-in/opt-out telemetry + privacy controls
+- [x] Usage analytics API (app launches, intent flows, errors) with pluggable sink — `Telemetry` (`trackAppLaunch`/`trackIntent`/`trackError`) over a `TelemetrySink` (memory/console/custom), buffering + batch auto-flush, tested
+- [x] Opt-in/opt-out telemetry + privacy controls — disabled-by-default no-op `track`, runtime `setEnabled`, recursive **PII redaction** of configured keys, tested
 - [ ] System health dashboard (memory/CPU per window, process explorer)
 - [ ] Remote config / feature flags
 - [ ] Group policy / centralized config management
@@ -307,7 +307,7 @@ build the moat.
 | 4 | Runtime, manifest, deploy | P0 | ◧ Manifest model+load+launch + deep-link parser done; auto-update/installers/OS-protocol pending |
 | 5 | Security & permissions | P0 | ◧ Policy + domain enforcement + secure tokens/OAuth2-PKCE done; prompts/CSP-headers/code-signing pending |
 | 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |
-| 7 | Enterprise telemetry | P1 | ☐ Partial (logging) |
+| 7 | Enterprise telemetry | P1 | ◧ Analytics + structured logger + opt-in/redaction done; file sink/crash/health pending |
 | 8 | Developer experience/SDK | P1 | ◧ SDK public surface + mock platform/fdc3 done; npm packaging/CLI/docs pending |
 | 9 | Website & community | P2 | ☐ Partial (website repo) |
 | 10 | Differentiators | P2/P3 | ☐ Not started |
