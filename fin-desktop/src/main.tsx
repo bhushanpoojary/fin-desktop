@@ -15,6 +15,8 @@ import { Fdc3Demo } from './examples/Fdc3Demo'
 import { Fdc3Inspector } from './examples/Fdc3Inspector'
 import { CommandPaletteDemo } from './examples/CommandPaletteDemo'
 import { DockDemo } from './examples/DockDemo'
+import { AppStoreDemo } from './examples/AppStoreDemo'
+import { BrowserDemo } from './examples/BrowserDemo'
 import AppHost from './apps/AppHost'
 import { LogStoreProvider } from './logging/LogStoreContext'
 import { Fdc3Provider } from './fdc3/Fdc3Context'
@@ -111,6 +113,12 @@ if (test === 'theme') {
 } else if (test === 'dock') {
   console.log('📄 [main.tsx] Rendering: DockDemo');
   AppComponent = <DockDemo />  // Configurable Dock / App Bar
+} else if (test === 'store') {
+  console.log('📄 [main.tsx] Rendering: AppStoreDemo');
+  AppComponent = <AppStoreDemo />  // App Store / Catalog
+} else if (test === 'browser') {
+  console.log('📄 [main.tsx] Rendering: BrowserDemo');
+  AppComponent = <BrowserDemo />  // Multi-tab browser container
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping

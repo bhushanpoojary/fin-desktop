@@ -151,16 +151,16 @@ OpenFin Workspace ships Home, Dock, Store, Notifications, Browser. Build OSS equ
 - [x] Per-user dock customization + persistence — pin/unpin/reorder + running-app indicator (ephemeral); `serialize()`/`deserialize()` round-trip, tested
 
 ### 3.3 App Store / Catalog
-- [ ] Browsable catalog of apps from the app directory
-- [ ] Install / pin / launch from catalog
-- [ ] Categories, tags, search, featured
-- [ ] Private/enterprise catalog support
+- [x] Browsable catalog of apps from the app directory — `AppCatalog` wraps app-directory records + store metadata; demo at `?test=store`
+- [x] Install / pin / launch from catalog — install/uninstall + pin (installs first; uninstall unpins) + launch, with per-user `serialize()`/`deserialize()`
+- [x] Categories, tags, search, featured — derived category/tag facets, featured row, and fuzzy search with category/tag narrowing, tested
+- [x] Private/enterprise catalog support — `private` apps hidden from browse/search unless `includePrivate` is set (enterprise toggle in demo)
 
 ### 3.4 Browser (multi-tab container)
-- [ ] Multi-tab browser window hosting Views (pages)
-- [ ] Tabs, split views, save page-layout as workspace
-- [ ] Per-tab FDC3 channel membership indicator
-- [ ] Address bar + navigation controls for arbitrary URLs
+- [x] Multi-tab browser window hosting Views (pages) — `BrowserModel` manages tabs + panes with per-tab back/forward history; demo at `?test=browser`
+- [x] Tabs, split views, save page-layout as workspace — side-by-side `split()`/`unsplit()` panes + `toWorkspace()`/`fromWorkspace()` snapshot round-trip, tested
+- [x] Per-tab FDC3 channel membership indicator — `setChannel` per tab with colored indicator in the tab strip + page
+- [x] Address bar + navigation controls for arbitrary URLs — global/address bar `navigate` + back/forward with history truncation
 
 ### 3.5 Notifications Center (upgrade existing)
 - [ ] Dedicated notification center panel (history, grouped, filterable)
@@ -303,7 +303,7 @@ build the moat.
 | 0 | Foundations & hygiene | P0 | ☑ Mostly done (CI, tests, licensing, packaging scaffold) |
 | 1 | Platform & window mgmt | P0 | ◧ Core done + wired to real WebContentsView windows (1.1 ✓, 1.2 mostly ✓) |
 | 2 | FDC3 2.0 & interop | P0 | ◧ Core + transport + `window.fdc3` wired (demo `?test=fdc3`); full surface/conformance pending |
-| 3 | Workspace components | P1 | ◧ Spotlight launcher + dock/app-bar + notifications done; store/browser pending |
+| 3 | Workspace components | P1 | ◧ Launcher + dock + app-store + browser + notifications done; notifications-center upgrade pending |
 | 4 | Runtime, manifest, deploy | P0 | ◧ Manifest model+load+launch + deep-link parser done; auto-update/installers/OS-protocol pending |
 | 5 | Security & permissions | P0 | ◧ Policy + domain enforcement + secure tokens/OAuth2-PKCE done; prompts/CSP-headers/code-signing pending |
 | 6 | Messaging & integration | P1 | ☐ Partial (IPC bus) |

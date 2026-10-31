@@ -1,0 +1,204 @@
+.store {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 24px 28px 48px;
+}
+
+.store-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.store-head h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.store-sub {
+  margin: 4px 0 0;
+  color: #8d96ab;
+  font-size: 0.85rem;
+}
+
+.store-search-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.store-search {
+  width: 280px;
+  background: #141925;
+  border: 1px solid #2a3344;
+  border-radius: 10px;
+  color: #e6e9ef;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+}
+
+.store-search:focus {
+  outline: none;
+  border-color: #3a5bd0;
+}
+
+.store-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #aab2c5;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.store-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.store-chip {
+  background: #141925;
+  border: 1px solid #2a3344;
+  border-radius: 999px;
+  color: #cdd4e2;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.store-chip.active {
+  background: #1d2b57;
+  border-color: #3a5bd0;
+  color: #cdd9ff;
+}
+
+.store-section {
+  margin-bottom: 28px;
+}
+
+.store-section h2 {
+  font-size: 1rem;
+  color: #aab2c5;
+  margin: 0 0 12px;
+}
+
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.store-card {
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.store-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.store-card-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.store-card-name {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.store-badge-private {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #3a2a12;
+  color: #f0b65a;
+  border: 1px solid #5a4420;
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+.store-card-meta {
+  font-size: 0.75rem;
+  color: #6f7890;
+}
+
+.store-card-desc {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #aeb7cc;
+  flex: 1;
+}
+
+.store-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.store-tag {
+  font-size: 0.68rem;
+  background: #161d2b;
+  border: 1px solid #263044;
+  border-radius: 6px;
+  color: #8d96ab;
+  padding: 2px 7px;
+}
+
+.store-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.store-btn {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+  color: #cdd4e2;
+  padding: 7px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.store-btn.primary {
+  background: #2f52c4;
+  border-color: #3a5bd0;
+  color: #fff;
+}
+
+.store-btn.active {
+  border-color: #c9a227;
+  color: #f0cf6a;
+}
+
+.store-btn.ghost {
+  background: transparent;
+}
+
+.store-btn:hover {
+  filter: brightness(1.12);
+}
+
+.store-empty {
+  color: #6f7890;
+  font-size: 0.9rem;
+}
