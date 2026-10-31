@@ -8,3 +8,4 @@
 export * from './manifest';
 export * from './validateManifest';
 export * from './loadManifest';
+export * from './manifestLauncher';

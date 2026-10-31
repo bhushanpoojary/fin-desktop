@@ -177,7 +177,7 @@ OpenFin Workspace ships Home, Dock, Store, Notifications, Browser. Build OSS equ
 How apps get launched and how the platform is distributed.
 
 - [x] **Application manifest** format (JSON) — declarative app/platform definition (OpenFin manifest parity) — typed `AppManifest`/`PlatformManifest` in `src/manifest/` (startup app, window options, runtime pin, declared permissions, platform snapshot) + `validateManifest` with path-tagged errors, tested
-- [~] Launch platform/app from a manifest URL — `loadManifest(url, fetch)` fetches + validates (tested); spawning the window/platform from it is pending runtime wiring
+- [x] Launch platform/app from a manifest URL — `loadManifest(url, fetch)` + `launchManifest(platform, manifest)` spawns the window/startup view and **auto-derives the Platform `canOpenUrl` guard from the manifest's declared domains** (startup URL always allowed); restores a platform manifest's snapshot. Tested
 - [ ] **Deep linking** — custom protocol (`findesktop://` / `fins://`-style) to launch apps/workspaces
 - [~] Runtime Version Manager concept — pin/select platform runtime version per manifest — `runtime.version` modeled + validated; version selection/switching pending
 - [ ] **Auto-update** (electron-updater): background download, staged rollout, rollback
