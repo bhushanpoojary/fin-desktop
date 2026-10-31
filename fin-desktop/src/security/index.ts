@@ -8,4 +8,5 @@
 export * from './permissions';
 export * from './domainAllowList';
 export * from './permissionPolicy';
+export * from './manifestSignature';
 export * from './auth';
