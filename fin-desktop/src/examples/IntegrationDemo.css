@@ -1,0 +1,188 @@
+.intg {
+  min-height: 100vh;
+  background: #0b0e14;
+  color: #e6e9ef;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  padding: 22px 26px 48px;
+}
+
+.intg-head h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.intg-head p {
+  color: #8d96ab;
+  font-size: 0.85rem;
+  margin: 4px 0 20px;
+}
+
+.intg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.intg-panel {
+  background: #121825;
+  border: 1px solid #1f2838;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.intg-panel h2 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  color: #cdd4e2;
+}
+
+.intg-panel h3 {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6f7890;
+  margin: 16px 0 8px;
+}
+
+.intg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: #8d96ab;
+  margin-bottom: 10px;
+}
+
+.intg-field input {
+  background: #0b0e14;
+  border: 1px solid #2a3344;
+  border-radius: 7px;
+  color: #e6e9ef;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+}
+
+.intg-field input:focus {
+  outline: none;
+  border-color: #3a5bd0;
+}
+
+.intg-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.intg-btn {
+  background: #1a2231;
+  border: 1px solid #2a3344;
+  border-radius: 8px;
+  color: #cdd4e2;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.intg-btn.primary {
+  background: #2f52c4;
+  border-color: #3a5bd0;
+  color: #fff;
+}
+
+.intg-btn.ghost {
+  background: transparent;
+  color: #8d96ab;
+}
+
+.intg-btn:hover {
+  filter: brightness(1.15);
+}
+
+.intg-formats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.intg-formats li {
+  display: flex;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid #161d2b;
+  font-size: 0.8rem;
+}
+
+.intg-format {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #7a8299;
+  min-width: 90px;
+}
+
+.intg-value {
+  color: #cdd4e2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.intg-empty {
+  color: #5a6174;
+  font-size: 0.85rem;
+}
+
+.intg-note {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: #8d96ab;
+}
+
+.intg-note code {
+  color: #6fd59b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.intg-hint {
+  color: #8d96ab;
+  font-size: 0.82rem;
+  margin: 0 0 8px;
+}
+
+.intg-keys {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.intg-keys kbd {
+  display: inline-block;
+  background: #0d1320;
+  border: 1px solid #2a3344;
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  padding: 5px 9px;
+  font-size: 0.78rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #9fb4ff;
+}
+
+.intg-log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.78rem;
+}
+
+.intg-log li {
+  padding: 5px 0;
+  border-bottom: 1px solid #141b27;
+  color: #b7c0d4;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.intg-log .muted {
+  color: #4a5164;
+}

@@ -27,6 +27,12 @@ const DEMO_GROUPS = [
     ],
   },
   {
+    label: 'Integration',
+    items: [
+      { id: 'integration', label: 'Clipboard & Hotkeys' },
+    ],
+  },
+  {
     label: 'Workspace Components',
     items: [
       { id: 'palette', label: 'Command Palette' },

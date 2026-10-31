@@ -25,6 +25,9 @@ export const DEMOS: DemoEntry[] = [
   { id: 'messaging', title: 'Messaging', description: 'Inter-App Bus (pub/sub) + Channels RPC.', icon: '📨', category: 'Messaging' },
   { id: 'external', title: 'External Connections', description: 'Remote (non-Electron) client over a duplex transport.', icon: '🌐', category: 'Messaging' },
 
+  // Integration
+  { id: 'integration', title: 'Clipboard & Hotkeys', description: 'Multi-format clipboard + global hotkey registry.', icon: '⌨️', category: 'Integration' },
+
   // Workspace components
   { id: 'palette', title: 'Command Palette', description: 'Spotlight launcher with fuzzy search + recents.', icon: '⌨️', category: 'Workspace Components' },
   { id: 'dock', title: 'Dock / App Bar', description: 'Configurable dock with pinned apps and groups.', icon: '📌', category: 'Workspace Components' },
@@ -43,6 +46,7 @@ export const DEMO_CATEGORIES: string[] = [
   'Platform & Windows',
   'Interop (FDC3)',
   'Messaging',
+  'Integration',
   'Workspace Components',
   'Theming & Shells',
 ];

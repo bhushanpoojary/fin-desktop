@@ -214,8 +214,8 @@ Enterprise adoption is impossible without a real security model.
 - [ ] Language SDKs / client libs (JS/TS first, then .NET, Python, Java stubs)
 - [ ] Native window embedding (dock external native windows into layouts) `P3`
 - [ ] Office/Excel integration bridge `P3`
-- [ ] Clipboard API (read/write, formats)
-- [ ] Global hotkey registration API
+- [x] Clipboard API (read/write, formats) — `Clipboard` in `src/integration/` with multi-format write (`text/plain` + `text/html` + custom), `writeHtml` (derives plain text), change notifications, over an injectable `ClipboardBackend` (in-memory default; Electron/browser adapter plugs in); demo at `?test=integration`, tested
+- [x] Global hotkey registration API — `HotkeyRegistry` parses accelerators (`CmdOrCtrl+Shift+K`, platform-resolved), normalizes equivalent spellings + key aliases to one signature, and dispatches via `handleKeyEvent` (DOM keydown / Electron `globalShortcut` adapter), tested
 - [ ] File drag-and-drop between apps
 
 ---

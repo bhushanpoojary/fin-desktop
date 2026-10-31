@@ -20,6 +20,7 @@ import { BrowserDemo } from './examples/BrowserDemo'
 import { NotificationCenterDemo } from './examples/NotificationCenterDemo'
 import { MessagingDemo } from './examples/MessagingDemo'
 import { ExternalConnectionsDemo } from './examples/ExternalConnectionsDemo'
+import { IntegrationDemo } from './examples/IntegrationDemo'
 import { DemoGallery } from './examples/DemoGallery'
 import { DemoLauncher } from './examples/DemoLauncher'
 import AppHost from './apps/AppHost'
@@ -136,6 +137,9 @@ if (test === 'theme') {
 } else if (test === 'external') {
   console.log('📄 [main.tsx] Rendering: ExternalConnectionsDemo');
   AppComponent = <ExternalConnectionsDemo />  // Remote client bridged over a duplex transport
+} else if (test === 'integration') {
+  console.log('📄 [main.tsx] Rendering: IntegrationDemo');
+  AppComponent = <IntegrationDemo />  // Clipboard + global hotkeys
 } else if (test === 'docking') {
   console.log('📄 [main.tsx] Rendering: WindowDockingDemo');
   AppComponent = <WindowDockingDemo />  // Window docking with magnetic snapping
